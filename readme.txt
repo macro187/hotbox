@@ -25,3 +25,14 @@ bashrc
 
     # ...
 
+
+gitconfig
+---------
+
+`~/.gitconfig`:
+
+    [include]
+        path = path/to/configs/gitconfig
+
+    # ...
+
