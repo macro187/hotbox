@@ -2,3 +2,10 @@
     name = Ron MacNeil
     email = macro@hotmail.com
 
+[core]
+    autocrlf = false
+
+[color]
+    ui = true
+
+
