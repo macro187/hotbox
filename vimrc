@@ -16,6 +16,8 @@ endif
 
 set ruler
 
+set colorcolumn=81
+
 set list
 set listchars=tab:>\ ,trail:.,extends:>,precedes:<,nbsp:_
 
