@@ -16,11 +16,11 @@ if has("gui_running")
     set guioptions=arbh
     set columns=80
     set lines=40
+    set colorcolumn=81
 endif
 
 set ruler
 
-set colorcolumn=81
 
 set list
 set listchars=tab:>\ ,trail:.,extends:>,precedes:<,nbsp:_
