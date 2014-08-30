@@ -2,6 +2,10 @@
 " Ron's .vimrc
 "
 
+set nobackup
+set nowritebackup
+set noswapfile
+
 syntax on
 colo pablo
 
