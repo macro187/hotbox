@@ -1,0 +1,5 @@
+ALWAYS_SCRUB_DISTFILES=dopt
+PM_NO_CONFIRM=pm_no_confirm
+PM_YES=yopt
+CLEAN_STALE=sopt
+
