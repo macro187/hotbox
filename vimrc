@@ -9,6 +9,8 @@ set noswapfile
 syntax on
 colo pablo
 
+set encoding=utf8
+
 set fileformats=unix,dos
 
 if has("gui_running")
