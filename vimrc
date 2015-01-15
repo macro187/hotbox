@@ -35,6 +35,10 @@ set shiftwidth=4
 set expandtab
 set autoindent
 
+set formatoptions+=r
+set formatoptions+=o
+set formatoptions+=j
+
 nmap <c-n> :cn<cr>
 nmap <c-p> :cp<cr>
 
