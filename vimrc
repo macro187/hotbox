@@ -26,6 +26,7 @@ set ruler
 
 set list
 set listchars=tab:>\ ,trail:.,extends:>,precedes:<,nbsp:_
+set nohlsearch
 
 set scrolloff=999
 set backspace=indent,eol,start
