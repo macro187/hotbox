@@ -43,3 +43,6 @@ set formatoptions+=j
 nmap <c-n> :cn<cr>
 nmap <c-p> :cp<cr>
 
+" C# compiler error format
+set efm+=%f(%l\\\,%c):\ %m
+
