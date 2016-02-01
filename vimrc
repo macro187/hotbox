@@ -47,3 +47,6 @@ nmap <c-p> :cp<cr>
 " C# compiler error format
 set efm+=%f(%l\\\,%c):\ %m
 
+" Force *.md files to be Markdown (not modula)
+autocmd BufRead,BufNew *.md set filetype=markdown
+
