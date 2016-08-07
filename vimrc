@@ -19,9 +19,9 @@ if has("gui_running")
     set columns=80
     set lines=40
     set colorcolumn=81
-    set number
 endif
 
+set number
 set ruler
 
 
