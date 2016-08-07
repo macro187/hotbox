@@ -51,7 +51,8 @@ $GIT_DOWNLOAD = "https://git-scm.com/download/win"
 $VIM_BUNDLES =
     "https://github.com/tpope/vim-pathogen.git",
     "https://github.com/macro187/vim-macrobsidian.git",
-    "https://github.com/PProvost/vim-ps1.git"
+    "https://github.com/PProvost/vim-ps1.git",
+    "https://github.com/vim-scripts/PreserveNoEOL.git"
 
 
 $configDir = $PSScriptRoot
@@ -166,6 +167,8 @@ $s = @"
 " Config for all Vims
 "
 colo macrobsidian
+let g:PreserveNoEOL = 1
+let g:PreserveNoEOL_Function = function('PreserveNoEOL#Internal#Preserve')
 "@
 WriteUnixFile "$profileDir\.vimrc.local" $s
 
