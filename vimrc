@@ -23,7 +23,7 @@ endif
 
 set number
 set ruler
-
+set rulerformat=%#ModeMsg#%l,%c%V%=%P
 
 set list
 set listchars=tab:>\ ,trail:.,extends:>,precedes:<,nbsp:_
