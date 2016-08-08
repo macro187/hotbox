@@ -226,6 +226,13 @@ source $configDir\vimrc
 colo macrobsidian
 let g:PreserveNoEOL = 1
 let g:PreserveNoEOL_Function = function('PreserveNoEOL#Internal#Preserve')
+set fileformats=dos,unix
+if has("gui_running")
+    set guifont=Consolas:h14:cDEFAULT
+    set columns=120
+    set colorcolumn=121
+    winpos 375 0
+endif
 source $profileDir\.vimrc.local
 source $profileDir\.vimrc.windows
 "@
@@ -245,6 +252,7 @@ source $configDirMsys/vimrc
 colo macrobsidian
 let g:PreserveNoEOL = 1
 let g:PreserveNoEOL_Function = function('PreserveNoEOL#Internal#Preserve')
+set fileformats=dos,unix
 source $profileDirMsys/.vimrc.local
 source $profileDirMsys/.vimrc.msys
 "@
@@ -263,6 +271,7 @@ WriteUnixFile "$profileDir\.vimrc" $s
 & "$cygwinDir\bin\bash.exe" --login -c "echo 'colo macrobsidian' >> ~/.vimrc"
 & "$cygwinDir\bin\bash.exe" --login -c "echo 'let g:PreserveNoEOL = 1' >> ~/.vimrc"
 & "$cygwinDir\bin\bash.exe" --login -c "echo 'let g:PreserveNoEOL_Function = function('\''PreserveNoEOL#Internal#Preserve'\'')' >> ~/.vimrc"
+& "$cygwinDir\bin\bash.exe" --login -c "echo 'set fileformats=dos,unix' >> ~/.vimrc"
 & "$cygwinDir\bin\bash.exe" --login -c "echo 'source $profileDirCygwin/.vimrc.local' >> ~/.vimrc"
 & "$cygwinDir\bin\bash.exe" --login -c "echo 'source $profileDirCygwin/.vimrc.cygwin' >> ~/.vimrc"
 
