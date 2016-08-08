@@ -116,6 +116,8 @@ if (-not (Test-Path "$profileDir\.gitconfig.local")) {
 $s = @"
 [include]
     path = $configDirMsys/gitconfig
+[credential]
+    helper = store --file $profileDirMsys/.git-credentials
 [include]
     path = $profileDirMsys/.gitconfig.local
 "@
@@ -126,6 +128,8 @@ WriteUnixFile "$profileDir\.gitconfig" $s
 "==> Building $cygwinHome\.gitconfig"
 & "$cygwinDir\bin\bash.exe" --login -c "echo '[include]' > ~/.gitconfig"
 & "$cygwinDir\bin\bash.exe" --login -c "echo '    path = $configDirCygwin/gitconfig' >> ~/.gitconfig"
+& "$cygwinDir\bin\bash.exe" --login -c "echo '[credential]' >> ~/.gitconfig"
+& "$cygwinDir\bin\bash.exe" --login -c "echo '    helper = store --file $profileDirCygwin/.git-credentials' >> ~/.gitconfig"
 & "$cygwinDir\bin\bash.exe" --login -c "echo '[include]' >> ~/.gitconfig"
 & "$cygwinDir\bin\bash.exe" --login -c "echo '    path = $configDirMsys/.gitconfig.local' >> ~/.gitconfig"
 
