@@ -1,22 +1,13 @@
-
 Ron's Configuration Files
 =========================
-
-
-vimrc
------
-
-`~/.vimrc` / `~/_vimrc`:
-
-    source path/to/configs/vimrc
-
-    " ...
 
 
 bashrc
 ------
 
-`~/.bashrc`:
+    #
+    # ~/.bashrc
+    #
 
     # If not interactive, do nothing
     [[ "$-" != *i* ]] && return
@@ -29,10 +20,30 @@ bashrc
 gitconfig
 ---------
 
-`~/.gitconfig`:
+    #
+    # ~/.gitconfig
+    #
 
     [include]
         path = path/to/configs/gitconfig
 
     # ...
+
+
+vimrc
+-----
+
+    "
+    " ~/.vimrc or ~/_vimrc
+    "
+
+    source path/to/configs/vimrc
+
+    " ...
+
+
+Configure-Windows.ps1
+---------------------
+
+Apply unified configuration for Git, Vim, and Bash on Windows across Cygwin, Git MSYS, and native.
 
