@@ -169,9 +169,6 @@ if (-not (Test-Path "$profileDir\.vimrc.local")) {
 "
 " Config for all Vims
 "
-colo macrobsidian
-let g:PreserveNoEOL = 1
-let g:PreserveNoEOL_Function = function('PreserveNoEOL#Internal#Preserve')
 "@
     WriteUnixFile "$profileDir\.vimrc.local" $s
 }
@@ -226,6 +223,9 @@ set runtimepath^=$vimFilesDir
 runtime bundle\vim-pathogen\autoload\pathogen.vim
 execute pathogen#infect()
 source $configDir\vimrc
+colo macrobsidian
+let g:PreserveNoEOL = 1
+let g:PreserveNoEOL_Function = function('PreserveNoEOL#Internal#Preserve')
 source $profileDir\.vimrc.local
 source $profileDir\.vimrc.windows
 "@
@@ -242,6 +242,9 @@ set runtimepath^=$vimFilesDirMsys
 runtime bundle/vim-pathogen/autoload/pathogen.vim
 execute pathogen#infect()
 source $configDirMsys/vimrc
+colo macrobsidian
+let g:PreserveNoEOL = 1
+let g:PreserveNoEOL_Function = function('PreserveNoEOL#Internal#Preserve')
 source $profileDirMsys/.vimrc.local
 source $profileDirMsys/.vimrc.msys
 "@
@@ -257,6 +260,9 @@ WriteUnixFile "$profileDir\.vimrc" $s
 & "$cygwinDir\bin\bash.exe" --login -c "echo 'runtime bundle/vim-pathogen/autoload/pathogen.vim' >> ~/.vimrc"
 & "$cygwinDir\bin\bash.exe" --login -c "echo 'execute pathogen#infect()' >> ~/.vimrc"
 & "$cygwinDir\bin\bash.exe" --login -c "echo 'source $configDirCygwin/vimrc' >> ~/.vimrc"
+& "$cygwinDir\bin\bash.exe" --login -c "echo 'colo macrobsidian' >> ~/.vimrc"
+& "$cygwinDir\bin\bash.exe" --login -c "echo 'let g:PreserveNoEOL = 1' >> ~/.vimrc"
+& "$cygwinDir\bin\bash.exe" --login -c "echo 'let g:PreserveNoEOL_Function = function('\''PreserveNoEOL#Internal#Preserve'\'')' >> ~/.vimrc"
 & "$cygwinDir\bin\bash.exe" --login -c "echo 'source $profileDirCygwin/.vimrc.local' >> ~/.vimrc"
 & "$cygwinDir\bin\bash.exe" --login -c "echo 'source $profileDirCygwin/.vimrc.cygwin' >> ~/.vimrc"
 
