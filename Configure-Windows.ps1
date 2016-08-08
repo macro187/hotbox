@@ -98,15 +98,17 @@ if ($LASTEXITCODE -ne 0) {
 }
 
 
-""
-"==> Building $profileDir\.gitconfig.local"
-$s = @"
+if (-not (Test-Path "$profileDir\.gitconfig.local")) {
+    ""
+    "==> Building $profileDir\.gitconfig.local"
+    $s = @"
 # vim: set ft=gitconfig:
 #
 # Config for all Gits
 #
 "@
-WriteUnixFile "$profileDir\.gitconfig.local" $s
+    WriteUnixFile "$profileDir\.gitconfig.local" $s
+}
 
 
 ""
@@ -159,9 +161,10 @@ foreach ($bundle in $VIM_BUNDLES) {
 }
 
 
-""
-"==> Building $profileDir\.vimrc.local"
-$s = @"
+if (-not (Test-Path "$profileDir\.vimrc.local")) {
+    ""
+    "==> Building $profileDir\.vimrc.local"
+    $s = @"
 " vim: set ft=vim:
 "
 " Config for all Vims
@@ -170,40 +173,47 @@ colo macrobsidian
 let g:PreserveNoEOL = 1
 let g:PreserveNoEOL_Function = function('PreserveNoEOL#Internal#Preserve')
 "@
-WriteUnixFile "$profileDir\.vimrc.local" $s
+    WriteUnixFile "$profileDir\.vimrc.local" $s
+}
 
 
-""
-"==> Building $profileDir\.vimrc.windows"
-$s = @"
+if (-not (Test-Path "$profileDir\.vimrc.windows")) {
+    ""
+    "==> Building $profileDir\.vimrc.windows"
+    $s = @"
 " vim: set ft=vim:
 "
 " Config for Windows Vim only
 "
 "@
-WriteUnixFile "$profileDir\.vimrc.windows" $s
+    WriteUnixFile "$profileDir\.vimrc.windows" $s
+}
 
 
-""
-"==> Building $profileDir\.vimrc.msys"
-$s = @"
+if (-not (Test-Path "$profileDir\.vimrc.msys")) {
+    ""
+    "==> Building $profileDir\.vimrc.msys"
+    $s = @"
 " vim: set ft=vim:
 "
 " Config for msys Vim only
 "
 "@
-WriteUnixFile "$profileDir\.vimrc.msys" $s
+    WriteUnixFile "$profileDir\.vimrc.msys" $s
+}
 
 
-""
-"==> Building $profileDir\.vimrc.cygwin"
-$s = @"
+if (-not (Test-Path "$profileDir\.vimrc.cygwin")) {
+    ""
+    "==> Building $profileDir\.vimrc.cygwin"
+    $s = @"
 " vim: set ft=vim:
 "
 " Config for cygwin Vim only
 "
 "@
-WriteUnixFile "$profileDir\.vimrc.cygwin" $s
+    WriteUnixFile "$profileDir\.vimrc.cygwin" $s
+}
 
 
 ""
