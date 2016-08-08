@@ -6,6 +6,8 @@ set nobackup
 set nowritebackup
 set noswapfile
 
+set visualbell
+
 syntax on
 colo pablo
 
