@@ -1,15 +1,60 @@
 #
 # .SYNOPSIS
-# Configure Git, Vim, and Cygwin on Windows how I like it
+# Perform initial configuration and generate config files for Git, Vim, and Cygwin on Windows
+#
 #
 # .NOTES
+# Assumes the following are already installed:
 #
-# Required:
 # - Git for Windows <https://git-scm.com/download/win>
 #
-# Optional:
-# - Vim for Windows <http://www.vim.org/download.php>
 # - Cygwin <https://www.cygwin.com/>
+#
+# - Vim for Windows <http://www.vim.org/download.php>
+#
+#
+# .DESCRIPTION
+# Clones Pathogen and a selection of Vim plugins into `$VimFilesDir`.
+#
+# Deconfigures system-wide `credential.helper` Git setting often set by its installer.
+#
+# Builds the following files (if they don't already exist) for you to populate with local configuration:
+#
+# - `%userprofile%\.bashrc.local` - bash config
+#
+# - `%userprofile%\.bashrc.msys` - bash config for msys only
+#
+# - `%userprofile%\.bashrc.cygwin` - bash config for cygwin only
+#
+# - `%userprofile%\.gitconfig.local` - git config
+#
+# - `%userprofile%\.vimrc.local` - vim config
+#
+# - `%userprofile%\.vimrc.windows` - vim config for Windows Vim only
+#
+# - `%userprofile%\.vimrc.msys` - vim config for msys only
+#
+# - `%userprofile%\.vimrc.cygwin` - vim config for cygwin only
+# 
+# Builds the following files (replacing them if they already exist) such that Pathogen and the Vim plugins above are
+# configured, and the configuration files generated above plus those accompanying this script take effect as
+# appropriate:
+#
+# - `%userprofile%\.bash_profile`
+#
+# - `%userprofile%\.bashrc`
+#
+# - `%userprofile%\.gitconfig`
+#
+# - `%userprofile%\.vimrc`
+#
+# - `%userprofile%\_vimrc`
+#
+# - `$CygwinDir\home\%username%\.bash_profile`
+#
+# - `$CygwinDir\home\%username%\.bashrc`
+#
+# - `$CygwinDir\home\%username%\.vimrc`
 #
 
 
