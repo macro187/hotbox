@@ -318,7 +318,7 @@ let g:PreserveNoEOL_Function = function('PreserveNoEOL#Internal#Preserve')
 set fileformats=dos,unix
 if has("gui_running")
     set guifont=Consolas:h14:cDEFAULT
-    set columns=120
+    set columns=124
     set colorcolumn=121
     winpos 375 0
 endif
