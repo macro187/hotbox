@@ -118,6 +118,8 @@ $s = @"
     path = $configDirMsys/gitconfig
 [credential]
     helper = store --file $profileDirMsys/.git-credentials
+[core]
+    whitespace = cr-at-eol
 [include]
     path = $profileDirMsys/.gitconfig.local
 "@
@@ -130,6 +132,8 @@ WriteUnixFile "$profileDir\.gitconfig" $s
 & "$cygwinDir\bin\bash.exe" --login -c "echo '    path = $configDirCygwin/gitconfig' >> ~/.gitconfig"
 & "$cygwinDir\bin\bash.exe" --login -c "echo '[credential]' >> ~/.gitconfig"
 & "$cygwinDir\bin\bash.exe" --login -c "echo '    helper = store --file $profileDirCygwin/.git-credentials' >> ~/.gitconfig"
+& "$cygwinDir\bin\bash.exe" --login -c "echo '[core]' >> ~/.gitconfig"
+& "$cygwinDir\bin\bash.exe" --login -c "echo '    whitespace = cr-at-eol' >> ~/.gitconfig"
 & "$cygwinDir\bin\bash.exe" --login -c "echo '[include]' >> ~/.gitconfig"
 & "$cygwinDir\bin\bash.exe" --login -c "echo '    path = $configDirMsys/.gitconfig.local' >> ~/.gitconfig"
 
