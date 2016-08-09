@@ -138,6 +138,11 @@ WriteUnixFile "$profileDir\.gitconfig" $s
 & "$cygwinDir\bin\bash.exe" --login -c "echo '    path = $configDirMsys/.gitconfig.local' >> ~/.gitconfig"
 
 
+""
+"==> Disabling winstore credential helper"
+Start-Process -Wait -Verb "RunAs" "git" "config", "--system", "--unset", "credential.helper"
+
+
 
 #
 # Vim
