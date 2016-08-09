@@ -87,6 +87,82 @@ $vimFilesDirCygwin = ToCygwinPath $VimFilesDir
 
 
 #
+# Bash
+#
+
+if (-not (Test-Path "$profileDir\.bashrc.local")) {
+    ""
+    "==> Building $profileDir\.bashrc.local"
+    $s = @"
+# vim: set ft=sh:
+#
+# Config for all local bash's
+#
+"@
+    WriteUnixFile "$profileDir\.bashrc.local" $s
+}
+
+
+if (-not (Test-Path "$profileDir\.bashrc.msys")) {
+    ""
+    "==> Building $profileDir\.bashrc.msys"
+    $s = @"
+# vim: set ft=sh:
+#
+# Config for just msys bash
+#
+"@
+    WriteUnixFile "$profileDir\.bashrc.msys" $s
+}
+
+
+if (-not (Test-Path "$profileDir\.bashrc.cygwin")) {
+    ""
+    "==> Building $profileDir\.bashrc.cygwin"
+    $s = @"
+# vim: set ft=sh:
+#
+# Config for just cygwin bash
+#
+"@
+    WriteUnixFile "$profileDir\.bashrc.cygwin" $s
+}
+
+
+""
+"==> Building $profileDir\.bash_profile"
+$s = @"
+. ~/.bashrc
+"@
+WriteUnixFile "$profileDir\.bash_profile" $s
+
+
+""
+"==> Building $profileDir\.bashrc"
+$s = @"
+[[ $- != *i* ]] && return
+. $configDirMsys/bashrc
+. ~/.bashrc.local
+. ~/.bashrc.msys
+"@
+WriteUnixFile "$profileDir\.bashrc" $s
+
+
+""
+"==> Building $cygwinHome\.bash_profile"
+& "$cygwinDir\bin\bash.exe" --login -c "echo '. ~/.bashrc' > ~/.bash_profile"
+
+
+""
+"==> Building $cygwinHome\.bashrc"
+& "$cygwinDir\bin\bash.exe" --login -c "echo '[[ $- != *i* ]] && return' > ~/.bashrc"
+& "$cygwinDir\bin\bash.exe" --login -c "echo '. $configDirCygwin/bashrc' >> ~/.bashrc"
+& "$cygwinDir\bin\bash.exe" --login -c "echo '. $profileDirCygwin/.bashrc.local' >> ~/.bashrc"
+& "$cygwinDir\bin\bash.exe" --login -c "echo '. $profileDirCygwin/.bashrc.cygwin' >> ~/.bashrc"
+
+
+
+#
 # Git
 #
 
