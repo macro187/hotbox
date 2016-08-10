@@ -28,6 +28,10 @@
 #
 # - `%userprofile%\.gitconfig.local` - git config
 #
+# - `%userprofile%\.gitconfig.msys` - git config for msys only
+#
+# - `%userprofile%\.gitconfig.cygwin` - git config for cygwin only
+#
 # - `%userprofile%\.vimrc.local` - vim config
 #
 # - `%userprofile%\.vimrc.windows` - vim config for Windows Vim only
@@ -234,6 +238,32 @@ if (-not (Test-Path "$profileDir\.gitconfig.local")) {
 }
 
 
+if (-not (Test-Path "$profileDir\.gitconfig.msys")) {
+    ""
+    "==> Building $profileDir\.gitconfig.msys"
+    $s = @"
+# vim: set ft=gitconfig:
+#
+# Git config for msys only
+#
+"@
+    WriteUnixFile "$profileDir\.gitconfig.msys" $s
+}
+
+
+if (-not (Test-Path "$profileDir\.gitconfig.cygwin")) {
+    ""
+    "==> Building $profileDir\.gitconfig.cygwin"
+    $s = @"
+# vim: set ft=gitconfig:
+#
+# Git config for cygwin only
+#
+"@
+    WriteUnixFile "$profileDir\.gitconfig.cygwin" $s
+}
+
+
 ""
 "==> Building $profileDir\.gitconfig"
 $s = @"
@@ -245,6 +275,8 @@ $s = @"
     whitespace = cr-at-eol
 [include]
     path = $profileDirMsys/.gitconfig.local
+[include]
+    path = $profileDirMsys/.gitconfig.msys
 "@
 WriteUnixFile "$profileDir\.gitconfig" $s
 
@@ -259,6 +291,8 @@ WriteUnixFile "$profileDir\.gitconfig" $s
 & "$cygwinDir\bin\bash.exe" --login -c "echo '    whitespace = cr-at-eol' >> ~/.gitconfig"
 & "$cygwinDir\bin\bash.exe" --login -c "echo '[include]' >> ~/.gitconfig"
 & "$cygwinDir\bin\bash.exe" --login -c "echo '    path = $profileDirCygwin/.gitconfig.local' >> ~/.gitconfig"
+& "$cygwinDir\bin\bash.exe" --login -c "echo '[include]' >> ~/.gitconfig"
+& "$cygwinDir\bin\bash.exe" --login -c "echo '    path = $profileDirCygwin/.gitconfig.cygwin' >> ~/.gitconfig"
 
 
 ""
