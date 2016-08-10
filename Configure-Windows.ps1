@@ -256,7 +256,7 @@ WriteUnixFile "$profileDir\.gitconfig" $s
 & "$cygwinDir\bin\bash.exe" --login -c "echo '[core]' >> ~/.gitconfig"
 & "$cygwinDir\bin\bash.exe" --login -c "echo '    whitespace = cr-at-eol' >> ~/.gitconfig"
 & "$cygwinDir\bin\bash.exe" --login -c "echo '[include]' >> ~/.gitconfig"
-& "$cygwinDir\bin\bash.exe" --login -c "echo '    path = $configDirMsys/.gitconfig.local' >> ~/.gitconfig"
+& "$cygwinDir\bin\bash.exe" --login -c "echo '    path = $profileDirCygwin/.gitconfig.local' >> ~/.gitconfig"
 
 
 ""
