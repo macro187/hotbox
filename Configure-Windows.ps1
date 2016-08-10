@@ -54,6 +54,8 @@
 #
 # - `$CygwinDir\home\%username%\.bashrc`
 #
+# - `$CygwinDir\home\%username%\.gitconfig`
+#
 # - `$CygwinDir\home\%username%\.vimrc`
 #
 
