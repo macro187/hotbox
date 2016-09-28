@@ -33,6 +33,7 @@ set nohlsearch
 
 set scrolloff=999
 set backspace=indent,eol,start
+set nofoldenable
 
 set tabstop=4
 set shiftwidth=4
