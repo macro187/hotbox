@@ -199,17 +199,21 @@ $s = @"
 WriteUnixFile "$profileDir\.bashrc" $s
 
 
-""
-"==> Building $cygwinHome\.bash_profile"
-& "$cygwinDir\bin\bash.exe" --login -c "echo '. ~/.bashrc' > ~/.bash_profile"
+if (Test-Path $cygwinDir) {
+    ""
+    "==> Building $cygwinHome\.bash_profile"
+    & "$cygwinDir\bin\bash.exe" --login -c "echo '. ~/.bashrc' > ~/.bash_profile"
+}
 
 
-""
-"==> Building $cygwinHome\.bashrc"
-& "$cygwinDir\bin\bash.exe" --login -c "echo '[[ $- != *i* ]] && return' > ~/.bashrc"
-& "$cygwinDir\bin\bash.exe" --login -c "echo '. $configDirCygwin/bashrc' >> ~/.bashrc"
-& "$cygwinDir\bin\bash.exe" --login -c "echo '. $profileDirCygwin/.bashrc.local' >> ~/.bashrc"
-& "$cygwinDir\bin\bash.exe" --login -c "echo '. $profileDirCygwin/.bashrc.cygwin' >> ~/.bashrc"
+if (Test-Path $cygwinDir) {
+    ""
+    "==> Building $cygwinHome\.bashrc"
+    & "$cygwinDir\bin\bash.exe" --login -c "echo '[[ $- != *i* ]] && return' > ~/.bashrc"
+    & "$cygwinDir\bin\bash.exe" --login -c "echo '. $configDirCygwin/bashrc' >> ~/.bashrc"
+    & "$cygwinDir\bin\bash.exe" --login -c "echo '. $profileDirCygwin/.bashrc.local' >> ~/.bashrc"
+    & "$cygwinDir\bin\bash.exe" --login -c "echo '. $profileDirCygwin/.bashrc.cygwin' >> ~/.bashrc"
+}
 
 
 
@@ -281,18 +285,20 @@ $s = @"
 WriteUnixFile "$profileDir\.gitconfig" $s
 
 
-""
-"==> Building $cygwinHome\.gitconfig"
-& "$cygwinDir\bin\bash.exe" --login -c "echo '[include]' > ~/.gitconfig"
-& "$cygwinDir\bin\bash.exe" --login -c "echo '    path = $configDirCygwin/gitconfig' >> ~/.gitconfig"
-& "$cygwinDir\bin\bash.exe" --login -c "echo '[credential]' >> ~/.gitconfig"
-& "$cygwinDir\bin\bash.exe" --login -c "echo '    helper = store --file $profileDirCygwin/.git-credentials' >> ~/.gitconfig"
-& "$cygwinDir\bin\bash.exe" --login -c "echo '[core]' >> ~/.gitconfig"
-& "$cygwinDir\bin\bash.exe" --login -c "echo '    whitespace = cr-at-eol' >> ~/.gitconfig"
-& "$cygwinDir\bin\bash.exe" --login -c "echo '[include]' >> ~/.gitconfig"
-& "$cygwinDir\bin\bash.exe" --login -c "echo '    path = $profileDirCygwin/.gitconfig.local' >> ~/.gitconfig"
-& "$cygwinDir\bin\bash.exe" --login -c "echo '[include]' >> ~/.gitconfig"
-& "$cygwinDir\bin\bash.exe" --login -c "echo '    path = $profileDirCygwin/.gitconfig.cygwin' >> ~/.gitconfig"
+if (Test-Path $cygwinDir) {
+    ""
+    "==> Building $cygwinHome\.gitconfig"
+    & "$cygwinDir\bin\bash.exe" --login -c "echo '[include]' > ~/.gitconfig"
+    & "$cygwinDir\bin\bash.exe" --login -c "echo '    path = $configDirCygwin/gitconfig' >> ~/.gitconfig"
+    & "$cygwinDir\bin\bash.exe" --login -c "echo '[credential]' >> ~/.gitconfig"
+    & "$cygwinDir\bin\bash.exe" --login -c "echo '    helper = store --file $profileDirCygwin/.git-credentials' >> ~/.gitconfig"
+    & "$cygwinDir\bin\bash.exe" --login -c "echo '[core]' >> ~/.gitconfig"
+    & "$cygwinDir\bin\bash.exe" --login -c "echo '    whitespace = cr-at-eol' >> ~/.gitconfig"
+    & "$cygwinDir\bin\bash.exe" --login -c "echo '[include]' >> ~/.gitconfig"
+    & "$cygwinDir\bin\bash.exe" --login -c "echo '    path = $profileDirCygwin/.gitconfig.local' >> ~/.gitconfig"
+    & "$cygwinDir\bin\bash.exe" --login -c "echo '[include]' >> ~/.gitconfig"
+    & "$cygwinDir\bin\bash.exe" --login -c "echo '    path = $profileDirCygwin/.gitconfig.cygwin' >> ~/.gitconfig"
+}
 
 
 ""
@@ -429,19 +435,21 @@ source $profileDirMsys/.vimrc.msys
 WriteUnixFile "$profileDir\.vimrc" $s
 
 
-""
-"==> Building $cygwinHome\.vimrc"
-& "$cygwinDir\bin\bash.exe" --login -c "echo '\`"' > ~/.vimrc"
-& "$cygwinDir\bin\bash.exe" --login -c "echo '\`" Do not edit this edit $profileDir\.vimrc.cygwin' >> ~/.vimrc"
-& "$cygwinDir\bin\bash.exe" --login -c "echo '\`"' >> ~/.vimrc"
-& "$cygwinDir\bin\bash.exe" --login -c "echo 'set runtimepath^=$vimFilesDirCygwin' >> ~/.vimrc"
-& "$cygwinDir\bin\bash.exe" --login -c "echo 'runtime bundle/vim-pathogen/autoload/pathogen.vim' >> ~/.vimrc"
-& "$cygwinDir\bin\bash.exe" --login -c "echo 'execute pathogen#infect()' >> ~/.vimrc"
-& "$cygwinDir\bin\bash.exe" --login -c "echo 'source $configDirCygwin/vimrc' >> ~/.vimrc"
-& "$cygwinDir\bin\bash.exe" --login -c "echo 'colo macrobsidian' >> ~/.vimrc"
-& "$cygwinDir\bin\bash.exe" --login -c "echo 'let g:PreserveNoEOL = 1' >> ~/.vimrc"
-& "$cygwinDir\bin\bash.exe" --login -c "echo 'let g:PreserveNoEOL_Function = function('\''PreserveNoEOL#Internal#Preserve'\'')' >> ~/.vimrc"
-& "$cygwinDir\bin\bash.exe" --login -c "echo 'set fileformats=dos,unix' >> ~/.vimrc"
-& "$cygwinDir\bin\bash.exe" --login -c "echo 'source $profileDirCygwin/.vimrc.local' >> ~/.vimrc"
-& "$cygwinDir\bin\bash.exe" --login -c "echo 'source $profileDirCygwin/.vimrc.cygwin' >> ~/.vimrc"
+if (Test-Path $cygwinDir) {
+    ""
+    "==> Building $cygwinHome\.vimrc"
+    & "$cygwinDir\bin\bash.exe" --login -c "echo '\`"' > ~/.vimrc"
+    & "$cygwinDir\bin\bash.exe" --login -c "echo '\`" Do not edit this edit $profileDir\.vimrc.cygwin' >> ~/.vimrc"
+    & "$cygwinDir\bin\bash.exe" --login -c "echo '\`"' >> ~/.vimrc"
+    & "$cygwinDir\bin\bash.exe" --login -c "echo 'set runtimepath^=$vimFilesDirCygwin' >> ~/.vimrc"
+    & "$cygwinDir\bin\bash.exe" --login -c "echo 'runtime bundle/vim-pathogen/autoload/pathogen.vim' >> ~/.vimrc"
+    & "$cygwinDir\bin\bash.exe" --login -c "echo 'execute pathogen#infect()' >> ~/.vimrc"
+    & "$cygwinDir\bin\bash.exe" --login -c "echo 'source $configDirCygwin/vimrc' >> ~/.vimrc"
+    & "$cygwinDir\bin\bash.exe" --login -c "echo 'colo macrobsidian' >> ~/.vimrc"
+    & "$cygwinDir\bin\bash.exe" --login -c "echo 'let g:PreserveNoEOL = 1' >> ~/.vimrc"
+    & "$cygwinDir\bin\bash.exe" --login -c "echo 'let g:PreserveNoEOL_Function = function('\''PreserveNoEOL#Internal#Preserve'\'')' >> ~/.vimrc"
+    & "$cygwinDir\bin\bash.exe" --login -c "echo 'set fileformats=dos,unix' >> ~/.vimrc"
+    & "$cygwinDir\bin\bash.exe" --login -c "echo 'source $profileDirCygwin/.vimrc.local' >> ~/.vimrc"
+    & "$cygwinDir\bin\bash.exe" --login -c "echo 'source $profileDirCygwin/.vimrc.cygwin' >> ~/.vimrc"
+}
 
