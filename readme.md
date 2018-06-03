@@ -17,6 +17,18 @@ bashrc
     # ...
 
 
+inputrc
+-------
+
+    #
+    # ~/.inputrc
+    #
+
+    $include path/to/configs/inputrc
+
+    # ...
+
+
 gitconfig
 ---------
 
