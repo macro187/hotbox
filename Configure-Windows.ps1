@@ -275,8 +275,6 @@ $s = @"
     path = $configDirMsys/gitconfig
 [credential]
     helper = store --file $profileDirMsys/.git-credentials
-[core]
-    whitespace = cr-at-eol
 [include]
     path = $profileDirMsys/.gitconfig.local
 [include]
