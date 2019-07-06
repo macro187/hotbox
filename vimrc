@@ -23,7 +23,11 @@ set encoding=utf8
 set fileformats=unix,dos
 
 if has("gui_running")
-    set guifont=DejaVu_Sans_Mono:h11:cDEFAULT
+    if has("gui_win32")
+        set guifont=DejaVu_Sans_Mono:h11:cDEFAULT
+    else
+        set guifont=monospace\ 12
+    endif
     set guioptions=arbh
     set columns=120
     set lines=40
