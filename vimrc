@@ -25,9 +25,9 @@ set fileformats=unix,dos
 if has("gui_running")
     set guifont=DejaVu_Sans_Mono:h11:cDEFAULT
     set guioptions=arbh
-    set columns=80
+    set columns=120
     set lines=40
-    set colorcolumn=81
+    set colorcolumn=121
 endif
 
 set number
