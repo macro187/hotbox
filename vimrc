@@ -9,7 +9,14 @@ set noswapfile
 set visualbell
 
 syntax on
-colo pablo
+try
+  colorscheme macrobsidian
+  catch
+  try
+    colo pablo
+    catch
+  endtry
+endtry
 
 set encoding=utf8
 
