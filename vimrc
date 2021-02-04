@@ -58,8 +58,10 @@ set formatoptions+=j
 nmap <c-n> :cn<cr>
 nmap <c-p> :cp<cr>
 
-" C# compiler error format
-set efm+=%f(%l\\\,%c):\ %m
+" dotnet build and error format
+autocmd BufRead *.cs set makeprg=clear\ &&\ dotnet\ build\ /p:GenerateFullPaths=true\ /clp:NoSummary
+autocmd BufRead *.cs set efm=%f(%l\\\,%c):\ %tarning\ %m\ [%.%#],%f(%l\\\,%c):\ %trror\ %m\ [%.%#]
+autocmd BufRead *.cs nmap <buffer> <Leader>b :exe ':wa'<CR>:silent make<CR>:redr!<CR>:cw<CR>
 
 " Force *.md files to be Markdown (not modula)
 autocmd BufRead,BufNew *.md set filetype=markdown
