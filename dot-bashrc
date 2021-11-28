@@ -1,0 +1,10 @@
+#
+# Interactive BASH Shells
+# vim: ft=bash
+#
+# Don't change this file, change ~/.shrc
+#
+
+[[ $- == *i* ]] || return 0
+if [ -r ~/.shrc ] ; then . ~/.shrc ; fi
+

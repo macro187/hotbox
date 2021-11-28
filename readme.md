@@ -2,19 +2,16 @@ Ron's Configuration Files
 =========================
 
 
-bashrc
-------
+shrc
+----
 
-    #
-    # ~/.bashrc
-    #
+    $ ln -s path/to/configs/dot-profile ~/.profile
 
-    # If not interactive, do nothing
-    [[ "$-" != *i* ]] && return
+    $ ln -s path/to/configs/dot-bashrc ~/.bashrc
 
-    [[ -r path/to/configs/bashrc ]] && . path/to/configs/bashrc
+    $ cp path/to/configs/dot-shrc ~/.shrc
 
-    # ...
+Edit ~/.shrc
 
 
 inputrc

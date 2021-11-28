@@ -1,0 +1,7 @@
+#
+# Interactive Shells
+# vim: ft=sh
+#
+
+if [ -r "$HOME/configs/shrc" ] ; then . "$HOME/configs/shrc" ; fi
+
