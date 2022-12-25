@@ -1,7 +1,0 @@
-# vim: ft=sh
-
-alias ls="ls --color=auto"
-alias ll="ls -l"
-export PS1="\n\[\e[1;30m\][\w]\n[\u@\h] \$ \[\e[0m\]"
-export LESS="-MQR"
-

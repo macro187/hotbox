@@ -1,17 +1,36 @@
-Ron's Configuration Files
-=========================
+Workstation Setup
+=================
+
+profile
+-------
+
+Make sure there's a `.profile` or `.bash_profile`.
+
+Make sure it sources `.bashrc` something like this:
+
+    if [ -f "$HOME/.bashrc" ] ; then . "$HOME/.bashrc" ; fi
+
+If non-bash shells are involved, make sure it tells them to use `.bashrc`
+something like this:
+
+    if [ -f "$HOME/.bashrc" ] ; then export ENV="$HOME/.bashrc" ; fi
 
 
-shrc
-----
+bashrc
+------
 
-    $ ln -s path/to/configs/dot-profile ~/.profile
+Make sure there's a `.bashrc`.
 
-    $ ln -s path/to/configs/dot-bashrc ~/.bashrc
+Make sure it bails out in non-interactive situations something like this:
 
-    $ cp path/to/configs/dot-shrc ~/.shrc
+    case $- in
+        *i*) ;;
+          *) return;;
+    esac
 
-Edit ~/.shrc
+Make sure it sources the *macro-workstation* `bashrc` something like this:
+
+    if [ -f "$HOME/macro-workstation/conf/bashrc" ] ; then . "$HOME/macro-workstation/conf/bashrc" ; fi
 
 
 inputrc
@@ -21,7 +40,7 @@ inputrc
     # ~/.inputrc
     #
 
-    $include path/to/configs/inputrc
+    $include path/to/macro-workstation/conf/inputrc
 
     # ...
 
@@ -34,7 +53,7 @@ gitconfig
     #
 
     [include]
-        path = path/to/configs/gitconfig
+        path = path/to/macro-workstation/conf/gitconfig
 
     # ...
 
@@ -46,13 +65,7 @@ vimrc
     " ~/.vimrc or ~/_vimrc
     "
 
-    source path/to/configs/vimrc
+    source path/to/macro-workstation/conf/vimrc
 
     " ...
-
-
-Configure-Windows.ps1
----------------------
-
-Apply unified configuration for Git, Vim, and Bash on Windows across Cygwin, Git MSYS, and native.
 

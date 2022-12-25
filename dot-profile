@@ -1,9 +1,0 @@
-#
-# Login Shells
-# vim: ft=sh
-#
-# Don't change this file, change ~/.shrc
-#
-
-if [ -r "$HOME/.shrc" ] ; then export ENV="$HOME/.shrc" ; fi
-
