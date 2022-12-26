@@ -80,3 +80,25 @@ if ! grep -qF 'conf/bashrc' .bashrc ; then
     echo ". \"$this_script_dir/conf/bashrc\"" >> .bashrc
 fi
 
+#
+# Make sure there's an .inputrc
+#
+inputrc=$(find_first .inputrc)
+if [ -z "$inputrc" ] ; then
+    echo "No .inputrc found, creating"
+    touch .inputrc
+    inputrc=".inputrc"
+fi
+
+#
+# Make sure .inputrc sources the macro-workstation inputrc
+#
+if ! grep -qF 'conf/inputrc' .inputrc ; then
+    echo "No macro-workstation inputrc source found in .inputrc, prepending"
+    cat .inputrc > .inputrc.old
+    echo "\$include $this_script_dir/conf/inputrc" > .inputrc
+    echo >> .inputrc
+    cat .inputrc.old >> .inputrc
+    rm .inputrc.old
+fi
+
