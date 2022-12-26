@@ -1,6 +1,9 @@
 Workstation Setup
 =================
 
+To set up everything, run `macro-setup`
+
+
 Shell
 -----
 

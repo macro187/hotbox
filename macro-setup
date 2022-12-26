@@ -1,0 +1,10 @@
+#!/bin/sh
+set -eu
+
+
+this_script_dir=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd -P)
+
+
+$this_script_dir/macro-setup-shell
+$this_script_dir/macro-setup-git
+
