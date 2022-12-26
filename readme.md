@@ -7,6 +7,12 @@ Shell
 See `macro-setup-shell`
 
 
+Git
+---
+
+See `macro-setup-git`
+
+
 inputrc
 -------
 
@@ -15,19 +21,6 @@ inputrc
     #
 
     $include path/to/macro-workstation/conf/inputrc
-
-    # ...
-
-
-gitconfig
----------
-
-    #
-    # ~/.gitconfig
-    #
-
-    [include]
-        path = path/to/macro-workstation/conf/gitconfig
 
     # ...
 

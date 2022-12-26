@@ -1,0 +1,45 @@
+#!/bin/sh
+set -eu
+
+
+alias echo_on="set -x"
+alias echo_off="{ set +x ; } 2> /dev/null"
+
+
+this_script_dir=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd -P)
+cd $HOME
+
+
+#
+# Make sure there's a .gitconfig
+#
+if ! [ -f .gitconfig ] ; then
+    echo "No .gitconfig found, creating"
+    touch .gitconfig
+fi
+
+
+#
+# Make sure .gitconfig includes the macro-workstation gitconfig
+#
+if ! grep -qF 'conf/gitconfig' .gitconfig ; then
+    echo "No macro-workstation gitconfig include found in .gitconfig, prepending"
+    cat .gitconfig > .gitconfig.old
+    echo "[include]" > .gitconfig
+    echo "	path = $this_script_dir/conf/gitconfig" >> .gitconfig
+    echo >> .gitconfig
+    cat .gitconfig.old >> .gitconfig
+    rm .gitconfig.old
+fi
+
+
+#
+# Use totally insecure "store" credential store on Linux
+#
+if [ "$(uname)" = "Linux" ] ; then
+    echo "On Linux, using INSECURE store credential helper"
+    echo_on
+    git config --global credential.helper store
+    echo_off
+fi
+
