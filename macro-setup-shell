@@ -1,0 +1,82 @@
+#!/bin/sh
+set -eu
+
+
+find_first() {
+    for f in $@ ; do
+        if [ -f $f ] ; then
+            echo $f
+            return 0
+        fi
+    done
+}
+
+
+this_script_dir=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd -P)
+cd $HOME
+
+
+#
+# Make sure there's a .profile or .bash_profile
+#
+profile=$(find_first .profile .bash_profile)
+if [ -z "$profile" ] ; then
+    echo "No .profile found, creating"
+    touch .profile
+    profile=".profile"
+fi
+
+#
+# Make sure .profile sources .bashrc
+#
+if ! grep -qF '. "$HOME/.bashrc"' $profile ; then
+    echo "No .bashrc source found in $profile, adding"
+    echo >> $profile
+    echo '. "$HOME/.bashrc"' >> $profile
+fi
+
+#
+# Make sure .profile tells non-bash shells to use .bashrc
+#
+if ! grep -qF 'export ENV="$HOME/.bashrc"' $profile ; then
+    echo "No .bashrc ENV found in $profile, adding"
+    echo >> $profile
+    echo 'export ENV="$HOME/.bashrc"' >> $profile
+fi
+
+#
+# Make sure there's a .bashrc
+#
+bashrc=$(find_first .bashrc)
+if [ -z "$bashrc" ] ; then
+    echo "No .bashrc found, creating"
+    touch .bashrc
+    bashrc=".bashrc"
+fi
+
+#
+# Make .bashrc bails out in non-interactive situations
+#
+if ! grep -qF '$-' .bashrc ; then
+    echo "No non-interactive return found in .bashrc, prepending"
+    cat .bashrc > .bashrc.old
+    cat << 'EOF' > .bashrc
+case $- in
+    *i*) ;;
+      *) return;;
+esac
+EOF
+    cat >> .bashrc
+    cat .bashrc.old >> .bashrc
+    rm .bashrc.old
+fi
+
+#
+# Make sure .bashrc sources the macro-workstation bashrc
+#
+if ! grep -qF 'conf/bashrc' .bashrc ; then
+    echo "No macro-workstation bashrc source found in .bashrc, adding"
+    echo >> .bashrc
+    echo ". \"$this_script_dir/conf/bashrc\"" >> .bashrc
+fi
+
