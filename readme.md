@@ -16,14 +16,8 @@ Git
 See `macro-setup-git`
 
 
-vimrc
------
+Vim
+---
 
-    "
-    " ~/.vimrc or ~/_vimrc
-    "
-
-    source path/to/macro-workstation/conf/vimrc
-
-    " ...
+See `macro-setup-vim`
 
