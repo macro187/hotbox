@@ -1,6 +1,7 @@
 Workstation
 ===========
 
+
 macro-setup
 -----------
 
@@ -17,10 +18,8 @@ sub-scripts, each of which can also be run independently.
 
 
 
-Machine Setup
--------------
-
-The host machine, whether physical or virtual.
+Host Machine Setup
+------------------
 
 Basic setup:
 
@@ -33,3 +32,18 @@ each session or prepended to `.xinitrc` (or whatever).
 
 Install Docker.
 
+
+
+macro-base
+----------
+
+Build, start, and enter a container equipped with:
+
+- Minimal command line tools (including Vim, Git, etc.)
+- Host Docker socket so Docker works
+- Host X11 socket so X11 applications work
+- Host `$TERM` setting
+- Non-root user matching the current host user
+- Host user's `.git-credentials`
+- The *macro-workstation* tools
+- Configured using `macro-setup`
