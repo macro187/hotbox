@@ -1,58 +1,13 @@
 #!/usr/bin/env sh
 set -eu
+scriptdir=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd -P)
 
 
-alias echo_on="set -x"
-alias echo_off="{ set +x ; } 2> /dev/null"
+. $scriptdir/lib/macro-ubuntu.sh
+. $scriptdir/lib/macro-base.sh
+. $scriptdir/lib/macro-docker.sh
 
 
-this_script_dir=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd -P)
-
-
-user=$(id -un)
-uid=$(id -u)
-gid=$(id -g)
-
-
-echo
-echo "Building container image..."
-echo_on
-PROGRESS_NO_TRUNC=1 \
-docker build \
-    --progress plain \
-    -t macro-base \
-    --build-arg user=$user \
-    --build-arg uid=$uid \
-    --build-arg gid=$gid \
-    - \
-    < $this_script_dir/macro-base.Dockerfile
-echo_off
-
-
-dockeropts=""
-if [ -S /var/run/docker.sock ] ; then
-    dockeropts="-v /var/run/docker.sock:/var/run/docker.sock"
-fi
-
-x11opts=""
-if [ -d /tmp/.X11-unix ] ; then
-    x11opts="-v /tmp/.X11-unix:/tmp/.X11-unix --ipc=host -e DISPLAY=$DISPLAY"
-fi
-
-gitopts=""
-if [ -f $HOME/.git-credentials ] ; then
-    gitopts="-v $HOME/.git-credentials:/home/$user/.git-credentials"
-fi
-
-echo
-echo "Starting container..."
-echo_on
-docker run \
-    $dockeropts \
-    $x11opts \
-    $gitopts \
-    -e TERM=$TERM \
-    --rm \
-    -it \
-    macro-base
-echo_off
+macro_ubuntu_build
+macro_base_build macro-ubuntu
+macro_docker_run macro-base

@@ -1,5 +1,9 @@
 #!/bin/sh
 set -eu
+scriptdir=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd -P)
+
+
+. $scriptdir/lib/macro-sh.sh
 
 
 find_first() {
@@ -12,7 +16,6 @@ find_first() {
 }
 
 
-this_script_dir=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd -P)
 cd $HOME
 
 
@@ -21,7 +24,7 @@ cd $HOME
 #
 profile=$(find_first .profile .bash_profile)
 if [ -z "$profile" ] ; then
-    echo "No .profile found, creating"
+    info "No .profile found, creating"
     touch .profile
     profile=".profile"
 fi
@@ -30,7 +33,7 @@ fi
 # Make sure .profile sources .bashrc
 #
 if ! grep -qF '. "$HOME/.bashrc"' $profile ; then
-    echo "No .bashrc source found in $profile, adding"
+    info "No .bashrc source found in $profile, adding"
     echo >> $profile
     echo '. "$HOME/.bashrc"' >> $profile
 fi
@@ -39,7 +42,7 @@ fi
 # Make sure .profile tells non-bash shells to use .bashrc
 #
 if ! grep -qF 'export ENV="$HOME/.bashrc"' $profile ; then
-    echo "No .bashrc ENV found in $profile, adding"
+    info "No .bashrc ENV found in $profile, adding"
     echo >> $profile
     echo 'export ENV="$HOME/.bashrc"' >> $profile
 fi
@@ -49,7 +52,7 @@ fi
 #
 bashrc=$(find_first .bashrc)
 if [ -z "$bashrc" ] ; then
-    echo "No .bashrc found, creating"
+    info "No .bashrc found, creating"
     touch .bashrc
     bashrc=".bashrc"
 fi
@@ -58,7 +61,7 @@ fi
 # Make .bashrc bails out in non-interactive situations
 #
 if ! grep -qF '$-' .bashrc ; then
-    echo "No non-interactive return found in .bashrc, prepending"
+    info "No non-interactive return found in .bashrc, prepending"
     cat .bashrc > .bashrc.old
     cat << 'EOF' > .bashrc
 case $- in
@@ -75,9 +78,9 @@ fi
 # Make sure .bashrc sources the macro-workstation bashrc
 #
 if ! grep -qF 'conf/bashrc' .bashrc ; then
-    echo "No macro-workstation bashrc source found in .bashrc, adding"
+    info "No macro-workstation bashrc source found in .bashrc, adding"
     echo >> .bashrc
-    echo ". \"$this_script_dir/conf/bashrc\"" >> .bashrc
+    echo ". \"$scriptdir/conf/bashrc\"" >> .bashrc
 fi
 
 #
@@ -85,7 +88,7 @@ fi
 #
 inputrc=$(find_first .inputrc)
 if [ -z "$inputrc" ] ; then
-    echo "No .inputrc found, creating"
+    info "No .inputrc found, creating"
     touch .inputrc
     inputrc=".inputrc"
 fi
@@ -94,9 +97,9 @@ fi
 # Make sure .inputrc sources the macro-workstation inputrc
 #
 if ! grep -qF 'conf/inputrc' .inputrc ; then
-    echo "No macro-workstation inputrc source found in .inputrc, prepending"
+    info "No macro-workstation inputrc source found in .inputrc, prepending"
     cat .inputrc > .inputrc.old
-    echo "\$include $this_script_dir/conf/inputrc" > .inputrc
+    echo "\$include $scriptdir/conf/inputrc" > .inputrc
     echo >> .inputrc
     cat .inputrc.old >> .inputrc
     rm .inputrc.old

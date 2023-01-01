@@ -1,19 +1,9 @@
-FROM ubuntu
+ARG baseimage
+FROM $baseimage
 
-USER root
-WORKDIR /root
-ENV DEBIAN_FRONTEND=noninteractive
-RUN set -eux ; \
-    yes | unminimize ; \
-    apt update ; \
-    apt install -y --no-install-recommends less ; \
-    apt install -y --no-install-recommends vim ; \
-    apt install -y git ; \
-    rm -rf /var/lib/apt/lists/*
-
-ARG user=dev
-ARG uid=1000
-ARG gid=1000
+ARG user
+ARG uid
+ARG gid
 
 USER root
 WORKDIR /root

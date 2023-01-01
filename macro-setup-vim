@@ -1,12 +1,11 @@
 #!/bin/sh
 set -eu
+scriptdir=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd -P)
 
 
-alias echo_on="set -x"
-alias echo_off="{ set +x ; } 2> /dev/null"
+. $scriptdir/lib/macro-sh.sh
 
 
-this_script_dir=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd -P)
 cd $HOME
 
 
@@ -14,7 +13,7 @@ cd $HOME
 # Make sure there's a .vimrc
 #
 if ! [ -f .vimrc ] ; then
-    echo "No .vimrc found, creating"
+    info "No .vimrc found, creating"
     touch .vimrc
 fi
 
@@ -23,9 +22,9 @@ fi
 # Make sure .vimrc sources the macro-workstation vimrc
 #
 if ! grep -qF 'conf/vimrc' .vimrc ; then
-    echo "No macro-workstation vimrc source found in .vimrc, prepending"
+    info "No macro-workstation vimrc source found in .vimrc, prepending"
     cat .vimrc > .vimrc.old
-    echo "source $this_script_dir/conf/vimrc" > .vimrc
+    echo "source $scriptdir/conf/vimrc" > .vimrc
     echo >> .vimrc
     cat .vimrc.old >> .vimrc
     rm .vimrc.old
@@ -41,7 +40,7 @@ mkdir -p .vim/pack/macro-workstation/start
 cd .vim/pack/macro-workstation/start
 
 if ! [ -d vim-macrobsidian ] ; then
-    echo "Installing macrobsidian Vim plugin"
+    info "Installing macrobsidian Vim plugin"
     echo_on
     git clone https://github.com/macro187/vim-macrobsidian.git
     echo_off
