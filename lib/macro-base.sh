@@ -6,6 +6,7 @@ test -n "${__macro_base:+x}" && return ; __macro_base=1
 
 macro_base_build() {
     local baseimage="$1" ; shift
+    local imagename="$1" ; shift
 
     local user=$(current_user)
     local uid=$(current_uid)
@@ -13,7 +14,7 @@ macro_base_build() {
 
     macro_docker_build \
         macro-base \
-        macro-base \
+        $imagename \
         --build-arg baseimage=$baseimage \
         --build-arg user=$user \
         --build-arg uid=$uid \

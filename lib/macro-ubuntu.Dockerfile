@@ -10,3 +10,5 @@ RUN set -eux ; \
     apt install -y --no-install-recommends vim ; \
     apt install -y git ; \
     rm -rf /var/lib/apt/lists/*
+
+CMD ["/usr/bin/bash", "-l" ]

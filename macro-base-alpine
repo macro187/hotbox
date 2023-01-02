@@ -1,0 +1,13 @@
+#!/usr/bin/env sh
+set -eu
+scriptdir=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd -P)
+
+
+. $scriptdir/lib/macro-alpine.sh
+. $scriptdir/lib/macro-base.sh
+. $scriptdir/lib/macro-docker.sh
+
+
+macro_alpine_build
+macro_base_build macro-alpine macro-base-alpine
+macro_docker_run macro-base-alpine

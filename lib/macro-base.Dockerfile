@@ -9,7 +9,7 @@ USER root
 WORKDIR /root
 RUN set -eux ; \
     addgroup --gid $gid $user ; \
-    adduser --uid $uid --gid $gid $user
+    adduser --disabled-password --uid $uid --ingroup $user $user
 
 USER $user:$user
 WORKDIR /home/$user
@@ -19,4 +19,3 @@ RUN set -eux ; \
 
 USER $user:$user
 WORKDIR /home/$user
-CMD ["/usr/bin/bash", "-l" ]

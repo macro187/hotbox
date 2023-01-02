@@ -34,8 +34,8 @@ Install Docker.
 
 
 
-macro-base
-----------
+macro-base-*os*
+---------------
 
 Build, start, and enter a container equipped with:
 

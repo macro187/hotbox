@@ -9,5 +9,5 @@ scriptdir=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd -P)
 
 
 macro_ubuntu_build
-macro_base_build macro-ubuntu
-macro_docker_run macro-base
+macro_base_build macro-ubuntu macro-base-ubuntu
+macro_docker_run macro-base-ubuntu
