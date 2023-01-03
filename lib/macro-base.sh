@@ -1,6 +1,7 @@
 test -n "${__macro_base:+x}" && return ; __macro_base=1
 
 
+. $scriptdir/lib/macro-sh.sh
 . $scriptdir/lib/macro-docker.sh
 
 
