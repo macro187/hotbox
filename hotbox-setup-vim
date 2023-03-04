@@ -1,9 +1,9 @@
 #!/bin/sh
 set -eu
-scriptdir=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd -P)
+hotbox=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd -P)
 
 
-. $scriptdir/lib/macro-sh.sh
+. $hotbox/lib/hotbox-sh.sh
 
 
 cd $HOME
@@ -19,12 +19,12 @@ fi
 
 
 #
-# Make sure .vimrc sources the macro-workstation vimrc
+# Make sure .vimrc sources the hotbox vimrc
 #
 if ! grep -qF 'conf/vimrc' .vimrc ; then
-    info "No macro-workstation vimrc source found in .vimrc, prepending"
+    info "No hotbox vimrc source found in .vimrc, prepending"
     cat .vimrc > .vimrc.old
-    echo "source $scriptdir/conf/vimrc" > .vimrc
+    echo "source $hotbox/conf/vimrc" > .vimrc
     echo >> .vimrc
     cat .vimrc.old >> .vimrc
     rm .vimrc.old
@@ -36,8 +36,8 @@ fi
 #
 # Install plugins
 #
-mkdir -p .vim/pack/macro-workstation/start
-cd .vim/pack/macro-workstation/start
+mkdir -p .vim/pack/hotbox/start
+cd .vim/pack/hotbox/start
 
 if ! [ -d vim-macrobsidian ] ; then
     info "Installing macrobsidian Vim plugin"

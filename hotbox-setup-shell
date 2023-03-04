@@ -1,9 +1,9 @@
 #!/bin/sh
 set -eu
-scriptdir=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd -P)
+hotbox=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd -P)
 
 
-. $scriptdir/lib/macro-sh.sh
+. $hotbox/lib/hotbox-sh.sh
 
 
 find_first() {
@@ -75,12 +75,12 @@ EOF
 fi
 
 #
-# Make sure .bashrc sources the macro-workstation bashrc
+# Make sure .bashrc sources the hotbox bashrc
 #
 if ! grep -qF 'conf/bashrc' .bashrc ; then
-    info "No macro-workstation bashrc source found in .bashrc, adding"
+    info "No hotbox bashrc source found in .bashrc, adding"
     echo >> .bashrc
-    echo ". \"$scriptdir/conf/bashrc\"" >> .bashrc
+    echo ". \"$hotbox/conf/bashrc\"" >> .bashrc
 fi
 
 #
@@ -94,12 +94,12 @@ if [ -z "$inputrc" ] ; then
 fi
 
 #
-# Make sure .inputrc sources the macro-workstation inputrc
+# Make sure .inputrc sources the hotbox inputrc
 #
 if ! grep -qF 'conf/inputrc' .inputrc ; then
-    info "No macro-workstation inputrc source found in .inputrc, prepending"
+    info "No hotbox inputrc source found in .inputrc, prepending"
     cat .inputrc > .inputrc.old
-    echo "\$include $scriptdir/conf/inputrc" > .inputrc
+    echo "\$include $hotbox/conf/inputrc" > .inputrc
     echo >> .inputrc
     cat .inputrc.old >> .inputrc
     rm .inputrc.old

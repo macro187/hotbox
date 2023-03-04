@@ -1,4 +1,4 @@
-test -n "${__macro_sh:+x}" && return ; __macro_sh=1
+test -n "${__hotbox_sh:+x}" && return ; __hotbox_sh=1
 
 
 alias echo_on="set -x"

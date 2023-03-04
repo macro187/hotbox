@@ -1,10 +1,10 @@
-test -n "${__macro_docker:+x}" && return ; __macro_docker=1
+test -n "${__hotbox_docker:+x}" && return ; __hotbox_docker=1
 
 
-. $scriptdir/lib/macro-sh.sh
+. $hotbox/lib/hotbox-sh.sh
 
 
-macro_docker_build() {
+hotbox_docker_build() {
     local dockerfile="$1" ; shift
     local imagename="$1" ; shift
     # (remaining arguments are passed to docker build)
@@ -17,13 +17,13 @@ macro_docker_build() {
         -t $imagename \
         $@ \
         -f - \
-        $scriptdir \
-        < $scriptdir/lib/$dockerfile.Dockerfile
+        $hotbox \
+        < $hotbox/lib/$dockerfile.Dockerfile
     echo_off
 }
 
 
-macro_docker_run() {
+hotbox_docker_run() {
     local imagename="$1" ; shift
     # (remaining arguments are passed to docker run)
 

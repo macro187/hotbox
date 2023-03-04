@@ -1,11 +1,11 @@
-test -n "${__macro_base:+x}" && return ; __macro_base=1
+test -n "${__hotbox_base:+x}" && return ; __hotbox_base=1
 
 
-. $scriptdir/lib/macro-sh.sh
-. $scriptdir/lib/macro-docker.sh
+. $hotbox/lib/hotbox-sh.sh
+. $hotbox/lib/hotbox-docker.sh
 
 
-macro_base_build() {
+hotbox_base_build() {
     local baseimage="$1" ; shift
     local imagename="$1" ; shift
 
@@ -13,8 +13,8 @@ macro_base_build() {
     local uid=$(current_uid)
     local gid=$(current_gid)
 
-    macro_docker_build \
-        macro-base \
+    hotbox_docker_build \
+        hotbox-base \
         $imagename \
         --build-arg baseimage=$baseimage \
         --build-arg user=$user \

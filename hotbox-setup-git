@@ -1,9 +1,9 @@
 #!/bin/sh
 set -eu
-scriptdir=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd -P)
+hotbox=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd -P)
 
 
-. $scriptdir/lib/macro-sh.sh
+. $hotbox/lib/hotbox-sh.sh
 
 
 cd $HOME
@@ -19,13 +19,13 @@ fi
 
 
 #
-# Make sure .gitconfig includes the macro-workstation gitconfig
+# Make sure .gitconfig includes the hotbox gitconfig
 #
 if ! grep -qF 'conf/gitconfig' .gitconfig ; then
-    info "No macro-workstation gitconfig include found in .gitconfig, prepending"
+    info "No hotbox gitconfig include found in .gitconfig, prepending"
     cat .gitconfig > .gitconfig.old
     echo "[include]" > .gitconfig
-    echo "	path = $scriptdir/conf/gitconfig" >> .gitconfig
+    echo "	path = $hotbox/conf/gitconfig" >> .gitconfig
     echo >> .gitconfig
     cat .gitconfig.old >> .gitconfig
     rm .gitconfig.old

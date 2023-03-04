@@ -1,0 +1,14 @@
+#!/usr/bin/env sh
+set -eu
+hotbox=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd -P)
+
+
+. $hotbox/lib/hotbox-alpine.sh
+. $hotbox/lib/hotbox-base.sh
+. $hotbox/lib/hotbox-dev.sh
+
+
+hotbox_alpine_build
+hotbox_base_build hotbox-alpine hotbox-base-alpine
+hotbox_dev_build hotbox-base-alpine hotbox-dev-alpine
+hotbox_dev_run hotbox-dev-alpine

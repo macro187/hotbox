@@ -1,20 +1,20 @@
-Workstation
-===========
+HotBox
+======
 
 
-macro-setup
------------
+hotbox-setup
+------------
 
 This script performs basic workstation setup according to my preferences.  It
 works on host machines or in containers.  It delegates to a number of
 sub-scripts, each of which can also be run independently.
 
 
-### macro-setup-shell
+### hotbox-setup-shell
 
-### macro-setup-git
+### hotbox-setup-git
 
-### macro-setup-vim
+### hotbox-setup-vim
 
 
 
@@ -23,7 +23,7 @@ Host Machine Setup
 
 Basic setup:
 
-    macro-setup
+    hotbox-setup
 
 Allow apps in containers to access the host X server.  This can be done manually
 each session or prepended to `.xinitrc` (or whatever).
@@ -34,8 +34,8 @@ Install Docker.
 
 
 
-macro-base-*os*
----------------
+hotbox-base-*os*
+----------------
 
 Build, start, and enter a container equipped with:
 
@@ -45,5 +45,5 @@ Build, start, and enter a container equipped with:
 - Host `$TERM` setting
 - Non-root user matching the current host user
 - Host user's `.git-credentials`
-- The *macro-workstation* tools
-- Configured using `macro-setup`
+- The *hotbox* tools
+- Configured using `hotbox-setup`

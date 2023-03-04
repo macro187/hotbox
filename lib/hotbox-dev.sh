@@ -1,25 +1,25 @@
-test -n "${__macro_dev:+x}" && return ; __macro_dev=1
+test -n "${__hotbox_dev:+x}" && return ; __hotbox_dev=1
 
 
-. $scriptdir/lib/macro-sh.sh
-. $scriptdir/lib/macro-docker.sh
+. $hotbox/lib/hotbox-sh.sh
+. $hotbox/lib/hotbox-docker.sh
 
 
-macro_dev_build() {
+hotbox_dev_build() {
     local baseimage="$1" ; shift
     local imagename="$1" ; shift
 
     local user=$(current_user)
 
-    macro_docker_build \
-        macro-dev \
+    hotbox_docker_build \
+        hotbox-dev \
         $imagename \
         --build-arg baseimage=$baseimage \
         --build-arg user=$user
 }
 
 
-macro_dev_run() {
+hotbox_dev_run() {
     local imagename="$1" ; shift
 
     local hostdir="$(pwd)"
@@ -30,7 +30,7 @@ macro_dev_run() {
         workdir="$workdir/$hostdirname"
     fi
 
-    macro_docker_run \
+    hotbox_docker_run \
         $imagename \
         -v $hostdir:$workdir \
         --workdir="$workdir"

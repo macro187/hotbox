@@ -1,9 +1,0 @@
-#!/bin/sh
-set -eu
-scriptdir=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd -P)
-
-
-$scriptdir/macro-setup-shell
-$scriptdir/macro-setup-git
-$scriptdir/macro-setup-vim
-
