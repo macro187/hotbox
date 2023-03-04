@@ -16,7 +16,8 @@ macro_docker_build() {
         --progress plain \
         -t $imagename \
         $@ \
-        - \
+        -f - \
+        $scriptdir \
         < $scriptdir/lib/$dockerfile.Dockerfile
     echo_off
 }
