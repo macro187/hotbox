@@ -1,7 +1,0 @@
-#!/usr/bin/env sh
-set -eu
-hotbox=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd -P)
-
-
-$hotbox/hotbox-build-ubuntu
-$hotbox/hotbox-build-base hotbox-ubuntu hotbox-base-ubuntu

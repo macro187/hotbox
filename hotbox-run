@@ -6,7 +6,7 @@ hotbox=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd -P)
 . $hotbox/hotbox-sh.sh
 
 
-imagename="$1" ; shift
+distro="$1" ; shift
 
 
 hostdir="$(pwd)"
@@ -18,7 +18,7 @@ if [ -d .git ] ; then
 fi
 
 
-$hotbox/hotbox-run-docker \
-    $imagename \
+$hotbox/hotbox-docker-run \
+    hotbox-$distro \
     -v $hostdir:$workdir \
     --workdir="$workdir"
