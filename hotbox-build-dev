@@ -1,0 +1,20 @@
+#!/usr/bin/env sh
+set -eu
+hotbox=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd -P)
+
+
+. $hotbox/hotbox-sh.sh
+
+
+baseimage="$1" ; shift
+imagename="$1" ; shift
+
+
+user=$(current_user)
+
+
+$hotbox/hotbox-build-docker \
+    hotbox-dev \
+    $imagename \
+    --build-arg baseimage=$baseimage \
+    --build-arg user=$user

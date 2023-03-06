@@ -1,0 +1,24 @@
+#!/usr/bin/env sh
+set -eu
+hotbox=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd -P)
+
+
+. $hotbox/hotbox-sh.sh
+
+
+imagename="$1" ; shift
+
+
+hostdir="$(pwd)"
+hostdirname="${hostdir##*/}"
+
+workdir=/workspaces
+if [ -d .git ] ; then
+    workdir="$workdir/$hostdirname"
+fi
+
+
+$hotbox/hotbox-run-docker \
+    $imagename \
+    -v $hostdir:$workdir \
+    --workdir="$workdir"

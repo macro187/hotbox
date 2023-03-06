@@ -1,0 +1,6 @@
+#!/usr/bin/env sh
+set -eu
+hotbox=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd -P)
+
+
+$hotbox/hotbox-run-dev hotbox-dev-ubuntu

@@ -1,0 +1,24 @@
+#!/usr/bin/env sh
+set -eu
+hotbox=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd -P)
+
+
+. $hotbox/hotbox-sh.sh
+
+
+dockerfile="$1" ; shift
+imagename="$1" ; shift
+# (remaining arguments are passed to docker build)
+
+
+heading "Building $imagename container image"
+echo_on
+PROGRESS_NO_TRUNC=1 \
+docker build \
+    --progress plain \
+    -t $imagename \
+    $@ \
+    -f - \
+    $hotbox \
+    < $hotbox/$dockerfile.Dockerfile
+echo_off

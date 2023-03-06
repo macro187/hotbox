@@ -3,7 +3,7 @@ set -eu
 hotbox=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd -P)
 
 
-. $hotbox/lib/hotbox-sh.sh
+. $hotbox/hotbox-sh.sh
 
 
 find_first() {
