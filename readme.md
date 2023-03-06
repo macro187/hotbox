@@ -1,25 +1,58 @@
-HotBox
+hotbox
 ======
+
+My workstation containers, setup automation, and configuration
+
+
+
+Setup Automation
+================
+
+These work on Linux-ish machines, virtual machines, and containers.
 
 
 hotbox-setup
 ------------
 
-This script performs basic workstation setup according to my preferences.  It
-works on host machines or in containers.  It delegates to a number of
-sub-scripts, each of which can also be run independently.
+Run all setup scripts
 
 
-### hotbox-setup-shell
+hotbox-setup-git
+----------------
 
-### hotbox-setup-git
-
-### hotbox-setup-vim
-
+TODO
 
 
-Host Machine Setup
+hotbox-setup-shell
 ------------------
+
+TODO
+
+
+hotbox-setup-shell
+------------------
+
+TODO
+
+
+
+Workstation Containers
+======================
+
+Workstation containers are equipped with:
+
+- Minimal command line tools (including Vim, Git, etc.)
+- Host Docker socket so Docker works
+- Host X11 socket so X11 applications work
+- Host `$TERM` setting
+- Non-root user matching the current host user
+- Host user's `.git-credentials`
+- The *hotbox* tools
+- Configured using `hotbox-setup`
+
+
+Host Setup
+----------
 
 Basic setup:
 
@@ -33,17 +66,14 @@ each session or prepended to `.xinitrc` (or whatever).
 Install Docker.
 
 
+hotbox-build <distro>
+---------------------
 
-hotbox-base-*os*
-----------------
+TODO
 
-Build, start, and enter a container equipped with:
 
-- Minimal command line tools (including Vim, Git, etc.)
-- Host Docker socket so Docker works
-- Host X11 socket so X11 applications work
-- Host `$TERM` setting
-- Non-root user matching the current host user
-- Host user's `.git-credentials`
-- The *hotbox* tools
-- Configured using `hotbox-setup`
+hotbox-run <distro>
+-------------------
+
+TODO
+
