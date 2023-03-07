@@ -66,10 +66,10 @@ each session or prepended to `.xinitrc` (or whatever).
 Install Docker.
 
 
-hotbox-build <distro>
----------------------
+hotbox-build [DISTRO...]
+------------------------
 
-TODO
+Build hotbox container images for the specified distro(s)
 
 
 hotbox-run <distro>
@@ -77,3 +77,8 @@ hotbox-run <distro>
 
 TODO
 
+
+hotbox-clean
+------------
+
+Delete all hotbox-created container images

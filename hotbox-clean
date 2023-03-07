@@ -1,0 +1,17 @@
+#!/usr/bin/env sh
+set -eu
+hotbox=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd -P)
+
+
+. $hotbox/hotbox-sh.sh
+
+
+hotbox_images="$(docker image ls --filter label=hotbox -q)"
+
+
+if [ -n "$hotbox_images" ] ; then
+    heading "Deleting hotbox container images"
+    echo_on
+    docker image rm $hotbox_images
+    echo_off
+fi
