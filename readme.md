@@ -53,6 +53,7 @@ Containers are equipped with:
 - Host `$TERM` setting
 - Non-root user matching the current host user
 - `doas` with passwordless root permission
+- `man` and man pages
 - The *hotbox* tools
 - Preconfigured using the `hotbox-setup` scripts
 - Basic command line tools including `git`, `vim`, etc.

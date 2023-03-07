@@ -15,6 +15,8 @@ RUN set -eux ; \
 #
 # Update package manager database
 #
+USER root
+WORKDIR /root
 RUN set -eux ; \
     DEBIAN_FRONTEND=noninteractive apt update
 
@@ -35,6 +37,14 @@ WORKDIR /root
 RUN set -eux ; \
     DEBIAN_FRONTEND=noninteractive apt install -y --no-install-recommends doas ; \
     echo "permit nopass $user" >> /etc/doas.conf
+
+#
+# Set up man pages
+#
+USER root
+WORKDIR /root
+RUN set -eux ; \
+    DEBIAN_FRONTEND=noninteractive apt install -y --no-install-recommends man manpages-posix
 
 #
 # Install base packages

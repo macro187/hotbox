@@ -31,6 +31,14 @@ RUN set -eux ; \
     echo "permit nopass $user" >> /etc/doas.d/$user.conf
 
 #
+# Set up man pages
+#
+USER root
+WORKDIR /root
+RUN set -eux ; \
+    apk add mandoc mandoc-doc man-pages man-pages-posix
+
+#
 # Install base packages
 #
 RUN set -eux ; \
