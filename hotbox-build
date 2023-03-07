@@ -21,7 +21,10 @@ build() {
     $hotbox/hotbox-docker-build \
         hotbox-base-$distro \
         hotbox-base-$distro \
-        --label hotbox
+        --label hotbox \
+        --build-arg user=$user \
+        --build-arg uid=$uid \
+        --build-arg gid=$gid
 
     $hotbox/hotbox-docker-build \
         hotbox \

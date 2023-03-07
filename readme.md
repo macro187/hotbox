@@ -52,10 +52,11 @@ Containers are equipped with:
 - Host X11 socket so X11 applications work
 - Host `$TERM` setting
 - Non-root user matching the current host user
-- Host user's `.git-credentials`
+- `doas` with passwordless root permission
 - The *hotbox* tools
 - Preconfigured using the `hotbox-setup` scripts
-- Basic command line tools including `doas`, `git`, `vim`, etc.
+- Basic command line tools including `git`, `vim`, etc.
+- Host user's `.git-credentials`
 
 
 Host Requirements
