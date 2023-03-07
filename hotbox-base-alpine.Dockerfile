@@ -42,7 +42,6 @@ RUN set -eux ; \
 # Install base packages
 #
 RUN set -eux ; \
-    apk add git ; \
     apk add vim ;
 
 #

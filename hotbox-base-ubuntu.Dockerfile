@@ -53,7 +53,6 @@ USER root
 WORKDIR /root
 RUN set -eux ; \
     DEBIAN_FRONTEND=noninteractive apt install -y --no-install-recommends less ; \
-    DEBIAN_FRONTEND=noninteractive apt install -y git ; \
     DEBIAN_FRONTEND=noninteractive apt install -y --no-install-recommends vim
 
 #

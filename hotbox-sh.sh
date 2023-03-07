@@ -10,6 +10,12 @@ info() {
 }
 
 
+die() {
+    info "Error:" $@
+    exit 1
+}
+
+
 heading() {
     info
     info "==> $1"
@@ -31,4 +37,18 @@ current_uid() {
 current_gid() {
     test -n "${__current_gid:+x}" || __current_gid="$(id -g)"
     echo $__current_gid
+}
+
+
+current_distro() {
+    if [ -z "${__current_distro:+x}" ] ; then
+        if grep -q '^NAME="Alpine Linux"' /etc/os-release ; then
+            __current_distro="alpine"
+        elif grep -q '^NAME="Ubuntu"' /etc/os-release ; then
+            __current_distro="ubuntu"
+        else
+            __current_distro="unknown"
+        fi
+    fi
+    echo $__current_distro
 }
