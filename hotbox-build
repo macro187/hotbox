@@ -37,3 +37,10 @@ build() {
 for distro in $distros ; do
     build $distro
 done
+
+
+heading "Pruning hotbox container images"
+echo_on
+# Add -a to also prune unorphaned intermediate images
+docker image prune -f --filter label=hotbox
+echo_off
