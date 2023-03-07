@@ -1,7 +1,7 @@
 hotbox
 ======
 
-My workstation containers, setup automation, and configuration
+My workstation containers, setup, and configuration
 
 
 
