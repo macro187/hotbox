@@ -2,13 +2,16 @@ FROM ubuntu
 
 USER root
 WORKDIR /root
-ENV DEBIAN_FRONTEND=noninteractive
 RUN set -eux ; \
-    yes | unminimize ; \
-    apt update ; \
-    apt install -y --no-install-recommends less ; \
-    apt install -y --no-install-recommends vim ; \
-    apt install -y git ; \
-    rm -rf /var/lib/apt/lists/*
+    yes | unminimize
+
+RUN set -eux ; \
+    DEBIAN_FRONTEND=noninteractive apt update
+
+RUN set -eux ; \
+    DEBIAN_FRONTEND=noninteractive apt install -y --no-install-recommends doas ; \
+    DEBIAN_FRONTEND=noninteractive apt install -y --no-install-recommends less ; \
+    DEBIAN_FRONTEND=noninteractive apt install -y git ; \
+    DEBIAN_FRONTEND=noninteractive apt install -y --no-install-recommends vim
 
 CMD ["/usr/bin/bash", "-l" ]
