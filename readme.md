@@ -1,20 +1,21 @@
 hotbox
 ======
 
-My workstation containers, setup, and configuration
+My workstation containers, setup scripts, and config files
 
 
 
-Setup Automation
-================
+Setup Scripts
+=============
 
-These work on Linux-ish machines, virtual machines, and containers.
+These set up various aspects of workstations (physical, virtual, or container)
+according to my preferences.
 
 
 hotbox-setup
 ------------
 
-Run all setup scripts
+Run all available setup scripts
 
 
 hotbox-setup-git
@@ -39,46 +40,51 @@ TODO
 Workstation Containers
 ======================
 
-Workstation containers are equipped with:
+Workstation container implementations are available based on the following
+Linux distros:
 
-- Minimal command line tools (including Vim, Git, etc.)
+- Alpine Linux
+- Ubuntu Linux
+
+Containers are equipped with:
+
 - Host Docker socket so Docker works
 - Host X11 socket so X11 applications work
 - Host `$TERM` setting
 - Non-root user matching the current host user
 - Host user's `.git-credentials`
 - The *hotbox* tools
-- Configured using `hotbox-setup`
+- Preconfigured using the `hotbox-setup` scripts
+- Basic command line tools including `doas`, `git`, `vim`, etc.
 
 
-Host Setup
-----------
+Host Requirements
+-----------------
 
-Basic setup:
+Docker.
 
-    hotbox-setup
-
-Allow apps in containers to access the host X server.  This can be done manually
-each session or prepended to `.xinitrc` (or whatever).
+If X applications are to be run in containers, they must be allowed access to
+the host X server.  This can be done manually each session or prepended to
+`.xinitrc` (or whatever):
 
     xhost +
-
-Install Docker.
 
 
 hotbox-build [DISTRO...]
 ------------------------
 
-Build hotbox container images for the specified distro(s)
+Build workstation container images based on the specified DISTROs.
+
+If no DISTROs are specified, build for all available distros.
 
 
-hotbox-run <distro>
--------------------
+hotbox-run DISTRO
+-----------------
 
-TODO
+Start and enter a workstation container based on the specified DISTRO.
 
 
 hotbox-clean
 ------------
 
-Delete all hotbox-created container images
+Delete all hotbox container images
