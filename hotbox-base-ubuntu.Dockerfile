@@ -52,8 +52,7 @@ RUN set -eux ; \
 USER root
 WORKDIR /root
 RUN set -eux ; \
-    DEBIAN_FRONTEND=noninteractive apt install -y --no-install-recommends less ; \
-    DEBIAN_FRONTEND=noninteractive apt install -y --no-install-recommends vim
+    DEBIAN_FRONTEND=noninteractive apt install -y --no-install-recommends less
 
 #
 # Specify the login shell

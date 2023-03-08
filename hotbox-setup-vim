@@ -6,6 +6,29 @@ hotbox=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd -P)
 . $hotbox/hotbox-sh.sh
 
 
+#
+# Install vim
+#
+if ! which vim > /dev/null ; then
+    info "Vim not found on system, installing"
+    case $(current_distro) in
+        alpine)
+            echo_on
+            doas apk add vim vim-doc
+            echo_off
+            ;;
+        ubuntu)
+            echo_on
+            doas env DEBIAN_FRONTEND=noninteractive apt install -y --no-install-recommends vim
+            echo_off
+            ;;
+        *)
+            die "Don't know how to install vim on $current_distro os"
+            ;;
+    esac
+fi
+
+
 cd $HOME
 
 
@@ -31,8 +54,6 @@ if ! grep -qF 'conf/vimrc' .vimrc ; then
 fi
 
 
-
-
 #
 # Install plugins
 #
@@ -45,6 +66,3 @@ if ! [ -d vim-macrobsidian ] ; then
     git clone https://github.com/macro187/vim-macrobsidian.git
     echo_off
 fi
-
-cd $HOME
-

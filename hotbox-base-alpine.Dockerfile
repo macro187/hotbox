@@ -39,12 +39,6 @@ RUN set -eux ; \
     apk add mandoc mandoc-doc man-pages man-pages-posix
 
 #
-# Install base packages
-#
-RUN set -eux ; \
-    apk add vim ;
-
-#
 # Specify the login shell
 #
 CMD ["/bin/sh", "-l" ]
