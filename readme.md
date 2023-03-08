@@ -58,6 +58,7 @@ Containers are equipped with:
 - Preconfigured using the `hotbox-setup` scripts
 - Basic command line tools including `git`, `vim`, etc.
 - Host user's `.git-credentials`
+- Host startup directory mounted at `/workspace`
 
 
 Host Requirements

@@ -16,17 +16,17 @@ RUN set -eux ; \
     /hotbox/hotbox-setup
 
 #
-# Create /workspaces
+# Create /workspace
 #
 USER root
 WORKDIR /root
 RUN set -eux ; \
-    mkdir -p /workspaces ; \
-    chown $user:$user /workspaces ; \
-    chmod 750 /workspaces
+    mkdir -p /workspace ; \
+    chown $user:$user /workspace ; \
+    chmod 750 /workspace
 
 #
 # Specify login user and location
 #
 USER $user:$user
-WORKDIR /workspaces
+WORKDIR /workspace

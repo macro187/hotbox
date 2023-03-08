@@ -12,7 +12,7 @@ distro="$1" ; shift
 hostdir="$(pwd)"
 hostdirname="${hostdir##*/}"
 
-workdir=/workspaces
+workdir=/workspace
 if [ -d .git ] ; then
     workdir="$workdir/$hostdirname"
 fi
