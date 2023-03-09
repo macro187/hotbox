@@ -9,16 +9,43 @@ hotbox=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd -P)
 distro="$1" ; shift
 
 
-hostdir="$(pwd)"
-hostdirname="${hostdir##*/}"
+hotbox_name="${HOTBOX_NAME:+x}"
+test -z "$hotbox_name" && hotbox_name="default"
 
-workdir=/workspace
-if [ -d .git ] ; then
-    workdir="$workdir/$hostdirname"
+
+#
+# See if the container is already running...
+#
+container_id=$(docker ps -q --filter label=hotbox.name=default)
+
+
+#
+# ...and if it is, join it...
+#
+if [ -n "$container_id" ] ; then
+    heading "Joining running $hotbox_name hotbox container"
+    container_cmd="$(docker inspect --format='{{range $i, $c := .Config.Cmd}}{{if $i}} {{end}}{{$c}}{{end}}' $container_id)"
+    echo_on
+    docker exec -it $container_id $container_cmd
+    echo_off
+
+
+#
+# ...otherwise start it
+#
+else
+    hostdir="$(pwd)"
+    hostdirname="${hostdir##*/}"
+
+    workdir=/workspace
+    if [ -d .git ] ; then
+        workdir="$workdir/$hostdirname"
+    fi
+
+    $hotbox/hotbox-docker-run \
+        hotbox-$distro \
+        --label hotbox.name=$hotbox_name \
+        -e HOTBOX_NAME=$hotbox_name \
+        -v $hostdir:$workdir \
+        --workdir="$workdir"
 fi
-
-
-$hotbox/hotbox-docker-run \
-    hotbox-$distro \
-    -v $hostdir:$workdir \
-    --workdir="$workdir"

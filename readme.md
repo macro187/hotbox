@@ -84,7 +84,18 @@ If no DISTROs are specified, build for all available distros.
 hotbox-run DISTRO
 -----------------
 
-Start and enter a workstation container based on the specified DISTRO.
+Enter a workstation container.
+
+There can multiple workstation container instances running at the same time,
+distinguishable by name.  The `HOTBOX_NAME` environment variable specifies the
+name of the container to start or join (from outside any container) or
+indicates the current container's name (from inside a container).  The default
+container is named `default`.
+
+If the named container is not already running, start it based on the specified
+DISTRO and then enter it in a login shell.
+
+If the named container is already running, enter it in a new login shell.
 
 
 hotbox-clean
