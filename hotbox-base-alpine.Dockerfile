@@ -33,10 +33,10 @@ RUN set -eux ; \
 #
 # Set up man pages
 #
-USER root
-WORKDIR /root
+USER $user
+WORKDIR /home/$user
 RUN set -eux ; \
-    apk add mandoc mandoc-doc man-pages man-pages-posix
+    doas apk add mandoc mandoc-doc man-pages man-pages-posix
 
 #
 # Specify the login shell

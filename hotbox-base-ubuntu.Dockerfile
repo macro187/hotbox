@@ -41,18 +41,18 @@ RUN set -eux ; \
 #
 # Set up man pages
 #
-USER root
-WORKDIR /root
+USER $user
+WORKDIR /home/$user
 RUN set -eux ; \
-    DEBIAN_FRONTEND=noninteractive apt install -y --no-install-recommends man manpages-posix
+    doas env DEBIAN_FRONTEND=noninteractive apt install -y --no-install-recommends man manpages-posix
 
 #
 # Install base packages
 #
-USER root
-WORKDIR /root
+USER $user
+WORKDIR /home/$user
 RUN set -eux ; \
-    DEBIAN_FRONTEND=noninteractive apt install -y --no-install-recommends less
+    doas env DEBIAN_FRONTEND=noninteractive apt install -y --no-install-recommends less
 
 #
 # Specify the login shell
