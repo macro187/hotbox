@@ -16,7 +16,7 @@ test -z "$hotbox_name" && hotbox_name="default"
 #
 # See if the container is already running...
 #
-container_id=$(docker ps -q --filter label=hotbox.name=default)
+container_id=$(docker ps -q --filter label=hotbox.name=$hotbox_name)
 
 
 #
