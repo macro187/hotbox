@@ -18,22 +18,28 @@ hotbox-setup
 Run all available setup scripts
 
 
+hotbox-setup-shell
+------------------
+
+TODO
+
+
 hotbox-setup-git
 ----------------
 
-TODO
+Install and configure Git
 
 
-hotbox-setup-shell
-------------------
+hotbox-setup-vim
+----------------
 
-TODO
+Install and configure Vim
 
 
-hotbox-setup-shell
-------------------
+hotbox-setup-vscode
+-------------------
 
-TODO
+Install and configure Visual Studio Code
 
 
 
