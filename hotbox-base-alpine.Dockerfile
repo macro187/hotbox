@@ -31,6 +31,16 @@ RUN set -eux ; \
     echo "permit nopass $user" >> /etc/doas.d/$user.conf
 
 #
+# Set up $home/bin
+#
+USER $user
+WORKDIR /home/$user
+RUN set -eux ; \
+    mkdir -p bin ; \
+    echo '' >> .profile ; \
+    echo 'PATH="$HOME/bin:$PATH"' >> .profile
+
+#
 # Set up man pages
 #
 USER $user
