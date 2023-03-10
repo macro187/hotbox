@@ -13,8 +13,7 @@ cd $HOME
 # Install vscode
 #
 install_ubuntu() {
-
-    # Download vscode .deb
+    # Download .deb
     if ! [ -f vscode.deb ] ; then
         echo_on
         doas env DEBIAN_FRONTEND=noninteractive apt install -y --no-install-recommends curl
@@ -22,13 +21,24 @@ install_ubuntu() {
         echo_off
     fi
 
+    # Install .deb
     echo_on
     # dpkg whinges if gpg isn't present
     doas env DEBIAN_FRONTEND=noninteractive apt install -y --no-install-recommends gpg
     doas env DEBIAN_FRONTEND=noninteractive apt install -y ./vscode.deb
     rm vscode.deb
     echo_off
+
+    # Write wrapper script
+    echo_on
+    cat > bin/code <<- "EOF"
+		#!/bin/sh
+		/usr/bin/code --no-sandbox --disable-gpu $@
+	EOF
+    chmod u+x bin/code
+    echo_off
 }
+
 
 if ! which code > /dev/null ; then
     info "Visual Studio Code not found on system, installing"
@@ -41,10 +51,3 @@ if ! which code > /dev/null ; then
             ;;
     esac
 fi
-
-
-#
-# TODO Set up wrapper in $home/.bin that does:
-#
-# /usr/bin/code --no-sandbox --disable-gpu $@
-#
