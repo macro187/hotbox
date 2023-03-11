@@ -108,3 +108,18 @@ hotbox-clean
 ------------
 
 Delete all hotbox container images
+
+
+
+License
+=======
+
+MIT License <https://github.com/macro187/cook/blob/master/license.txt>
+
+
+
+Copyright
+=========
+
+Copyright (c) 2023  
+Ron MacNeil <https://github.com/macro187>
