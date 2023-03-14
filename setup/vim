@@ -1,9 +1,9 @@
 #!/bin/sh
 set -eu
-hotbox=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd -P)
+HOTBOX=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd -P)
 
 
-. $hotbox/lib/sh.sh
+. $HOTBOX/lib/sh.sh
 
 
 #
@@ -47,7 +47,7 @@ fi
 if ! grep -qF 'conf/vimrc' .vimrc ; then
     info "No hotbox vimrc source found in .vimrc, prepending"
     cat .vimrc > .vimrc.old
-    echo "source $hotbox/conf/vimrc" > .vimrc
+    echo "source $HOTBOX/conf/vimrc" > .vimrc
     echo >> .vimrc
     cat .vimrc.old >> .vimrc
     rm .vimrc.old

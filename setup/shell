@@ -1,9 +1,9 @@
 #!/bin/sh
 set -eu
-hotbox=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd -P)
+HOTBOX=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd -P)
 
 
-. $hotbox/lib/sh.sh
+. $HOTBOX/lib/sh.sh
 
 
 find_first() {
@@ -80,7 +80,7 @@ fi
 if ! grep -qF 'conf/bashrc' .bashrc ; then
     info "No hotbox bashrc source found in .bashrc, adding"
     echo >> .bashrc
-    echo ". \"$hotbox/conf/bashrc\"" >> .bashrc
+    echo ". \"$HOTBOX/conf/bashrc\"" >> .bashrc
 fi
 
 #
@@ -99,7 +99,7 @@ fi
 if ! grep -qF 'conf/inputrc' .inputrc ; then
     info "No hotbox inputrc source found in .inputrc, prepending"
     cat .inputrc > .inputrc.old
-    echo "\$include $hotbox/conf/inputrc" > .inputrc
+    echo "\$include $HOTBOX/conf/inputrc" > .inputrc
     echo >> .inputrc
     cat .inputrc.old >> .inputrc
     rm .inputrc.old

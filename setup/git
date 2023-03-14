@@ -1,9 +1,9 @@
 #!/bin/sh
 set -eu
-hotbox=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd -P)
+HOTBOX=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd -P)
 
 
-. $hotbox/lib/sh.sh
+. $HOTBOX/lib/sh.sh
 
 
 #
@@ -48,7 +48,7 @@ if ! grep -qF 'conf/gitconfig' .gitconfig ; then
     info "No hotbox gitconfig include found in .gitconfig, prepending"
     cat .gitconfig > .gitconfig.old
     echo "[include]" > .gitconfig
-    echo "	path = $hotbox/conf/gitconfig" >> .gitconfig
+    echo "	path = $HOTBOX/conf/gitconfig" >> .gitconfig
     echo >> .gitconfig
     cat .gitconfig.old >> .gitconfig
     rm .gitconfig.old

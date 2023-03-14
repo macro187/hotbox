@@ -1,9 +1,9 @@
 #!/usr/bin/env sh
 set -eu
-hotbox=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd -P)
+HOTBOX=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd -P)
 
 
-. $hotbox/lib/sh.sh
+. $HOTBOX/lib/sh.sh
 
 
 distros="$*"
@@ -18,7 +18,7 @@ gid=$(current_gid)
 build() {
     local distro="$1" ; shift
 
-    $hotbox/lib/build-docker \
+    $HOTBOX/lib/build-docker \
         Dockerfile \
         hotbox-$distro \
         --label hotbox \

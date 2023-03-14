@@ -1,9 +1,9 @@
 #!/usr/bin/env sh
 set -eu
-hotbox=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd -P)
+HOTBOX=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd -P)
 
 
-. $hotbox/lib/sh.sh
+. $HOTBOX/lib/sh.sh
 
 
 dockerfile="$1" ; shift
@@ -19,6 +19,6 @@ docker build \
     -t $imagename \
     $@ \
     -f - \
-    $hotbox \
-    < $hotbox/lib/$dockerfile
+    $HOTBOX \
+    < $HOTBOX/lib/$dockerfile
 echo_off

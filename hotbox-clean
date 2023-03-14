@@ -1,9 +1,9 @@
 #!/usr/bin/env sh
 set -eu
-hotbox=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd -P)
+HOTBOX=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd -P)
 
 
-. $hotbox/lib/sh.sh
+. $HOTBOX/lib/sh.sh
 
 
 hotbox_images="$(docker image ls --filter label=hotbox -q)"

@@ -1,9 +1,9 @@
 #!/usr/bin/env sh
 set -eu
-hotbox=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd -P)
+HOTBOX=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd -P)
 
 
-. $hotbox/lib/sh.sh
+. $HOTBOX/lib/sh.sh
 
 
 distro="$1" ; shift
@@ -42,7 +42,7 @@ else
         workdir="$workdir/$hostdirname"
     fi
 
-    $hotbox/lib/run-docker \
+    $HOTBOX/lib/run-docker \
         --label hotbox.name=$hotbox_name \
         -e HOTBOX_NAME=$hotbox_name \
         -v $hostdir:$workdir \
