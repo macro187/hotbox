@@ -8,8 +8,8 @@ My workstation containers, setup scripts, and config files
 Setup Scripts
 =============
 
-The `hotbox-setup-` scripts set up various aspects of machines (physical,
-virtual, or container), sometimes according to my personal preferences.
+Setup scripts set up various aspects of machines (physical, virtual, or
+container), sometimes according to my personal preferences.
 
 They are written in portable posix shell, with specifics for the following Linux
 distributions:
@@ -26,7 +26,7 @@ Hotbox can build and run containers configured using the *Setup Scripts*.  These
 containers are equipped with:
 
 - The *hotbox* tools
-- Configured using the `hotbox-setup-` scripts
+- Configured using hotbox setup scripts
 - Basic command line tools including `git`, `vim`, etc.
 - `man` and man pages
 - An unpriviledged user matching the host user's name, uid, and gid

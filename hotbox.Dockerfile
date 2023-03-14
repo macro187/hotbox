@@ -21,10 +21,10 @@ RUN set -eux ; \
     export HOTBOX_USER="$HOTBOX_USER" ; \
     export HOTBOX_UID="$HOTBOX_UID" ; \
     export HOTBOX_GID="$HOTBOX_GID" ; \
-    /hotbox/hotbox-setup-container ; \
-    /hotbox/hotbox-setup-package-manager-cache ; \
-    /hotbox/hotbox-setup-user ; \
-    /hotbox/hotbox-setup-doas
+    /hotbox/setup/container ; \
+    /hotbox/setup/package-manager-cache ; \
+    /hotbox/setup/user ; \
+    /hotbox/setup/doas
 
 #
 # Run hotbox setup
@@ -32,13 +32,13 @@ RUN set -eux ; \
 USER $HOTBOX_USER:$HOTBOX_USER
 WORKDIR /home/$HOTBOX_USER
 RUN set -eux ; \
-    /hotbox/hotbox-setup-base-tools ; \
-    /hotbox/hotbox-setup-man ; \
-    /hotbox/hotbox-setup-user-bin ; \
-    /hotbox/hotbox-setup-shell ; \
-    /hotbox/hotbox-setup-git ; \
-    /hotbox/hotbox-setup-vim ; \
-    /hotbox/hotbox-setup-workspace
+    /hotbox/setup/base-tools ; \
+    /hotbox/setup/man ; \
+    /hotbox/setup/user-bin ; \
+    /hotbox/setup/shell ; \
+    /hotbox/setup/git ; \
+    /hotbox/setup/vim ; \
+    /hotbox/setup/workspace
 
 #
 # Default login user, shell, and location
