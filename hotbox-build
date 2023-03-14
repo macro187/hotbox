@@ -3,7 +3,7 @@ set -eu
 hotbox=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd -P)
 
 
-. $hotbox/hotbox-sh.sh
+. $hotbox/lib/sh.sh
 
 
 distros="$*"
@@ -18,8 +18,8 @@ gid=$(current_gid)
 build() {
     local distro="$1" ; shift
 
-    $hotbox/hotbox-docker-build \
-        hotbox \
+    $hotbox/lib/build-docker \
+        Dockerfile \
         hotbox-$distro \
         --label hotbox \
         --build-arg baseimage=$distro \

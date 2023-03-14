@@ -3,7 +3,7 @@ set -eu
 hotbox=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd -P)
 
 
-. $hotbox/hotbox-sh.sh
+. $hotbox/lib/sh.sh
 
 
 test -n "${HOTBOX_USER+x}" || die "HOTBOX_USER not set"

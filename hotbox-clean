@@ -3,7 +3,7 @@ set -eu
 hotbox=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd -P)
 
 
-. $hotbox/hotbox-sh.sh
+. $hotbox/lib/sh.sh
 
 
 hotbox_images="$(docker image ls --filter label=hotbox -q)"
