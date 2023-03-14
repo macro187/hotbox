@@ -1,0 +1,37 @@
+#!/bin/sh
+set -eu
+hotbox=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd -P)
+
+
+. $hotbox/hotbox-sh.sh
+
+
+test -n "${HOTBOX_USER+x}" || die "HOTBOX_USER not set"
+test -n "${HOTBOX_UID+x}" || die "HOTBOX_UID not set"
+test -n "${HOTBOX_GID+x}" || die "HOTBOX_GID not set"
+
+
+test "$(whoami)" = "root" || die "This script must be run as root"
+
+
+heading "Setting up doas"
+case $(current_distro) in
+
+    alpine)
+        echo_on
+        apk add doas
+        echo "permit nopass $HOTBOX_USER" >> /etc/doas.d/$HOTBOX_USER.conf
+        echo_off
+        ;;
+
+    ubuntu)
+        echo_on
+        DEBIAN_FRONTEND=noninteractive apt install -y --no-install-recommends doas
+        echo "permit nopass $HOTBOX_USER" >> /etc/doas.conf
+        echo_off
+        ;;
+
+    *)
+        echo "Don't know how to set up doas on $(current_distro) os"
+        ;;
+esac

@@ -8,67 +8,38 @@ My workstation containers, setup scripts, and config files
 Setup Scripts
 =============
 
-These set up various aspects of workstations (physical, virtual, or container)
-according to my preferences.
+The `hotbox-setup-` scripts set up various aspects of machines (physical,
+virtual, or container), sometimes according to my personal preferences.
 
-
-hotbox-setup
-------------
-
-Run all available setup scripts
-
-
-hotbox-setup-shell
-------------------
-
-TODO
-
-
-hotbox-setup-git
-----------------
-
-Install and configure Git
-
-
-hotbox-setup-vim
-----------------
-
-Install and configure Vim
-
-
-hotbox-setup-vscode
--------------------
-
-Install and configure Visual Studio Code
-
-
-
-Workstation Containers
-======================
-
-Workstation container implementations are available based on the following
-Linux distros:
+They are written in portable posix shell, with specifics for the following Linux
+distributions:
 
 - Alpine Linux
 - Ubuntu Linux
 
-Containers are equipped with:
 
-- Host Docker socket so Docker works
-- Host X11 socket so X11 applications work
-- Host `$TERM` setting
-- Non-root user matching the current host user
-- `doas` with passwordless root permission
-- `man` and man pages
+
+Containers
+==========
+
+Hotbox can build and run containers configured using the *Setup Scripts*.  These
+containers are equipped with:
+
 - The *hotbox* tools
-- Preconfigured using the `hotbox-setup` scripts
+- Configured using the `hotbox-setup-` scripts
 - Basic command line tools including `git`, `vim`, etc.
-- Host user's `.git-credentials`
-- Host startup directory mounted at `/workspace`
+- `man` and man pages
+- An unpriviledged user matching the host user's name, uid, and gid
+- The host user's `.git-credentials`
+- `doas` with passwordless root permission for the host user
+- The host Docker socket so Docker works
+- The host X11 socket so X11 applications work
+- The host `$TERM` setting
+- The host startup directory mounted under `/workspace`
 
 
-Host Requirements
------------------
+Host Machine Requirements
+-------------------------
 
 Docker.
 
@@ -94,9 +65,9 @@ Enter a workstation container.
 
 There can multiple workstation container instances running at the same time,
 distinguishable by name.  The `HOTBOX_NAME` environment variable specifies the
-name of the container to start or join (from outside any container) or
-indicates the current container's name (from inside a container).  The default
-container is named `default`.
+name of the container to start or join (from outside a hotbox container) or
+indicates the current container's name (from inside a hotbox container).  The
+default container is named `default`.
 
 If the named container is not already running, start it based on the specified
 DISTRO and then enter it in a login shell.

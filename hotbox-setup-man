@@ -1,0 +1,27 @@
+#!/bin/sh
+set -eu
+hotbox=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd -P)
+
+
+. $hotbox/hotbox-sh.sh
+
+
+heading "Setting up man pages"
+case $(current_distro) in
+
+    alpine)
+        echo_on
+        doas apk add mandoc mandoc-doc man-pages man-pages-posix
+        echo_off
+        ;;
+
+    ubuntu)
+        echo_on
+        doas env DEBIAN_FRONTEND=noninteractive apt install -y --no-install-recommends man manpages-posix
+        echo_off
+        ;;
+
+    *)
+        echo "Don't know how to set up man pages on $(current_distro) os"
+        ;;
+esac

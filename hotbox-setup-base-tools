@@ -1,0 +1,21 @@
+#!/bin/sh
+set -eu
+hotbox=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd -P)
+
+
+. $hotbox/hotbox-sh.sh
+
+
+heading "Setting up base tools"
+case $(current_distro) in
+
+    ubuntu)
+        echo_on
+        doas env DEBIAN_FRONTEND=noninteractive apt install -y --no-install-recommends less
+        echo_off
+        ;;
+
+    *)
+        echo "No base tools setup required on $(current_distro) os"
+        ;;
+esac

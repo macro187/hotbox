@@ -6,10 +6,6 @@ hotbox=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd -P)
 . $hotbox/hotbox-sh.sh
 
 
-imagename="$1" ; shift
-# (remaining arguments are passed to docker run)
-
-
 termopts=""
 if [ -n "${TERM:+x}" ] ; then
     termopts="-e TERM=$TERM"
@@ -36,7 +32,7 @@ if [ -f $HOME/.git-credentials ] ; then
 fi
 
 
-heading "Starting $imagename container"
+heading "Starting container"
 echo_on
 docker run \
     --ipc=host \
@@ -47,6 +43,5 @@ docker run \
     $x11sockopts \
     $displayopts \
     $gitcredentialsopts \
-    $@ \
-    $imagename
+    $@
 echo_off

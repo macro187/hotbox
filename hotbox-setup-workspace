@@ -1,0 +1,15 @@
+#!/bin/sh
+set -eu
+hotbox=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd -P)
+
+
+. $hotbox/hotbox-sh.sh
+
+
+heading "Setting up /workspace"
+user="$(current_user)"
+echo_on
+doas mkdir -p /workspace
+doas chown $user:$user /workspace
+doas chmod 755 /workspace
+echo_off

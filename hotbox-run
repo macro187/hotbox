@@ -43,9 +43,10 @@ else
     fi
 
     $hotbox/hotbox-docker-run \
-        hotbox-$distro \
         --label hotbox.name=$hotbox_name \
         -e HOTBOX_NAME=$hotbox_name \
         -v $hostdir:$workdir \
-        --workdir="$workdir"
+        --workdir="$workdir" \
+        hotbox-$distro \
+        /bin/sh -l
 fi

@@ -1,0 +1,28 @@
+#!/bin/sh
+set -eu
+hotbox=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd -P)
+
+
+. $hotbox/hotbox-sh.sh
+
+
+doas="doas"
+test "$(whoami)" = "root" && doas=""
+
+
+heading "Updating package manager database"
+case $(current_distro) in
+    alpine)
+        echo_on
+        $doas apk update
+        echo_off
+        ;;
+    ubuntu)
+        echo_on
+        $doas env DEBIAN_FRONTEND=noninteractive apt update
+        echo_off
+        ;;
+    *)
+        echo "Don't know how to update package manager database on $(current_distro) os"
+        ;;
+esac

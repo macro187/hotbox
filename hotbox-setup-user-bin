@@ -1,0 +1,21 @@
+#!/bin/sh
+set -eu
+hotbox=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd -P)
+
+
+. $hotbox/hotbox-sh.sh
+
+
+heading "Setting up $HOME/bin/"
+
+echo_on
+mkdir -p $HOME/bin
+echo_off
+
+case $(current_distro) in
+    alpine)
+        echo_on
+        echo 'PATH="$HOME/bin:$PATH"' >> .profile
+        echo_off
+        ;;
+esac

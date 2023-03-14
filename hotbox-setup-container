@@ -1,0 +1,23 @@
+#!/bin/sh
+set -eu
+hotbox=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd -P)
+
+
+. $hotbox/hotbox-sh.sh
+
+
+test -n "${HOTBOX_USER+x}" || die "HOTBOX_USER not set"
+test -n "${HOTBOX_UID+x}" || die "HOTBOX_UID not set"
+test -n "${HOTBOX_GID+x}" || die "HOTBOX_GID not set"
+
+
+test "$(whoami)" = "root" || die "This script must be run as root"
+
+
+#
+# Unminimize Ubuntu
+#
+if [ "$(current_distro)" = "ubuntu" ] ; then
+    heading "Unminimizing Ubuntu"
+    yes | unminimize
+fi
