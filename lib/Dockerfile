@@ -21,10 +21,10 @@ RUN set -eux ; \
     export HOTBOX_USER="$HOTBOX_USER" ; \
     export HOTBOX_UID="$HOTBOX_UID" ; \
     export HOTBOX_GID="$HOTBOX_GID" ; \
-    /hotbox/setup/container ; \
-    /hotbox/setup/package-manager-cache ; \
-    /hotbox/setup/user ; \
-    /hotbox/setup/doas
+    /hotbox/setup/early-container ; \
+    /hotbox/setup/early-package-manager-cache ; \
+    /hotbox/setup/early-user ; \
+    /hotbox/setup/early-doas
 
 #
 # Run hotbox setup
