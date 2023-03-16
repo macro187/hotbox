@@ -9,8 +9,7 @@ HOTBOX=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd -P)
 distro="$1" ; shift
 
 
-hotbox_name="${HOTBOX_NAME:+x}"
-test -z "$hotbox_name" && hotbox_name="default"
+hotbox_name="${HOTBOX_NAME:-default}"
 
 
 #

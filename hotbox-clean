@@ -15,3 +15,9 @@ if [ -n "$hotbox_images" ] ; then
     docker image rm $hotbox_images
     echo_off
 fi
+
+
+heading "Pruning hotbox container images"
+echo_on
+docker image prune -f --filter label=hotbox
+echo_off

@@ -6,8 +6,6 @@ HOTBOX=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd -P)
 . $HOTBOX/lib/sh.sh
 
 
-heading "Setting up $HOME/bin/"
-
 echo_on
 mkdir -p $HOME/bin
 echo_off

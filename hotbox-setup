@@ -1,0 +1,50 @@
+#!/usr/bin/env sh
+set -eu
+HOTBOX=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd -P)
+
+
+. $HOTBOX/lib/sh.sh
+
+
+HOTBOX_SPEC="${HOTBOX_SPEC:-}"
+HOTBOX_FEATURES="${HOTBOX_FEATURES:-}"
+
+
+early=false
+while test $# -gt 0 ; do
+    case $1 in
+        --early)
+            early=true
+            shift
+            ;;
+        *)
+            HOTBOX_SPEC="$1"
+            shift
+            test $# -eq 0 || die "Unexpected argument '$1'"
+            ;;
+    esac
+done
+
+
+. $HOTBOX/lib/source-spec.sh
+
+
+if $early ; then
+    test "$(current_user)" = "root" || die "Must be root to set up early features"
+
+    for feature in $HOTBOX_FEATURES ; do
+        test "${feature%%-*}" = "early" || continue
+
+        heading "Setting up $feature"
+        $HOTBOX/features/$feature
+    done
+
+
+else
+    for feature in $HOTBOX_FEATURES ; do
+        test "${feature%%-*}" != "early" || continue
+
+        heading "Setting up $feature"
+        $HOTBOX/features/$feature
+    done
+fi

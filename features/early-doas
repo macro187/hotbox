@@ -14,7 +14,6 @@ test -n "${HOTBOX_GID+x}" || die "HOTBOX_GID not set"
 test "$(whoami)" = "root" || die "This script must be run as root"
 
 
-heading "Setting up doas"
 case $(current_distro) in
 
     alpine)

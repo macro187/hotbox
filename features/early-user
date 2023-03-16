@@ -14,10 +14,7 @@ test -n "${HOTBOX_GID+x}" || die "HOTBOX_GID not set"
 test "$(whoami)" = "root" || die "This script must be run as root"
 
 
-#
-# Unminimize Ubuntu
-#
-if [ "$(current_distro)" = "ubuntu" ] ; then
-    heading "Unminimizing Ubuntu"
-    yes | unminimize
-fi
+echo_on
+addgroup --gid $HOTBOX_GID $HOTBOX_USER
+adduser --disabled-password --uid $HOTBOX_UID --ingroup $HOTBOX_USER $HOTBOX_USER
+echo_off

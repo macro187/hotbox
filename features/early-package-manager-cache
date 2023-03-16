@@ -7,10 +7,9 @@ HOTBOX=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd -P)
 
 
 doas="doas"
-test "$(whoami)" = "root" && doas=""
+if [ "$(whoami)" = "root" ] ; then doas="" ; fi
 
 
-heading "Updating package manager database"
 case $(current_distro) in
     alpine)
         echo_on

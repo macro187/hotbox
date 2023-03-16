@@ -1,0 +1,9 @@
+HOTBOX_FEATURES="
+    $HOTBOX_FEATURES
+    base-tools
+    man
+    user-bin
+    shell
+    git
+    vim
+"

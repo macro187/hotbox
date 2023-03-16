@@ -6,7 +6,6 @@ HOTBOX=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd -P)
 . $HOTBOX/lib/sh.sh
 
 
-heading "Setting up /workspace"
 user="$(current_user)"
 echo_on
 doas mkdir -p /workspace

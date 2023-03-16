@@ -6,7 +6,6 @@ HOTBOX=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd -P)
 . $HOTBOX/lib/sh.sh
 
 
-heading "Setting up base tools"
 case $(current_distro) in
 
     ubuntu)
