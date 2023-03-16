@@ -6,26 +6,60 @@ HOTBOX=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd -P)
 . $HOTBOX/lib/sh.sh
 
 
-distro="$1" ; shift
+HOTBOX_IMAGE="${HOTBOX_IMAGE:-}"
+HOTBOX_ID="${HOTBOX_ID:-default}"
 
 
-hotbox_name="${HOTBOX_NAME:-default}"
+while test $# -gt 0 ; do
+    case $1 in
+        *)
+            HOTBOX_IMAGE="hotbox-$1"
+            shift
+            test $# -eq 0 || die "Unexpected argument '$1'"
+            ;;
+    esac
+done
+
+
+test -n "$HOTBOX_IMAGE" || die "No HOTBOX_IMAGE specified"
+
+
+#
+# Get image information
+#
+image_id="$(docker image ls -q $HOTBOX_IMAGE)"
+test -n "image_id" || die "HOTBOX_IMAGE $HOTBOX_IMAGE not found"
+shell="$(docker inspect --format '{{ index .ContainerConfig.Labels "hotbox.shell"}}' $image_id)"
+test -n "$shell" || dir "No hotbox.shell label found on container image"
+workdir="$(docker inspect --format '{{ index .ContainerConfig.Labels "hotbox.workdir"}}' $image_id)"
+test -n "$workdir" || dir "No hotbox.workdir label found on container image"
 
 
 #
 # See if the container is already running...
 #
-container_id=$(docker ps -q --filter label=hotbox.name=$hotbox_name)
+container_id=$(docker ps -q --filter label=hotbox.id=$HOTBOX_ID)
 
 
 #
 # ...and if it is, join it...
 #
 if [ -n "$container_id" ] ; then
-    heading "Joining running $hotbox_name hotbox container"
-    container_cmd="$(docker inspect --format='{{range $i, $c := .Config.Cmd}}{{if $i}} {{end}}{{$c}}{{end}}' $container_id)"
+    heading "Joining running $HOTBOX_ID hotbox container $container_id"
+
+    container_image="$(docker inspect --format '{{ .Config.Image }}' $container_id)"
+    test "$container_image" = "$HOTBOX_IMAGE" || \
+        die "Running container image $container_image does not match HOTBOX_IMAGE $HOTBOX_IMAGE"
+
+    workdir="$(docker inspect --format '{{ index .Config.Labels "hotbox.workdir"}}' $container_id)"
+
     echo_on
-    docker exec -it $container_id $container_cmd
+    docker exec \
+        --interactive \
+        --tty \
+        --workdir $workdir \
+        $container_id \
+        $shell -l
     echo_off
 
 
@@ -33,19 +67,56 @@ if [ -n "$container_id" ] ; then
 # ...otherwise start it
 #
 else
+    heading "Starting $HOTBOX_ID hotbox from $HOTBOX_IMAGE image"
+
     hostdir="$(pwd)"
     hostdirname="${hostdir##*/}"
 
-    workdir=/workspace
     if [ -d .git ] ; then
         workdir="$workdir/$hostdirname"
     fi
 
-    $HOTBOX/lib/run-docker \
-        --label hotbox.name=$hotbox_name \
-        -e HOTBOX_NAME=$hotbox_name \
-        -v $hostdir:$workdir \
-        --workdir="$workdir" \
-        hotbox-$distro \
-        /bin/sh -l
+    termopts=""
+    if [ -n "${TERM:+x}" ] ; then
+        termopts="-e TERM=$TERM"
+    fi
+
+    dockersockopts=""
+    if [ -S /var/run/docker.sock ] ; then
+        dockersockopts="-v /var/run/docker.sock:/var/run/docker.sock"
+    fi
+
+    x11sockopts=""
+    if [ -d /tmp/.X11-unix ] ; then
+        x11sockopts="-v /tmp/.X11-unix:/tmp/.X11-unix"
+    fi
+
+    displayopts=""
+    if [ -n "${DISPLAY:+x}" ] ; then
+        displayopts="-e DISPLAY=$DISPLAY"
+    fi
+
+    gitcredentialsopts=""
+    if [ -f $HOME/.git-credentials ] ; then
+        gitcredentialsopts="-v $HOME/.git-credentials:/home/$(current_user)/.git-credentials"
+    fi
+
+    echo_on
+    docker run \
+        --ipc=host \
+        --rm \
+        -it \
+        $termopts \
+        $dockersockopts \
+        $x11sockopts \
+        $displayopts \
+        $gitcredentialsopts \
+        --label hotbox.id=$HOTBOX_ID \
+        --label hotbox.workdir=$workdir \
+        --env HOTBOX_ID=$HOTBOX_ID \
+        --volume $hostdir:$workdir \
+        --workdir $workdir \
+        $HOTBOX_IMAGE \
+        $shell -l
+    echo_off
 fi

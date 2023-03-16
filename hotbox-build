@@ -49,6 +49,8 @@ docker build \
     --progress plain \
     -t $HOTBOX_IMAGE \
     --label hotbox \
+    --label hotbox.shell=$HOTBOX_SHELL \
+    --label hotbox.workdir=$HOTBOX_WORKDIR \
     \
     --build-arg HOTBOX_SPEC=$HOTBOX_SPEC \
     \
