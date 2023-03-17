@@ -7,7 +7,6 @@ HOTBOX=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd -P)
 
 
 HOTBOX_SPEC="${HOTBOX_SPEC:-}"
-HOTBOX_FEATURES="${HOTBOX_FEATURES:-}"
 
 
 early=false
@@ -24,6 +23,9 @@ while test $# -gt 0 ; do
             ;;
     esac
 done
+
+
+test -n "$HOTBOX_SPEC" || die "No HOTBOX_SPEC specified"
 
 
 . $HOTBOX/lib/source-spec.sh

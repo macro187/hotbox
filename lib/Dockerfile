@@ -2,7 +2,6 @@ ARG HOTBOX_BASEIMAGE
 FROM $HOTBOX_BASEIMAGE
 
 ARG HOTBOX_SPEC
-ARG HOTBOX_FEATURES
 ARG HOTBOX_USER
 ARG HOTBOX_UID
 ARG HOTBOX_GID
@@ -17,7 +16,6 @@ RUN set -eu ; \
     echo "" >&2 ; \
     echo "==> Setting up early features as root" >&2 ; \
     export HOTBOX_SPEC="$HOTBOX_SPEC" ; \
-    export HOTBOX_FEATURES="$HOTBOX_FEATURES" ; \
     export HOTBOX_USER="$HOTBOX_USER" ; \
     export HOTBOX_UID="$HOTBOX_UID" ; \
     export HOTBOX_GID="$HOTBOX_GID" ; \
@@ -29,7 +27,6 @@ RUN set -eu ; \
     echo "" >&2 ; \
     echo "==> Setting up features as $HOTBOX_USER" >&2 ; \
     export HOTBOX_SPEC="$HOTBOX_SPEC" ; \
-    export HOTBOX_FEATURES="$HOTBOX_FEATURES" ; \
     export HOTBOX_USER="$HOTBOX_USER" ; \
     export HOTBOX_UID="$HOTBOX_UID" ; \
     export HOTBOX_GID="$HOTBOX_GID" ; \

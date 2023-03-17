@@ -6,17 +6,7 @@ HOTBOX=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd -P)
 . $HOTBOX/lib/sh.sh
 
 
-HOTBOX_SPEC="${HOTBOX_SPEC:-}"
-HOTBOX_IMAGE="${HOTBOX_IMAGE:-}"
-
-HOTBOX_BASEIMAGE="${HOTBOX_BASEIMAGE:-}"
-HOTBOX_FEATURES="${HOTBOX_FEATURES:-}"
-HOTBOX_SHELL="${HOTBOX_SHELL:-}"
-HOTBOX_WORKDIR="${HOTBOX_WORKDIR:-}"
-
-HOTBOX_USER="$(current_user)"
-HOTBOX_UID="$(current_uid)"
-HOTBOX_GID="$(current_gid)"
+HOTBOX_SPEC="${HOTBOX_SPEC:-alpine}"
 
 
 while test $# -gt 0 ; do
@@ -30,16 +20,16 @@ while test $# -gt 0 ; do
 done
 
 
-features="$(echo $HOTBOX_FEATURES)"
 . $HOTBOX/lib/source-spec.sh
-HOTBOX_FEATURES="$features"
+test -n "$HOTBOX_BASEIMAGE" || die "No HOTBOX_BASEIMAGE specified in $HOTBOX_SPEC spec"
+test -n "$HOTBOX_SHELL" || die "No HOTBOX_SHELL specified in $HOTBOX_SPEC spec"
+test -n "$HOTBOX_WORKDIR" || die "No HOTBOX_WORKDIR specified in $HOTBOX_SPEC spec"
 
 
-HOTBOX_IMAGE="${HOTBOX_IMAGE:-hotbox-$HOTBOX_SPEC}"
-test -n "$HOTBOX_IMAGE" || die "No HOTBOX_IMAGE or HOTBOX_SPEC specified"
-test -n "$HOTBOX_BASEIMAGE" || die "No HOTBOX_BASEIMAGE specified"
-test -n "$HOTBOX_SHELL" || die "No HOTBOX_SHELL specified"
-test -n "$HOTBOX_WORKDIR" || die "No HOTBOX_WORKDIR specified"
+HOTBOX_IMAGE="hotbox-$HOTBOX_SPEC"
+HOTBOX_USER="$(current_user)"
+HOTBOX_UID="$(current_uid)"
+HOTBOX_GID="$(current_gid)"
 
 
 heading "Building $HOTBOX_IMAGE container image"
@@ -52,16 +42,13 @@ docker build \
     --label hotbox.shell=$HOTBOX_SHELL \
     --label hotbox.workdir=$HOTBOX_WORKDIR \
     \
-    --build-arg HOTBOX_SPEC=$HOTBOX_SPEC \
-    \
     --build-arg HOTBOX_BASEIMAGE=$HOTBOX_BASEIMAGE \
-    --build-arg HOTBOX_FEATURES="$HOTBOX_FEATURES" \
-    --build-arg HOTBOX_SHELL=$HOTBOX_SHELL \
-    --build-arg HOTBOX_WORKDIR=$HOTBOX_WORKDIR \
-    \
+    --build-arg HOTBOX_SPEC=$HOTBOX_SPEC \
     --build-arg HOTBOX_USER=$HOTBOX_USER \
     --build-arg HOTBOX_UID=$HOTBOX_UID \
     --build-arg HOTBOX_GID=$HOTBOX_GID \
+    --build-arg HOTBOX_SHELL=$HOTBOX_SHELL \
+    --build-arg HOTBOX_WORKDIR=$HOTBOX_WORKDIR \
     -f - \
     $HOTBOX \
     < $HOTBOX/lib/Dockerfile
@@ -70,6 +57,5 @@ echo_off
 
 heading "Pruning hotbox container images"
 echo_on
-# Add -a to also prune unorphaned intermediate images
 docker image prune -f --filter label=hotbox
 echo_off

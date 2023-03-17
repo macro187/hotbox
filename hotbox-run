@@ -6,14 +6,14 @@ HOTBOX=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd -P)
 . $HOTBOX/lib/sh.sh
 
 
-HOTBOX_IMAGE="${HOTBOX_IMAGE:-}"
+HOTBOX_SPEC="${HOTBOX_SPEC:-alpine}"
 HOTBOX_ID="${HOTBOX_ID:-default}"
 
 
 while test $# -gt 0 ; do
     case $1 in
         *)
-            HOTBOX_IMAGE="hotbox-$1"
+            HOTBOX_SPEC="$1"
             shift
             test $# -eq 0 || die "Unexpected argument '$1'"
             ;;
@@ -21,14 +21,15 @@ while test $# -gt 0 ; do
 done
 
 
-test -n "$HOTBOX_IMAGE" || die "No HOTBOX_IMAGE specified"
+test -n "$HOTBOX_SPEC" || die "No HOTBOX_SPEC specified"
+HOTBOX_IMAGE="hotbox-$HOTBOX_SPEC"
 
 
 #
 # Get image information
 #
 image_id="$(docker image ls -q $HOTBOX_IMAGE)"
-test -n "image_id" || die "HOTBOX_IMAGE $HOTBOX_IMAGE not found"
+test -n "$image_id" || die "HOTBOX_IMAGE $HOTBOX_IMAGE not found"
 shell="$(docker inspect --format '{{ index .ContainerConfig.Labels "hotbox.shell"}}' $image_id)"
 test -n "$shell" || dir "No hotbox.shell label found on container image"
 workdir="$(docker inspect --format '{{ index .ContainerConfig.Labels "hotbox.workdir"}}' $image_id)"
