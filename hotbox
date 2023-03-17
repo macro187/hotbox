@@ -1,0 +1,33 @@
+#!/usr/bin/env sh
+set -eu
+HOTBOX=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd -P)
+
+
+. $HOTBOX/lib/sh.sh
+
+
+HOTBOX_SPEC="${HOTBOX_SPEC:-alpine}"
+
+
+while test $# -gt 0 ; do
+    case $1 in
+        *)
+            HOTBOX_SPEC="$1"
+            shift
+            test $# -eq 0 || die "Unexpected argument '$1'"
+            ;;
+    esac
+done
+
+
+test -n "$HOTBOX_SPEC" || die "No HOTBOX_SPEC specified"
+HOTBOX_IMAGE="hotbox-$HOTBOX_SPEC"
+
+
+image_id="$(docker image ls -q $HOTBOX_IMAGE)"
+if [ -z "$image_id" ] ; then
+    $HOTBOX/hotbox-build $HOTBOX_SPEC
+fi
+
+
+$HOTBOX/hotbox-run $HOTBOX_SPEC
