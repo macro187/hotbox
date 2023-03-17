@@ -30,6 +30,7 @@ HOTBOX_IMAGE="hotbox-$HOTBOX_SPEC"
 HOTBOX_USER="$(current_user)"
 HOTBOX_UID="$(current_uid)"
 HOTBOX_GID="$(current_gid)"
+HOTBOX_DOCKER_GID="$(getent group docker | cut -d: -f3)"
 
 
 heading "Building $HOTBOX_IMAGE container image"
@@ -47,6 +48,7 @@ docker build \
     --build-arg HOTBOX_USER=$HOTBOX_USER \
     --build-arg HOTBOX_UID=$HOTBOX_UID \
     --build-arg HOTBOX_GID=$HOTBOX_GID \
+    --build-arg HOTBOX_DOCKER_GID=$HOTBOX_DOCKER_GID \
     --build-arg HOTBOX_SHELL=$HOTBOX_SHELL \
     --build-arg HOTBOX_WORKDIR=$HOTBOX_WORKDIR \
     -f - \

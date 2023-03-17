@@ -4,6 +4,7 @@ HOTBOX_FEATURES="
     man
     user-bin
     shell
+    docker-cli
     git
     vim
 "

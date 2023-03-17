@@ -5,6 +5,7 @@ ARG HOTBOX_SPEC
 ARG HOTBOX_USER
 ARG HOTBOX_UID
 ARG HOTBOX_GID
+ARG HOTBOX_DOCKER_GID
 ARG HOTBOX_SHELL
 ARG HOTBOX_WORKDIR
 
@@ -19,9 +20,10 @@ RUN set -eu ; \
     export HOTBOX_USER="$HOTBOX_USER" ; \
     export HOTBOX_UID="$HOTBOX_UID" ; \
     export HOTBOX_GID="$HOTBOX_GID" ; \
+    export HOTBOX_DOCKER_GID="$HOTBOX_DOCKER_GID" ; \
     /hotbox/hotbox-setup --early
 
-USER $HOTBOX_USER:$HOTBOX_USER
+USER $HOTBOX_USER
 WORKDIR /home/$HOTBOX_USER
 RUN set -eu ; \
     echo "" >&2 ; \
@@ -30,8 +32,9 @@ RUN set -eu ; \
     export HOTBOX_USER="$HOTBOX_USER" ; \
     export HOTBOX_UID="$HOTBOX_UID" ; \
     export HOTBOX_GID="$HOTBOX_GID" ; \
+    export HOTBOX_DOCKER_GID="$HOTBOX_DOCKER_GID" ; \
     /hotbox/hotbox-setup
 
-USER $HOTBOX_USER:$HOTBOX_USER
+USER $HOTBOX_USER
 CMD ["$HOTBOX_SHELL", "-l" ]
 WORKDIR $HOTBOX_WORKDIR

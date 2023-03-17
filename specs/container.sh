@@ -5,6 +5,7 @@ HOTBOX_FEATURES="
     early-container
     early-package-manager-cache
     early-user
+    early-docker-group
     early-doas
     workspace
 "
