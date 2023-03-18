@@ -69,7 +69,7 @@ case $- in
       *) return;;
 esac
 EOF
-    cat >> .bashrc
+    echo >> .bashrc
     cat .bashrc.old >> .bashrc
     rm .bashrc.old
 fi
