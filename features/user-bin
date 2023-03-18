@@ -6,6 +6,9 @@ HOTBOX=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd -P)
 . $HOTBOX/lib/sh.sh
 
 
+cd $HOME
+
+
 echo_on
 mkdir -p $HOME/bin
 echo_off
@@ -13,6 +16,7 @@ echo_off
 case $(current_distro) in
     alpine)
         echo_on
+        echo >> .profile
         echo 'PATH="$HOME/bin:$PATH"' >> .profile
         echo_off
         ;;
