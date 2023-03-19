@@ -148,12 +148,16 @@ Enter a hotbox container
 ### Synopsis
 
 ```
-hotbox-run <spec> <name> [<command> [<arg>...]]
+hotbox-run [--volume <volume>] <spec> <name> [<command> [<arg>...]]
 ```
 
 ### Options
 
 ```
+--volume <hostpath>:<containerpath>
+    Mount the specified <hostpath> into the container at <containerpath>.  Can
+    be specified more than once.
+
 <spec>
     The hotbox spec to run.
 

@@ -6,8 +6,36 @@ HOTBOX=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd -P)
 . $HOTBOX/lib/sh.sh
 
 
+volume1=""
+volume2=""
+volume3=""
 HOTBOX_SPEC=""
 HOTBOX_NAME=""
+
+while test $# -gt 0 ; do
+    case $1 in
+        --volume)
+            shift
+            test $# -gt 0 || die "Expected <volume>"
+            if [ -z "$volume1" ] ; then
+                volume1="$1"
+            elif [ -z "$volume2" ] ; then
+                volume2="$1"
+            elif [ -z "$volume3" ] ; then
+                volume3="$1"
+            else
+                die "Too many --volume's"
+            fi
+            shift
+            ;;
+        -*)
+            die "Unrecognised option '$1'"
+            ;;
+        *)
+            break
+            ;;
+    esac
+done
 
 test $# -gt 0 || die "Expected <spec>"
 HOTBOX_SPEC="$1" ; shift
@@ -99,7 +127,13 @@ if [ -z "$container_id" ] ; then
         --env HOTBOX_NAME=$HOTBOX_NAME \
         --volume $hostdir:$workdir \
         --workdir $workdir \
+        \
+        ${volume1:+--volume} $volume1 \
+        ${volume2:+--volume} $volume2 \
+        ${volume3:+--volume} $volume3 \
+        \
         $HOTBOX_IMAGE \
+        \
         $@
     echo_off
 
