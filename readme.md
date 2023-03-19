@@ -48,7 +48,7 @@ hotbox-setup [--early] <spec>
 
 ```
 --early
-    Set up early features instead of regular ones.  Must be run as *root*.
+    Set up early features instead of regular ones.  Must be run as root.
 
 <spec>
     The spec to set up features according to.
@@ -96,12 +96,6 @@ hotbox
 
 Enter a hotbox container
 
-If an image for `<spec>` doesn't exist, build it.
-
-If a container with `<name>` is not running, start one in a new login shell.
-
-If a container with `<name>` is already running, join it in a new login shell.
-
 ### Synopsis
 
 ```
@@ -115,8 +109,16 @@ hotbox [<spec> [<name>]]
     The spec of the container to enter.  Default "alpine".
 
 <name>
-    The name of the container to enter.  Default "default-<spec>".
+    The name of the container to enter.  Default same as spec.
 ```
+
+### Description
+
+If an image for `<spec>` doesn't exist, build it.
+
+If a container with `<name>` is not running, start one in a new login shell.
+
+If a container with `<name>` is already running, join it in a new login shell.
 
 
 hotbox-build
@@ -134,7 +136,7 @@ hotbox-build <spec>
 
 ```
 <spec>
-    The spec to build.  Default `alpine`.
+    The spec to build.
 ```
 
 
@@ -142,10 +144,6 @@ hotbox-run
 ----------
 
 Enter a hotbox container
-
-If a container with the name is not running, start it.
-
-If a container with the name is already running, join it.
 
 ### Synopsis
 
@@ -157,19 +155,26 @@ hotbox-run <spec> <name> [<command> [<arg>...]]
 
 ```
 <spec>
-    The hotbox spec to run.  Default "alpine".
+    The hotbox spec to run.
 
 <name>
     The name to assign to the container, or the name of the existing container
-    to join.  Default same as <spec>.
+    to join.
 
 <command>
     The command to run in the container.  Default the shell specified in the
     <spec>.
 
 <arg>
-    Argument(s) to <command>.  Default "-l".
+    Argument(s) to <command>.  Default the shell argument specified in the
+    <spec>.
 ```
+
+### Description
+
+If a container with the name is not running, start it.
+
+If a container with the name is already running, join it.
 
 
 hotbox-clean
