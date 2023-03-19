@@ -1,9 +1,9 @@
 HOTBOX_FEATURES="
     $HOTBOX_FEATURES
+    shell
+    user-bin
     base-tools
     man
-    user-bin
-    shell
     docker-cli
     git
     vim
