@@ -10,6 +10,7 @@ early=false
 while test $# -gt 0 ; do
     case $1 in
         --early)
+            shift
             early=true
             ;;
         -*)
@@ -19,7 +20,6 @@ while test $# -gt 0 ; do
             break
             ;;
     esac
-    shift
 done
 
 test $# -gt 0 || die "Expected <spec>"
