@@ -8,6 +8,12 @@ HOTBOX=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd -P)
 
 case $(current_distro) in
 
+    alpine)
+        echo_on
+        doas apk add less less-doc
+        echo_off
+        ;;
+
     ubuntu)
         echo_on
         doas env DEBIAN_FRONTEND=noninteractive apt install -y --no-install-recommends less
