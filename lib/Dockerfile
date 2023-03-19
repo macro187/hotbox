@@ -16,24 +16,24 @@ WORKDIR /root
 RUN set -eu ; \
     echo "" >&2 ; \
     echo "==> Setting up early features as root" >&2 ; \
-    export HOTBOX_SPEC="$HOTBOX_SPEC" ; \
+    set -x ; \
     export HOTBOX_USER="$HOTBOX_USER" ; \
     export HOTBOX_UID="$HOTBOX_UID" ; \
     export HOTBOX_GID="$HOTBOX_GID" ; \
     export HOTBOX_DOCKER_GID="$HOTBOX_DOCKER_GID" ; \
-    /hotbox/hotbox-setup --early
+    /hotbox/hotbox-setup --early $HOTBOX_SPEC
 
 USER $HOTBOX_USER
 WORKDIR /home/$HOTBOX_USER
 RUN set -eu ; \
     echo "" >&2 ; \
     echo "==> Setting up features as $HOTBOX_USER" >&2 ; \
-    export HOTBOX_SPEC="$HOTBOX_SPEC" ; \
+    set -x ; \
     export HOTBOX_USER="$HOTBOX_USER" ; \
     export HOTBOX_UID="$HOTBOX_UID" ; \
     export HOTBOX_GID="$HOTBOX_GID" ; \
     export HOTBOX_DOCKER_GID="$HOTBOX_DOCKER_GID" ; \
-    /hotbox/hotbox-setup
+    /hotbox/hotbox-setup $HOTBOX_SPEC
 
 USER $HOTBOX_USER
 CMD ["$HOTBOX_SHELL", "-l" ]

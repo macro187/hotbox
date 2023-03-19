@@ -6,31 +6,37 @@ HOTBOX=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd -P)
 . $HOTBOX/lib/sh.sh
 
 
-HOTBOX_SPEC="${HOTBOX_SPEC:-}"
-
-
 early=false
 while test $# -gt 0 ; do
     case $1 in
         --early)
             early=true
-            shift
+            ;;
+        -*)
+            die "Unrecognised option '$1'"
             ;;
         *)
-            HOTBOX_SPEC="$1"
-            shift
-            test $# -eq 0 || die "Unexpected argument '$1'"
+            break
             ;;
     esac
+    shift
 done
 
+test $# -gt 0 || die "Expected <spec>"
+HOTBOX_SPEC="$1" ; shift
 
-test -n "$HOTBOX_SPEC" || die "No HOTBOX_SPEC specified"
+test $# -eq 0 || die "Unexpected argument '$1'"
 
 
+#
+# Read features from spec
+#
 . $HOTBOX/lib/source-spec.sh
 
 
+#
+# Set up features
+#
 if $early ; then
     test "$(current_user)" = "root" || die "Must be root to set up early features"
 
@@ -40,8 +46,6 @@ if $early ; then
         heading "Setting up $feature"
         $HOTBOX/features/$feature
     done
-
-
 else
     for feature in $HOTBOX_FEATURES ; do
         test "${feature%%-*}" != "early" || continue

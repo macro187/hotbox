@@ -6,26 +6,24 @@ HOTBOX=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd -P)
 . $HOTBOX/lib/sh.sh
 
 
-HOTBOX_SPEC="${HOTBOX_SPEC:-alpine}"
+test $# -gt 0 || die "Expected <spec>"
+HOTBOX_SPEC="$1" ; shift
+
+test $# -eq 0 || die "Unexpected argument '$1'"
 
 
-while test $# -gt 0 ; do
-    case $1 in
-        *)
-            HOTBOX_SPEC="$1"
-            shift
-            test $# -eq 0 || die "Unexpected argument '$1'"
-            ;;
-    esac
-done
-
-
+#
+# Read container information from <spec>
+#
 . $HOTBOX/lib/source-spec.sh
 test -n "$HOTBOX_BASEIMAGE" || die "No HOTBOX_BASEIMAGE specified in $HOTBOX_SPEC spec"
 test -n "$HOTBOX_SHELL" || die "No HOTBOX_SHELL specified in $HOTBOX_SPEC spec"
 test -n "$HOTBOX_WORKDIR" || die "No HOTBOX_WORKDIR specified in $HOTBOX_SPEC spec"
 
 
+#
+# Work out additional container information
+#
 HOTBOX_IMAGE="hotbox-$HOTBOX_SPEC"
 HOTBOX_USER="$(current_user)"
 HOTBOX_UID="$(current_uid)"
@@ -33,6 +31,9 @@ HOTBOX_GID="$(current_gid)"
 HOTBOX_DOCKER_GID="$(getent group docker | cut -d: -f3)"
 
 
+#
+# Build container image
+#
 heading "Building $HOTBOX_IMAGE container image"
 echo_on
 PROGRESS_NO_TRUNC=1 \
@@ -57,6 +58,9 @@ docker build \
 echo_off
 
 
+#
+# Clean up unused intermediate container images
+#
 heading "Pruning hotbox container images"
 echo_on
 docker image prune -f --filter label=hotbox

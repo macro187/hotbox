@@ -29,48 +29,58 @@ features as *root*.
 Specs
 =====
 
-*Specs* are named specifications of sets of features and other information.
+*Specs* are named sets of features tailored to different workstation use cases.
+They are defined in shell scripts in the `specs/` subdirectory.
 
 
-hotbox-setup [--early] SPEC
----------------------------
+hotbox-setup
+------------
 
-Set up features from `SPEC`
+Set up features according to a spec
+
+### Synopsis
+
+```
+hotbox-setup [--early] <spec>
+```
 
 ### Options
 
-`--early` - Set up early features instead of regular ones.  Must be run as
-            *root*.
+```
+--early
+    Set up early features instead of regular ones.  Must be run as *root*.
 
-`SPEC` - The spec to set up features from.
-
-### Environment
-
-`HOTBOX_SPEC` - The spec to set up features from.  Overridden by `SPEC` option.
+<spec>
+    The spec to set up features according to.
+```
 
 
 
 Containers
 ==========
 
-Hotbox can build and run containers with *Features* configured according to
-*Specs*.  These containers are equipped with:
+Hotbox can build and run containers configured with *features* according to
+*specs*.  In addition to functionality provided by the features, these
+containers are equipped with:
 
-- The *hotbox* tools
-- Configured using hotbox feature scripts
-- Basic command line tools including `git`, `vim`, etc.
-- `man` and man pages
-- An unpriviledged user matching the host user's name, uid, and gid
-- The host user's `.git-credentials`
-- `doas` with passwordless root permission for the host user
+- The *hotbox* tools mounted at `/hotbox`
 - The host Docker socket so Docker works
 - The host X11 socket so X11 applications work
+- The host user's `.git-credentials`
 - The host `$TERM` setting
-- The host startup directory mounted under `/workspace`
+- The current host directory mounted at (or under) `/workspace` (or a similar
+  location)
+
+Hotbox containers are identified primarily by the spec they derive from.  A spec
+named *foo* and its related image and containers can all be loosely referred to
+as *the foo hotbox* or *a foo hotbox*.
+
+In addition, hotbox attaches names to containers to identify them and to
+distinguish amongst multiple containers from the same spec.
 
 
-Host Machine Requirements
--------------------------
+Host Requirements
+-----------------
 
 Docker.
 
@@ -81,61 +91,85 @@ the host X server.  This can be done manually each session or prepended to
     xhost +
 
 
-hotbox [SPEC]
--------------
+hotbox
+------
 
-Enter a workstation container built from `SPEC`, building it if necessary
+Enter a hotbox container
 
-### Options
+If an image for `<spec>` doesn't exist, build it.
 
-`SPEC` - The spec to build and/or enter.  Default `alpine`.
+If a container with `<name>` is not running, start one in a new login shell.
 
-### Environment
+If a container with `<name>` is already running, join it in a new login shell.
 
-`HOTBOX_SPEC` - The spec to build and/or enter.  Overridden by `SPEC` option.
+### Synopsis
 
-
-hotbox-build [SPEC]
--------------------
-
-Build a workstation container image from `SPEC`
+```
+hotbox [<spec> [<name>]]
+```
 
 ### Options
 
-`SPEC` - The spec to build.  Default `alpine`.
+```
+<spec>
+    The spec of the container to enter.  Default "alpine".
 
-### Environment
+<name>
+    The name of the container to enter.  Default "default-<spec>".
+```
 
-`HOTBOX_SPEC` - The spec to build.  Overridden by `SPEC` option.
 
+hotbox-build
+------------
 
-hotbox-run [SPEC]
------------------
+Build a hotbox container image from a spec
 
-Enter the workstation container built from `SPEC`
+### Synopsis
 
-There can multiple workstation container instances running at the same time,
-distinguishable by name.  The `HOTBOX_ID` environment variable specifies the
-unique ID of the container to start or join (from outside a hotbox container) or
-indicates the current container's ID (from inside a hotbox container).  The
-default container ID is `default`.
-
-If the container with the specified ID is not already running, start it from the
-specified SPEC and then enter it in a login shell.
-
-If the container with the specified ID is already running, enter it in a new
-login shell.
+```
+hotbox-build <spec>
+```
 
 ### Options
 
-`SPEC` - The spec to run.  Default `alpine`.
+```
+<spec>
+    The spec to build.  Default `alpine`.
+```
 
-### Environment
 
-`HOTBOX_SPEC` - The spec to run.  Overridden by `SPEC` option.
+hotbox-run
+----------
 
-`HOTBOX_ID` - Unique identifier of container instance to run.  Default
-              `default`.
+Enter a hotbox container
+
+If a container with the name is not running, start it.
+
+If a container with the name is already running, join it.
+
+### Synopsis
+
+```
+hotbox-run <spec> <name> [<command> [<arg>...]]
+```
+
+### Options
+
+```
+<spec>
+    The hotbox spec to run.  Default "alpine".
+
+<name>
+    The name to assign to the container, or the name of the existing container
+    to join.  Default same as <spec>.
+
+<command>
+    The command to run in the container.  Default the shell specified in the
+    <spec>.
+
+<arg>
+    Argument(s) to <command>.  Default "-l".
+```
 
 
 hotbox-clean
