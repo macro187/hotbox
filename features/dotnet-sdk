@@ -25,3 +25,9 @@ if ! which dotnet > /dev/null ; then
             ;;
     esac
 fi
+
+
+info "Shutting up dotnet welcome message"
+echo_on
+dotnet help &> /dev/null
+echo_off
