@@ -42,6 +42,7 @@ docker build \
     -t $HOTBOX_IMAGE \
     --label hotbox \
     --label hotbox.shell=$HOTBOX_SHELL \
+    --label hotbox.shellarg=$HOTBOX_SHELLARG \
     --label hotbox.workdir=$HOTBOX_WORKDIR \
     \
     --build-arg HOTBOX_BASEIMAGE=$HOTBOX_BASEIMAGE \
@@ -50,7 +51,6 @@ docker build \
     --build-arg HOTBOX_UID=$HOTBOX_UID \
     --build-arg HOTBOX_GID=$HOTBOX_GID \
     --build-arg HOTBOX_DOCKER_GID=$HOTBOX_DOCKER_GID \
-    --build-arg HOTBOX_SHELL=$HOTBOX_SHELL \
     --build-arg HOTBOX_WORKDIR=$HOTBOX_WORKDIR \
     -f - \
     $HOTBOX \

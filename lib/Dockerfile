@@ -6,7 +6,6 @@ ARG HOTBOX_USER
 ARG HOTBOX_UID
 ARG HOTBOX_GID
 ARG HOTBOX_DOCKER_GID
-ARG HOTBOX_SHELL
 ARG HOTBOX_WORKDIR
 
 COPY --chown=$HOTBOX_UID:$HOTBOX_GID / /hotbox
@@ -35,6 +34,9 @@ RUN set -eu ; \
     export HOTBOX_DOCKER_GID="$HOTBOX_DOCKER_GID" ; \
     /hotbox/hotbox-setup $HOTBOX_SPEC
 
+#
+# Set some reasonable defaults even though hotbox-run specifies these explicitly
+#
 USER $HOTBOX_USER
-CMD ["$HOTBOX_SHELL", "-l" ]
 WORKDIR $HOTBOX_WORKDIR
+CMD ["/bin/sh", "-l"]
