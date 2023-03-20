@@ -99,7 +99,7 @@ Enter a hotbox container
 ### Synopsis
 
 ```
-hotbox [<spec> [<name>]]
+hotbox [<spec> [<name>]] [-- [<command> [<arg>...]]
 ```
 
 ### Options
@@ -110,6 +110,12 @@ hotbox [<spec> [<name>]]
 
 <name>
     The name of the container to enter.  Default same as spec.
+
+<command>
+    The command to run in the container instead of a login shell.
+
+<arg>
+    Argument to <command>
 ```
 
 ### Description

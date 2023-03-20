@@ -9,14 +9,23 @@ HOTBOX=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd -P)
 spec=""
 
 if [ $# -gt 0 ] ; then
-    spec="$1" ; shift
+    if [ "$1" != "--" ] ; then
+        spec="$1" ; shift
+    fi
 fi
 
 if [ $# -gt 0 ] ; then
-    name="$1" ; shift
+    if [ "$1" != "--" ] ; then
+        name="$1" ; shift
+    fi
 fi
 
-test $# -eq 0 || die "Unexpected argument '$1'"
+if [ $# -gt 0 ] ; then
+    test "$1" = "--" || die "Unexpected argument '$1'"
+    shift
+fi
+
+# Remaining arguments are <command> and <args> to run in container
 
 
 spec="${spec:-alpine}"
@@ -30,4 +39,4 @@ if [ -z "$image_id" ] ; then
 fi
 
 
-$HOTBOX/hotbox-run $spec $name
+$HOTBOX/hotbox-run $spec $name $@
