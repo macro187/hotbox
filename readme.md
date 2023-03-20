@@ -99,12 +99,16 @@ Enter a hotbox container
 ### Synopsis
 
 ```
-hotbox [<spec> [<name>]] [-- [<command> [<arg>...]]
+hotbox [--volume <volume>] [<spec> [<name>]] [-- [<command> [<arg>...]]
 ```
 
 ### Options
 
 ```
+--volume <hostpath>:<containerpath>
+    Mount the specified <hostpath> into the container at <containerpath>.  Can
+    be specified more than once.
+
 <spec>
     The spec of the container to enter.  Default "alpine".
 
