@@ -1,14 +1,14 @@
-ARG HOTBOX_BASEIMAGE
-FROM $HOTBOX_BASEIMAGE
+ARG baseimage
+FROM $baseimage
 
-ARG HOTBOX_SPEC
-ARG HOTBOX_USER
-ARG HOTBOX_UID
-ARG HOTBOX_GID
-ARG HOTBOX_DOCKER_GID
-ARG HOTBOX_WORKDIR
+ARG spec
+ARG user
+ARG uid
+ARG gid
+ARG docker_gid
+ARG workdir
 
-COPY --chown=$HOTBOX_UID:$HOTBOX_GID / /hotbox
+COPY --chown=$uid:$gid / /hotbox
 
 USER root
 WORKDIR /root
@@ -16,27 +16,27 @@ RUN set -eu ; \
     echo "" >&2 ; \
     echo "==> Setting up early features as root" >&2 ; \
     set -x ; \
-    export HOTBOX_USER="$HOTBOX_USER" ; \
-    export HOTBOX_UID="$HOTBOX_UID" ; \
-    export HOTBOX_GID="$HOTBOX_GID" ; \
-    export HOTBOX_DOCKER_GID="$HOTBOX_DOCKER_GID" ; \
-    /hotbox/hotbox-setup --early $HOTBOX_SPEC
+    export HOTBOX_USER="$user" ; \
+    export HOTBOX_UID="$uid" ; \
+    export HOTBOX_GID="$gid" ; \
+    export HOTBOX_DOCKER_GID="$docker_gid" ; \
+    /hotbox/hotbox-setup --early $spec
 
-USER $HOTBOX_USER
-WORKDIR /home/$HOTBOX_USER
+USER $user
+WORKDIR /home/$user
 RUN set -eu ; \
     echo "" >&2 ; \
-    echo "==> Setting up features as $HOTBOX_USER" >&2 ; \
+    echo "==> Setting up features as $user" >&2 ; \
     set -x ; \
-    export HOTBOX_USER="$HOTBOX_USER" ; \
-    export HOTBOX_UID="$HOTBOX_UID" ; \
-    export HOTBOX_GID="$HOTBOX_GID" ; \
-    export HOTBOX_DOCKER_GID="$HOTBOX_DOCKER_GID" ; \
-    /hotbox/hotbox-setup $HOTBOX_SPEC
+    export HOTBOX_USER="$user" ; \
+    export HOTBOX_UID="$uid" ; \
+    export HOTBOX_GID="$gid" ; \
+    export HOTBOX_DOCKER_GID="$docker_gid" ; \
+    /hotbox/hotbox-setup $spec
 
 #
 # Set some reasonable defaults even though hotbox-run specifies these explicitly
 #
-USER $HOTBOX_USER
-WORKDIR $HOTBOX_WORKDIR
+USER $user
+WORKDIR $workdir
 CMD ["/bin/sh", "-l"]

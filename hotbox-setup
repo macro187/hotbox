@@ -23,7 +23,7 @@ while test $# -gt 0 ; do
 done
 
 test $# -gt 0 || die "Expected <spec>"
-HOTBOX_SPEC="$1" ; shift
+spec="$1" ; shift
 
 test $# -eq 0 || die "Unexpected argument '$1'"
 
@@ -40,14 +40,14 @@ test $# -eq 0 || die "Unexpected argument '$1'"
 if $early ; then
     test "$(current_user)" = "root" || die "Must be root to set up early features"
 
-    for feature in $HOTBOX_FEATURES ; do
+    for feature in $features ; do
         test "${feature%%-*}" = "early" || continue
 
         heading "Setting up $feature"
         $HOTBOX/features/$feature
     done
 else
-    for feature in $HOTBOX_FEATURES ; do
+    for feature in $features ; do
         test "${feature%%-*}" != "early" || continue
 
         heading "Setting up $feature"

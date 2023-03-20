@@ -7,7 +7,7 @@ HOTBOX=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd -P)
 
 
 test $# -gt 0 || die "Expected <spec>"
-HOTBOX_SPEC="$1" ; shift
+spec="$1" ; shift
 
 test $# -eq 0 || die "Unexpected argument '$1'"
 
@@ -16,42 +16,45 @@ test $# -eq 0 || die "Unexpected argument '$1'"
 # Read container information from <spec>
 #
 . $HOTBOX/lib/source-spec.sh
-test -n "$HOTBOX_BASEIMAGE" || die "No HOTBOX_BASEIMAGE specified in $HOTBOX_SPEC spec"
-test -n "$HOTBOX_SHELL" || die "No HOTBOX_SHELL specified in $HOTBOX_SPEC spec"
-test -n "$HOTBOX_WORKDIR" || die "No HOTBOX_WORKDIR specified in $HOTBOX_SPEC spec"
+test -n "$baseimage" || die "No baseimage specified in $spec spec"
+test -n "$shell" || die "No shell specified in $spec spec"
+test -n "$workdir" || die "No workdir specified in $spec spec"
 
 
 #
 # Work out additional container information
 #
-HOTBOX_IMAGE="hotbox-$HOTBOX_SPEC"
-HOTBOX_USER="$(current_user)"
-HOTBOX_UID="$(current_uid)"
-HOTBOX_GID="$(current_gid)"
-HOTBOX_DOCKER_GID="$(getent group docker | cut -d: -f3)"
+image="hotbox-$spec"
+user="$(current_user)"
+uid="$(current_uid)"
+gid="$(current_gid)"
+docker_gid="$(getent group docker | cut -d: -f3)"
 
 
 #
 # Build container image
 #
-heading "Building $HOTBOX_IMAGE container image"
+heading "Building $image container image"
 echo_on
 PROGRESS_NO_TRUNC=1 \
 docker build \
     --progress plain \
-    -t $HOTBOX_IMAGE \
-    --label hotbox \
-    --label hotbox.shell=$HOTBOX_SHELL \
-    --label hotbox.shellarg=$HOTBOX_SHELLARG \
-    --label hotbox.workdir=$HOTBOX_WORKDIR \
     \
-    --build-arg HOTBOX_BASEIMAGE=$HOTBOX_BASEIMAGE \
-    --build-arg HOTBOX_SPEC=$HOTBOX_SPEC \
-    --build-arg HOTBOX_USER=$HOTBOX_USER \
-    --build-arg HOTBOX_UID=$HOTBOX_UID \
-    --build-arg HOTBOX_GID=$HOTBOX_GID \
-    --build-arg HOTBOX_DOCKER_GID=$HOTBOX_DOCKER_GID \
-    --build-arg HOTBOX_WORKDIR=$HOTBOX_WORKDIR \
+    -t $image \
+    \
+    --label hotbox \
+    --label hotbox.shell=$shell \
+    --label hotbox.shellarg=$shellarg \
+    --label hotbox.workdir=$workdir \
+    \
+    --build-arg baseimage=$baseimage \
+    --build-arg spec=$spec \
+    --build-arg user=$user \
+    --build-arg uid=$uid \
+    --build-arg gid=$gid \
+    --build-arg docker_gid=$docker_gid \
+    --build-arg workdir=$workdir \
+    \
     -f - \
     $HOTBOX \
     < $HOTBOX/lib/Dockerfile

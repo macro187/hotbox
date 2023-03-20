@@ -1,5 +1,5 @@
-HOTBOX_FEATURES="
-    $HOTBOX_FEATURES
+features="
+    $features
     shell
     user-bin
     base-tools

@@ -9,8 +9,8 @@ HOTBOX=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd -P)
 volume1=""
 volume2=""
 volume3=""
-HOTBOX_SPEC=""
-HOTBOX_NAME=""
+spec=""
+name=""
 
 while test $# -gt 0 ; do
     case $1 in
@@ -38,24 +38,24 @@ while test $# -gt 0 ; do
 done
 
 test $# -gt 0 || die "Expected <spec>"
-HOTBOX_SPEC="$1" ; shift
+spec="$1" ; shift
 
 test $# -gt 0 || die "Expected <name>"
-HOTBOX_NAME="$1" ; shift
+name="$1" ; shift
 
 # Remaining args are <command> and <args>
 
-HOTBOX_SPEC="${HOTBOX_SPEC:-alpine}"
-HOTBOX_NAME="${HOTBOX_NAME:-$HOTBOX_SPEC}"
+spec="${spec:-alpine}"
+name="${name:-$spec}"
 
 
 #
 # Get image information
 #
-HOTBOX_IMAGE="hotbox-$HOTBOX_SPEC"
+image="hotbox-$spec"
 
-image_id="$(docker image ls -q $HOTBOX_IMAGE)"
-test -n "$image_id" || die "HOTBOX_IMAGE $HOTBOX_IMAGE not found"
+image_id="$(docker image ls -q $image)"
+test -n "$image_id" || die "Image $image for spec $spec not found"
 
 shell="$(docker inspect --format '{{ index .ContainerConfig.Labels "hotbox.shell"}}' $image_id)"
 shellarg="$(docker inspect --format '{{ index .ContainerConfig.Labels "hotbox.shellarg"}}' $image_id)"
@@ -76,9 +76,9 @@ fi
 #
 # if the hotbox isn't running, start it...
 #
-container_id=$(docker ps -q --filter label=hotbox.name=$HOTBOX_NAME)
+container_id=$(docker ps -q --filter label=hotbox.name=$name)
 if [ -z "$container_id" ] ; then
-    heading "Starting $HOTBOX_NAME hotbox container from $HOTBOX_IMAGE image"
+    heading "Starting $name hotbox container from $image image"
 
     hostdir="$(pwd)"
     hostdirname="${hostdir##*/}"
@@ -122,9 +122,9 @@ if [ -z "$container_id" ] ; then
         $x11sockopts \
         $displayopts \
         $gitcredentialsopts \
-        --label hotbox.name=$HOTBOX_NAME \
+        --label hotbox.name=$name \
         --label hotbox.workdir=$workdir \
-        --env HOTBOX_NAME=$HOTBOX_NAME \
+        --env HOTBOX_NAME=$name \
         --volume $hostdir:$workdir \
         --workdir $workdir \
         \
@@ -132,7 +132,7 @@ if [ -z "$container_id" ] ; then
         ${volume2:+--volume} $volume2 \
         ${volume3:+--volume} $volume3 \
         \
-        $HOTBOX_IMAGE \
+        $image \
         \
         $@
     echo_off
@@ -142,11 +142,11 @@ if [ -z "$container_id" ] ; then
 # ...otherwise join it
 #
 else
-    heading "Joining $HOTBOX_NAME hotbox container $container_id"
+    heading "Joining $name hotbox container $container_id"
 
     container_image="$(docker inspect --format '{{ .Config.Image }}' $container_id)"
-    test "$container_image" = "$HOTBOX_IMAGE" || \
-        die "Container image $container_image does not match specified image $HOTBOX_IMAGE"
+    test "$container_image" = "$image" || \
+        die "Container image $container_image does not match specified image $image"
 
     workdir="$(docker inspect --format '{{ index .Config.Labels "hotbox.workdir"}}' $container_id)"
     test -n "$workdir" || dir "No hotbox.workdir label found on container"

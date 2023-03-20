@@ -1,24 +1,24 @@
-test -n "$HOTBOX_SPEC" || return 0
-test -f $HOTBOX/specs/$HOTBOX_SPEC.sh || die "Spec $HOTBOX_SPEC not found"
+test -n "$spec" || return 0
+test -f $HOTBOX/specs/$spec.sh || die "Spec $spec not found"
 
-_baseimage="${HOTBOX_BASEIMAGE:-}"
-_features="${HOTBOX_FEATURES:-}"
-_workdir="${HOTBOX_WORKDIR:-}"
-_shell="${HOTBOX_SHELL:-}"
-_shellarg="${HOTBOX_SHELLARG:-}"
+_baseimage="${baseimage:-}"
+_features="${features:-}"
+_workdir="${workdir:-}"
+_shell="${shell:-}"
+_shellarg="${shellarg:-}"
 
-HOTBOX_BASEIMAGE=""
-HOTBOX_FEATURES=""
-HOTBOX_WORKDIR=""
-HOTBOX_SHELL=""
-HOTBOX_SHELLARG=""
-. $HOTBOX/specs/$HOTBOX_SPEC.sh
+baseimage=""
+features=""
+workdir=""
+shell=""
+shellarg=""
+. $HOTBOX/specs/$spec.sh
 
 
-HOTBOX_BASEIMAGE="${_baseimage:-$HOTBOX_BASEIMAGE}"
-HOTBOX_FEATURES="${HOTBOX_FEATURES}${_features:+ $_features}"
-HOTBOX_WORKDIR="${_workdir:-$HOTBOX_WORKDIR}"
+baseimage="${_baseimage:-$baseimage}"
+features="${features}${_features:+ $_features}"
+workdir="${_workdir:-$workdir}"
 if [ -n "$_shell" ] ; then
-    HOTBOX_SHELL="$_shell"
-    HOTBOX_SHELLARG="$_shellarg"
+    shell="$_shell"
+    shellarg="$_shellarg"
 fi

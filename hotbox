@@ -6,28 +6,28 @@ HOTBOX=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd -P)
 . $HOTBOX/lib/sh.sh
 
 
-HOTBOX_SPEC=""
+spec=""
 
 if [ $# -gt 0 ] ; then
-    HOTBOX_SPEC="$1" ; shift
+    spec="$1" ; shift
 fi
 
 if [ $# -gt 0 ] ; then
-    HOTBOX_NAME="$1" ; shift
+    name="$1" ; shift
 fi
 
 test $# -eq 0 || die "Unexpected argument '$1'"
 
 
-HOTBOX_SPEC="${HOTBOX_SPEC:-alpine}"
-HOTBOX_NAME="${HOTBOX_NAME:-$HOTBOX_SPEC}"
-HOTBOX_IMAGE="hotbox-$HOTBOX_SPEC"
-image_id="$(docker image ls -q $HOTBOX_IMAGE)"
+spec="${spec:-alpine}"
+name="${name:-$spec}"
+image="hotbox-$spec"
+image_id="$(docker image ls -q $image)"
 
 
 if [ -z "$image_id" ] ; then
-    $HOTBOX/hotbox-build $HOTBOX_SPEC
+    $HOTBOX/hotbox-build $spec
 fi
 
 
-$HOTBOX/hotbox-run $HOTBOX_SPEC $HOTBOX_NAME
+$HOTBOX/hotbox-run $spec $name

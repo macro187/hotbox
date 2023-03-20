@@ -1,8 +1,8 @@
-HOTBOX_SHELL="/bin/sh"
-HOTBOX_SHELLARG="-l"
-HOTBOX_WORKDIR="/workspace"
-HOTBOX_FEATURES="
-    $HOTBOX_FEATURES
+shell="/bin/sh"
+shellarg="-l"
+workdir="/workspace"
+features="
+    $features
     early-container
     early-package-manager-cache
     early-user
