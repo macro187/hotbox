@@ -1,5 +1,7 @@
 "
-" Ron's .vimrc
+" Ron's Vim Configuration
+"
+" This is sourced by all Vim-like editors
 "
 
 set nobackup
