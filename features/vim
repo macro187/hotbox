@@ -37,4 +37,5 @@ rm -rf hotbox
 mkdir -p hotbox/start
 cd hotbox/start
 git clone --depth 1 https://github.com/macro187/vim-macrobsidian.git
+git clone --depth 1 https://github.com/prabirshrestha/vim-lsp.git
 echo_off

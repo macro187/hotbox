@@ -10,13 +10,20 @@ case $(current_distro) in
 
     alpine)
         echo_on
-        doas apk add less less-doc
+        doas \
+            apk add \
+            less less-doc \
+            wget wget-doc
         echo_off
         ;;
 
     ubuntu)
         echo_on
-        doas env DEBIAN_FRONTEND=noninteractive apt install -y --no-install-recommends less
+        doas \
+            env DEBIAN_FRONTEND=noninteractive \
+            apt install -y --no-install-recommends \
+            less \
+            wget
         echo_off
         ;;
 
