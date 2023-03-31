@@ -6,19 +6,19 @@ HOTBOX=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd -P)
 . $HOTBOX/lib/sh.sh
 
 
-if ! which vim > /dev/null ; then
-    heading "Installing Vim"
+if ! which nvim > /dev/null ; then
+    heading "Installing Neovim"
     case $(current_distro) in
         alpine)
             echo_on
-            doas apk add vim vim-doc
+            doas apk add neovim neovim-doc
             echo_off
             ;;
         ubuntu)
             echo_on
             doas \
                 env DEBIAN_FRONTEND=noninteractive \
-                apt install -y --no-install-recommends vim
+                apt install -y --no-install-recommends neovim
             echo_off
             ;;
         *)
@@ -28,11 +28,11 @@ if ! which vim > /dev/null ; then
 fi
 
 
-heading "Installing Vim plugins"
+heading "Installing Neovim plugins"
 echo_on
 cd $HOME
-mkdir -p .vim/pack
-cd .vim/pack
+mkdir -p .local/share/nvim/site/pack
+cd .local/share/nvim/site/pack
 rm -rf hotbox
 mkdir -p hotbox/start
 cd hotbox/start

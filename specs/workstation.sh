@@ -6,5 +6,7 @@ features="
     man
     docker-cli
     git
+    vimrc
     vim
+    neovim
 "
