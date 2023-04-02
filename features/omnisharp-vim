@@ -1,0 +1,22 @@
+#!/bin/sh
+set -eu
+HOTBOX=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd -P)
+
+
+. $HOTBOX/lib/sh.sh
+
+
+heading "Installing omnisharp-vim"
+echo_on
+
+cd $HOME/.vim/pack/hotbox/start
+git clone https://github.com/OmniSharp/omnisharp-vim
+
+cd $HOME
+cat > .vimrc <<- "EOF"
+	let g:OmniSharp_server_path = 'OmniSharp'
+	filetype indent plugin on
+	syntax enable
+EOF
+
+echo_off
