@@ -49,6 +49,12 @@ endtry
 
 
 "
+" Shell
+"
+let g:is_posix = 1
+
+
+"
 " Markdown
 "
 autocmd BufRead,BufNew *.md set filetype=markdown
