@@ -36,5 +36,5 @@ cd .local/share/nvim/site/pack
 rm -rf hotbox
 mkdir -p hotbox/start
 cd hotbox/start
-git clone --depth 1 https://github.com/macro187/vim-macrobsidian.git
+git clone https://github.com/macro187/vim-macrobsidian.git
 echo_off
