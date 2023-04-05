@@ -9,5 +9,6 @@ features="
     container-docker-group
     container-hotbox
     container-workspace
+    container-cook
     doas
 "
