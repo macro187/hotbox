@@ -1,0 +1,13 @@
+#!/bin/sh
+set -eu
+HOTBOX=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd -P)
+
+
+. $HOTBOX/lib/sh.sh
+
+
+heading "Adding /hotbox to path"
+echo_on
+cd $HOME
+echo 'PATH="/hotbox:$PATH"' >> .profile
+echo_off
