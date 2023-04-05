@@ -34,8 +34,11 @@ fi
 #
 if ! grep -qF '. "$HOME/.bashrc"' $profile ; then
     info "No .bashrc source found in $profile, adding"
+    cat $profile > .profile.old
+    echo '. "$HOME/.bashrc"' > $profile
     echo >> $profile
-    echo '. "$HOME/.bashrc"' >> $profile
+    cat .profile.old >> $profile
+    rm .profile.old
 fi
 
 #
