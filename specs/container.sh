@@ -3,8 +3,8 @@ shellarg="-l"
 workdir="/workspace"
 features="
     $features
-    container
-    package-manager-cache
+    initialise-container
+    refresh-package-manager-cache
     user
     docker-group
     doas

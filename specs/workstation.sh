@@ -1,7 +1,7 @@
 features="
     $features
-    shell
-    user-bin
+    shell-config-files
+    user-bin-directory
     base-tools
     man
     docker-cli
