@@ -8,8 +8,14 @@ ARG gid
 ARG docker_gid
 ARG workdir
 
+#
+# Copy hotbox from host into /hotbox
+#
 COPY --chown=$uid:$gid / /hotbox
 
+#
+# Run specified hotbox spec system setup
+#
 USER root
 WORKDIR /root
 RUN set -eu ; \
@@ -22,6 +28,9 @@ RUN set -eu ; \
     export HOTBOX_DOCKER_GID="$docker_gid" ; \
     /hotbox/hotbox-setup --system $spec
 
+#
+# Run specified hotbox spec setup
+#
 USER $user
 WORKDIR /home/$user
 RUN set -eu ; \
@@ -35,7 +44,17 @@ RUN set -eu ; \
     /hotbox/hotbox-setup $spec
 
 #
-# Set some reasonable defaults even though hotbox-run specifies these explicitly
+# Remove and recreate /hotbox so it can be mounted from host when run
+#
+RUN set -eu ; \
+    doas rm -rf /hotbox ; \
+    doas mkdir /hotbox ; \
+    doas chown $user:$user /hotbox ; \
+    doas chmod 755 /hotbox
+
+#
+# Set some reasonable startup defaults even though hotbox-run specifies these
+# explicitly
 #
 USER $user
 WORKDIR $workdir

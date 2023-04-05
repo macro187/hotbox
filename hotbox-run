@@ -125,6 +125,7 @@ if [ -z "$container_id" ] ; then
         --label hotbox.name=$name \
         --label hotbox.workdir=$workdir \
         --env HOTBOX_NAME=$name \
+        --volume $HOTBOX:/hotbox \
         --volume $hostdir:$workdir \
         --workdir $workdir \
         \
