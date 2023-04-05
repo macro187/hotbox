@@ -6,19 +6,18 @@ HOTBOX=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd -P)
 . $HOTBOX/lib/sh.sh
 
 
-doas="doas"
-if [ "$(whoami)" = "root" ] ; then doas="" ; fi
+test "$(whoami)" = "root" || die "This script must be run as root"
 
 
 case $(current_distro) in
     alpine)
         echo_on
-        $doas apk update
+        apk update
         echo_off
         ;;
     ubuntu)
         echo_on
-        $doas env DEBIAN_FRONTEND=noninteractive apt update
+        env DEBIAN_FRONTEND=noninteractive apt update
         echo_off
         ;;
     *)

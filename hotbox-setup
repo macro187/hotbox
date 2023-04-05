@@ -6,12 +6,12 @@ HOTBOX=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd -P)
 . $HOTBOX/lib/sh.sh
 
 
-early=false
+system=false
 while test $# -gt 0 ; do
     case $1 in
-        --early)
+        --system)
             shift
-            early=true
+            system=true
             ;;
         -*)
             die "Unrecognised option '$1'"
@@ -37,18 +37,18 @@ test $# -eq 0 || die "Unexpected argument '$1'"
 #
 # Set up features
 #
-if $early ; then
-    test "$(current_user)" = "root" || die "Must be root to set up early features"
+if $system ; then
+    test "$(current_user)" = "root" || die "Must be root to set up system features"
 
     for feature in $features ; do
-        test "${feature%%-*}" = "early" || continue
+        test -f $HOTBOX/features/$feature.system || continue
 
-        heading "Setting up $feature"
-        $HOTBOX/features/$feature
+        heading "Setting up system $feature"
+        $HOTBOX/features/$feature.system
     done
 else
     for feature in $features ; do
-        test "${feature%%-*}" != "early" || continue
+        test -f $HOTBOX/features/$feature || continue
 
         heading "Setting up $feature"
         $HOTBOX/features/$feature

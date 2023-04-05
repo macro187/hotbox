@@ -3,10 +3,10 @@ shellarg="-l"
 workdir="/workspace"
 features="
     $features
-    early-container
-    early-package-manager-cache
-    early-user
-    early-docker-group
-    early-doas
+    container
+    package-manager-cache
+    user
+    docker-group
+    doas
     workspace
 "

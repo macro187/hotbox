@@ -14,13 +14,13 @@ USER root
 WORKDIR /root
 RUN set -eu ; \
     echo "" >&2 ; \
-    echo "==> Setting up early features as root" >&2 ; \
+    echo "==> Setting up system features as root" >&2 ; \
     set -x ; \
     export HOTBOX_USER="$user" ; \
     export HOTBOX_UID="$uid" ; \
     export HOTBOX_GID="$gid" ; \
     export HOTBOX_DOCKER_GID="$docker_gid" ; \
-    /hotbox/hotbox-setup --early $spec
+    /hotbox/hotbox-setup --system $spec
 
 USER $user
 WORKDIR /home/$user

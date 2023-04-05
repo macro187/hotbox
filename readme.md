@@ -8,21 +8,48 @@ My workstation containers, setup scripts, and config files
 Features
 ========
 
-*Features* are scripts that set up various aspects of machines (physical, virtual,
-or container), sometimes according to my personal preferences.
+A *feature* is a script (or 2 related scripts) in the `features/` subdirectory
+that sets up a particular aspect of a machine (whether physical, virtual, or
+container), sometimes according to my personal preferences.
 
-They are written in portable posix shell, with specifics for the following Linux
-distributions:
+They are written in portable posix shell, currently with specifics for the
+following Linux distributions:
 
 - Alpine Linux
+
 - Ubuntu Linux
 
-Feature scripts are designed to be run directly as normal users.
 
-### Early Features
+Feature Script
+--------------
 
-Features whose names begin with `early-` are designed to be run before regular
-features as *root*.
+Feature scripts are where feature setup is normally done.  They:
+
+* Are named according to the feature, e.g. `my-feature`.
+
+* Run as the non-privileged user.
+
+* Run together with other feature scripts.
+
+* Can perform privileged operations using `doas`.
+
+
+System Feature Scripts
+----------------------
+
+System feature scripts are system-level features (or the system-level aspects of
+features).  They:
+
+* Are named according to the feature plus a "system" suffix, e.g.
+  `my-feature.system`.
+
+* Run as root.
+
+* Run together with other system feature scripts before regular feature scripts
+  run.
+
+* May run early in the machine setup process before e.g. unprivileged users have
+  been created.
 
 
 
@@ -41,17 +68,17 @@ Set up features according to a spec
 ### Synopsis
 
 ```
-hotbox-setup [--early] <spec>
+hotbox-setup [--system] <spec>
 ```
 
 ### Options
 
 ```
---early
-    Set up early features instead of regular ones.  Must be run as root.
+--system
+    Set up system-level (aspects of) features.  Must be run as root.
 
 <spec>
-    The spec to set up features according to.
+    The spec listing the features to set up.
 ```
 
 
