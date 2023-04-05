@@ -3,11 +3,11 @@ shellarg="-l"
 workdir="/workspace"
 features="
     $features
-    initialise-container
-    refresh-package-manager-cache
-    user
-    docker-group
+    container-initialise
+    container-package-manager-update
+    container-user
+    container-docker-group
+    container-hotbox
+    container-workspace
     doas
-    hotbox
-    workspace
 "
