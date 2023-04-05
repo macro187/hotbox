@@ -57,6 +57,9 @@ image="hotbox-$spec"
 image_id="$(docker image ls -q $image)"
 test -n "$image_id" || die "Image $image for spec $spec not found"
 
+features="$(docker inspect --format '{{ index .ContainerConfig.Labels "hotbox.features"}}' $image_id)"
+test -n "$features" || dir "No hotbox.features label found on container image"
+
 shell="$(docker inspect --format '{{ index .ContainerConfig.Labels "hotbox.shell"}}' $image_id)"
 shellarg="$(docker inspect --format '{{ index .ContainerConfig.Labels "hotbox.shellarg"}}' $image_id)"
 test -n "$shell" || dir "No hotbox.shell label found on container image"
@@ -79,13 +82,6 @@ fi
 container_id=$(docker ps -q --filter label=hotbox.name=$name)
 if [ -z "$container_id" ] ; then
     heading "Starting $name hotbox container from $image image"
-
-    hostdir="$(pwd)"
-    hostdirname="${hostdir##*/}"
-
-    if [ -d .git ] ; then
-        workdir="$workdir/$hostdirname"
-    fi
 
     termopts=""
     if [ -n "${TERM:+x}" ] ; then
@@ -112,6 +108,12 @@ if [ -z "$container_id" ] ; then
         gitcredentialsopts="-v $HOME/.git-credentials:/home/$(current_user)/.git-credentials"
     fi
 
+    featureopts=""
+    for feature in $features ; do
+        test -f $HOTBOX/features/$feature.run || continue
+        featureopts="$featureopts $($HOTBOX/features/$feature.run)"
+    done
+
     echo_on
     docker run \
         --ipc=host \
@@ -125,9 +127,9 @@ if [ -z "$container_id" ] ; then
         --label hotbox.name=$name \
         --label hotbox.workdir=$workdir \
         --env HOTBOX_NAME=$name \
-        --volume $HOTBOX:/hotbox \
-        --volume $hostdir:$workdir \
         --workdir $workdir \
+        \
+        $featureopts \
         \
         ${volume1:+--volume} $volume1 \
         ${volume2:+--volume} $volume2 \

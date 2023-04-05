@@ -43,6 +43,7 @@ docker build \
     -t $image \
     \
     --label hotbox \
+    --label "hotbox.features=$features" \
     --label hotbox.shell=$shell \
     --label hotbox.shellarg=$shellarg \
     --label hotbox.workdir=$workdir \

@@ -17,6 +17,7 @@ shellarg=""
 
 baseimage="${_baseimage:-$baseimage}"
 features="${features}${_features:+ $_features}"
+features="$(echo $features)"
 workdir="${_workdir:-$workdir}"
 if [ -n "$_shell" ] ; then
     shell="$_shell"

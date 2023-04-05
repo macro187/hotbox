@@ -4,26 +4,39 @@ hotbox
 My workstation containers, setup scripts, and config files
 
 
+Scripting Language
+------------------
+
+Scripts are POSIX shell scripts (see https://shellhaters.org/) so they should
+work in most common shells including Bash, Dash, Ash, etc.
+
+
 
 Features
 ========
 
-A *feature* is a script (or 2 related scripts) in the `features/` subdirectory
-that sets up a particular aspect of a machine (whether physical, virtual, or
-container), sometimes according to my personal preferences.
+A *feature* is a script (or 2 or 3 related scripts) that sets up a particular
+aspect of a machine (whether physical, virtual, or container).
 
-They are written in portable posix shell, currently with specifics for the
-following Linux distributions:
+>   Some features currently implement personal preferences of mine, but this may
+>   change in the future.
+
+Feature scripts are located in the `features/` subdirectory.
+
+Currently, the scripts work on the following Linux distributions:
 
 - Alpine Linux
 
 - Ubuntu Linux
 
+Each feature is implemented as any combination of a *regular*, *system*, and
+*run* script.
 
-Feature Script
---------------
 
-Feature scripts are where feature setup is normally done.  They:
+Regular Scripts
+---------------
+
+Regular feature scripts are what normally set up features.  They:
 
 * Are named according to the feature, e.g. `my-feature`.
 
@@ -34,22 +47,38 @@ Feature scripts are where feature setup is normally done.  They:
 * Can perform privileged operations using `doas`.
 
 
-System Feature Scripts
-----------------------
+System Scripts
+--------------
 
-System feature scripts are system-level features (or the system-level aspects of
-features).  They:
+System scripts set up "system-level" aspects of features which, in this context,
+means potentially early in the process of setting up a machine when things like
+unprivileged users, doas, etc. may not be available.  These scripts:
 
-* Are named according to the feature plus a "system" suffix, e.g.
+* Are named according to the feature plus a .system suffix, e.g.
   `my-feature.system`.
 
 * Run as root.
 
-* Run together with other system feature scripts before regular feature scripts
-  run.
+* Run together with other system scripts before regular scripts run.
 
 * May run early in the machine setup process before e.g. unprivileged users have
   been created.
+
+
+Run Scripts
+-----------
+
+Run scripts contribute `docker run` command line options when hotbox containers
+with the feature are started.  They:
+
+* Are named according to the feature plus a .run suffix, e.g.
+  `my-feature.run`.
+
+* Run as the non-privileged user.
+
+* Run when hotbox containers are started.
+
+* Contribute `docker run` command line options by echoing them to stdout.
 
 
 
@@ -75,7 +104,7 @@ hotbox-setup [--system] <spec>
 
 ```
 --system
-    Set up system-level (aspects of) features.  Must be run as root.
+    Set up system-level aspects of features.  Must be run as root.
 
 <spec>
     The spec listing the features to set up.
@@ -90,13 +119,10 @@ Hotbox can build and run containers configured with *features* according to
 *specs*.  In addition to functionality provided by the features, these
 containers are equipped with:
 
-- The *hotbox* tools mounted at `/hotbox`
 - The host Docker socket so Docker works
 - The host X11 socket so X11 applications work
 - The host user's `.git-credentials`
 - The host `$TERM` setting
-- The current host directory mounted at (or under) `/workspace` (or a similar
-  location)
 
 Hotbox containers are identified primarily by the spec they derive from.  A spec
 named *foo* and its related image and containers can all be loosely referred to

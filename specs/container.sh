@@ -8,5 +8,6 @@ features="
     user
     docker-group
     doas
+    hotbox
     workspace
 "

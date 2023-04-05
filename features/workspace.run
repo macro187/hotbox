@@ -1,0 +1,27 @@
+#!/bin/sh
+set -eu
+HOTBOX=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd -P)
+
+
+. $HOTBOX/lib/sh.sh
+
+
+hostdir="$(pwd)"
+hostdirname="${hostdir##*/}"
+
+
+#
+# If the current host directory is a Git repo, mount it UNDER /workspace
+#
+if [ -d .git ] ; then
+    target=/workspace/$hostdirname
+
+#
+# ...otherwise, mount it AS /workspace
+#
+else
+    target=/workspace
+fi
+
+
+echo --volume $hostdir:$target --workdir $target
