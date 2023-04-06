@@ -58,14 +58,14 @@ image_id="$(docker image ls -q $image)"
 test -n "$image_id" || die "Image $image for spec $spec not found"
 
 features="$(docker inspect --format '{{ index .ContainerConfig.Labels "hotbox.features"}}' $image_id)"
-test -n "$features" || dir "No hotbox.features label found on container image"
+test -n "$features" || die "No hotbox.features label found on container image"
 
 shell="$(docker inspect --format '{{ index .ContainerConfig.Labels "hotbox.shell"}}' $image_id)"
 shellarg="$(docker inspect --format '{{ index .ContainerConfig.Labels "hotbox.shellarg"}}' $image_id)"
-test -n "$shell" || dir "No hotbox.shell label found on container image"
+test -n "$shell" || die "No hotbox.shell label found on container image"
 
 workdir="$(docker inspect --format '{{ index .ContainerConfig.Labels "hotbox.workdir"}}' $image_id)"
-test -n "$workdir" || dir "No hotbox.workdir label found on container image"
+test -n "$workdir" || die "No hotbox.workdir label found on container image"
 
 
 #
