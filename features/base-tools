@@ -12,6 +12,7 @@ case $(current_distro) in
         echo_on
         doas \
             apk add \
+            apk-tools-doc \
             less less-doc \
             wget wget-doc
         echo_off
