@@ -6,15 +6,15 @@ HOTBOX=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd -P)
 . $HOTBOX/lib/sh.sh
 
 
-hostdir="$(pwd)"
-hostdirname="${hostdir##*/}"
+current_dir="$(pwd)"
+current_dirname="${current_dir##*/}"
 
 
 #
 # If the current host directory is a Git repo, mount it UNDER /workspace
 #
 if [ -d .git ] ; then
-    target=/workspace/$hostdirname
+    target=/workspace/$current_dirname
 
 #
 # ...otherwise, mount it AS /workspace
@@ -24,4 +24,16 @@ else
 fi
 
 
-echo --volume $hostdir:$target --workdir $target
+host_dir="$current_dir"
+if $HOTBOX/hotbox-in-container ; then
+    host_dir="$($HOTBOX/hotbox-host-path $current_dir)"
+
+    if [ -z "$host_dir" ] ; then
+        warn "$target will be unavailable because current directory has not been bind mounted from the host"
+        host_dir="$current_dir"
+    fi
+fi
+
+
+
+echo --volume $host_dir:$target --workdir $target

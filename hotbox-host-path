@@ -1,0 +1,38 @@
+#!/usr/bin/env sh
+set -eu
+HOTBOX=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd -P)
+
+
+path="${1:-}"
+test -n "$path" || exit 0
+
+
+get_binds() {
+    docker inspect \
+        $HOSTNAME \
+        --format='{{range $b := .HostConfig.Binds}}{{$b}} {{end}}' \
+        2> /dev/null \
+        || true
+}
+
+
+for bind in $(get_binds) ; do
+    bindext="${bind%%:*}"
+    test -n "$bindext" || continue
+
+    bindint="${bind#*:}"
+    test -n "$bindint" || continue
+
+    case "$path" in
+        $bindint)
+            ;;
+        $bindint/*)
+            ;;
+        *)
+            continue
+            ;;
+    esac
+
+    echo "${bindext}${path#$bindint}"
+    break
+done

@@ -7,10 +7,19 @@ HOTBOX=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd -P)
 
 
 cook="$(which cook)"
+cook="${cook%/*}"
 test -n "$cook" || exit 0
 
 
-cookdir="${cook%/*}"
+host_cook="$cook"
+if $HOTBOX/hotbox-in-container ; then
+    host_cook="$($HOTBOX/hotbox-host-path $cook)"
+
+    if [ -z "$host_cook" ] ; then
+        warn "$cook will be unavailable because it has not been bind mounted from the host"
+        host_cook="$cook"
+    fi
+fi
 
 
-echo --volume $cookdir:/cook
+echo --volume $host_cook:/cook

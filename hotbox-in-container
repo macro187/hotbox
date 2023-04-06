@@ -1,0 +1,6 @@
+#!/usr/bin/env sh
+set -eu
+HOTBOX=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd -P)
+
+
+test -f /.dockerenv

@@ -10,6 +10,11 @@ info() {
 }
 
 
+warn() {
+    info "Warning:" $@
+}
+
+
 die() {
     info "Error:" $@
     exit 1
