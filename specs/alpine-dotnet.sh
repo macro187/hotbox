@@ -3,5 +3,6 @@
 features="
     $features
     dotnet-sdk
+    container-nuget-cache
     omnisharp
 "

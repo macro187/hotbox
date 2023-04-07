@@ -4,4 +4,5 @@ baseimage="alpine"
 features="
     $features
     dotnet-sdk
+    container-nuget-cache
 "
