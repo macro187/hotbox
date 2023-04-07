@@ -81,8 +81,6 @@ fi
 #
 container_id=$(docker ps -q --filter label=hotbox.name=$name)
 if [ -z "$container_id" ] ; then
-    heading "Starting $name hotbox container from $image image"
-
     termopts=""
     if [ -n "${TERM:+x}" ] ; then
         termopts="-e TERM=$TERM"
@@ -114,6 +112,7 @@ if [ -z "$container_id" ] ; then
         featureopts="$featureopts $($HOTBOX/features/$feature.run)"
     done
 
+    heading "Starting $name hotbox container from $image image"
     echo_on
     docker run \
         --ipc=host \

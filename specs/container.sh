@@ -11,4 +11,5 @@ features="
     container-workspace
     container-cook
     doas
+    container-cache
 "
