@@ -6,34 +6,74 @@ HOTBOX=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd -P)
 . $HOTBOX/lib/sh.sh
 
 
-current_dir="$(pwd)"
-current_dirname="${current_dir##*/}"
+#
+# Current directory
+#
+current="$(pwd)"
+current_name="${current##*/}"
 
 
 #
-# If the current host directory is a Git repo, mount it UNDER /workspace
+# See if we're in a workspace
 #
-if [ -d .git ] ; then
-    target=/workspace/$current_dirname
+workspace=""
+workspace_local=""
+is_workspace() {
+    test ! -d .git && ls */.git >/dev/null 2>&1
+}
+find_workspace() {
+    heading "Searching for workspace"
+    while true ; do
+        workspace="$(pwd)"
+
+        if [ "$workspace" = "/" ] ; then
+            info "No workspace found"
+            cd $current
+            workspace=""
+            workspace_local=""
+            return
+        fi
+
+        if is_workspace ; then
+            info "Found workspace $workspace"
+            cd $current
+            return
+        fi
+
+        workspace_local="/${workspace##*/}$workspace_local"
+        cd ..
+    done
+}
+find_workspace
+
 
 #
-# ...otherwise, mount it AS /workspace
+# Determine mount and work directories based on whether we're in a workspace
 #
+if [ -n "$workspace" ] ; then
+    src="$workspace"
+    dst="/workspace"
+    wrk="/workspace$workspace_local"
 else
-    target=/workspace
+    src="$current"
+    dst="/workspace/$current_name"
+    wrk="/workspace/$current_name"
 fi
 
 
-host_dir="$current_dir"
+#
+# If we're in a container, map mount source to the container host
+#
+hostsrc="$src"
 if $HOTBOX/hotbox-in-container ; then
-    host_dir="$($HOTBOX/hotbox-host-path $current_dir)"
+    hostsrc="$($HOTBOX/hotbox-host-path $src)"
 
-    if [ -z "$host_dir" ] ; then
-        warn "$target will be unavailable because current directory has not been bind mounted from the host"
-        host_dir="$current_dir"
+    if [ -z "$hostsrc" ] ; then
+        warn "/workspace will be unavailable because $src is not bind mounted from the container host"
+        echo --workdir /workspace
+        exit 0
     fi
 fi
 
 
-
-echo --volume $host_dir:$target --workdir $target
+echo --volume $hostsrc:$dst --workdir $wrk
