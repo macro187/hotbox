@@ -61,7 +61,7 @@ fi
 #
 hostsrc="$src"
 if $HOTBOX/hotbox-in-container ; then
-    hostsrc="$($HOTBOX/hotbox-host-path $src)"
+    hostsrc="$($HOTBOX/hotbox-map $src)"
 
     if [ -z "$hostsrc" ] ; then
         warn "/workspace will be unavailable because $src is not bind mounted from the container host"

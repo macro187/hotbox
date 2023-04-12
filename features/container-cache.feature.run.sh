@@ -4,7 +4,7 @@
 child="/hotbox-cache"
 if $HOTBOX/hotbox-in-container ; then
     me="$child"
-    host="$($HOTBOX/hotbox-host-path $me)"
+    host="$($HOTBOX/hotbox-map $me)"
     if [ -z "$host" ] ; then
         warn "$child will be unavailable because it has not been bind mounted from the host"
         exit 0
