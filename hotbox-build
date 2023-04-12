@@ -39,6 +39,7 @@ echo_on
 PROGRESS_NO_TRUNC=1 \
 docker build \
     --progress plain \
+    --network=host \
     \
     -t $image \
     \
