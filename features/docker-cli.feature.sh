@@ -1,28 +1,22 @@
-#!/bin/sh
-set -eu
-HOTBOX=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd -P)
-
-
 . $HOTBOX/lib/sh.sh
 
 
-#
-# Install Docker
-#
 if ! which docker > /dev/null ; then
-    heading "Installing Docker on system"
     case $(current_distro) in
+
         alpine)
             echo_on
             doas apk add docker-cli
             echo_off
             ;;
+
         ubuntu)
             echo_on
             doas env DEBIAN_FRONTEND=noninteractive \
                 apt install -y --no-install-recommends docker.io
             echo_off
             ;;
+
         *)
             die "Don't know how to install Docker on $current_distro os"
             ;;

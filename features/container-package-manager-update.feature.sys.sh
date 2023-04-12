@@ -1,26 +1,21 @@
-#!/bin/sh
-set -eu
-HOTBOX=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd -P)
-
-
 . $HOTBOX/lib/sh.sh
 
 
-test "$(whoami)" = "root" || die "This script must be run as root"
-
-
 case $(current_distro) in
+
     alpine)
         echo_on
         apk update
         echo_off
         ;;
+
     ubuntu)
         echo_on
         env DEBIAN_FRONTEND=noninteractive apt update
         echo_off
         ;;
+
     *)
-        echo "Don't know how to update package manager database on $(current_distro) os"
+        die "Don't know how to update package manager database on $(current_distro) os"
         ;;
 esac

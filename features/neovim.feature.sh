@@ -1,19 +1,15 @@
-#!/bin/sh
-set -eu
-HOTBOX=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd -P)
-
-
 . $HOTBOX/lib/sh.sh
 
 
 if ! which nvim > /dev/null ; then
-    heading "Installing Neovim"
     case $(current_distro) in
+
         alpine)
             echo_on
             doas apk add neovim neovim-doc
             echo_off
             ;;
+
         ubuntu)
             echo_on
             doas \
@@ -21,6 +17,7 @@ if ! which nvim > /dev/null ; then
                 apt install -y --no-install-recommends neovim
             echo_off
             ;;
+
         *)
             die "Don't know how to install vim on $current_distro os"
             ;;

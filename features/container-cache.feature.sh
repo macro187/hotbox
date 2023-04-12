@@ -1,15 +1,9 @@
-#!/bin/sh
-set -eu
-HOTBOX=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd -P)
-
-
 . $HOTBOX/lib/sh.sh
 
 
 user="$(current_user)"
 
 
-heading "Creating /hotbox-cache mount point"
 echo_on
 doas mkdir /hotbox-cache
 doas chown $user:$user /hotbox-cache

@@ -1,17 +1,11 @@
-#!/bin/sh
-set -eu
-HOTBOX=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd -P)
-
-
 . $HOTBOX/lib/sh.sh
 
 
-cd $HOME
-
-
 echo_on
+cd $HOME
 mkdir -p $HOME/bin
 echo_off
+
 
 case $(current_distro) in
     alpine)

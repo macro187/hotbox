@@ -1,27 +1,21 @@
-#!/bin/sh
-set -eu
-HOTBOX=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd -P)
-
-
 . $HOTBOX/lib/sh.sh
 
 
-#
-# Install git
-#
 if ! which git > /dev/null ; then
-    info "Git not found on system, installing"
     case $(current_distro) in
+
         alpine)
             echo_on
             doas apk add git git-doc
             echo_off
             ;;
+
         ubuntu)
             echo_on
             doas env DEBIAN_FRONTEND=noninteractive apt install -y git
             echo_off
             ;;
+
         *)
             die "Don't know how to install git on $current_distro os"
             ;;

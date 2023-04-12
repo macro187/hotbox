@@ -1,12 +1,9 @@
-#!/bin/sh
-set -eu
-HOTBOX=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd -P)
-
-
 . $HOTBOX/lib/sh.sh
 
 
 user="$(current_user)"
+
+
 echo_on
 doas mkdir -p /workspace
 doas chown $user:$user /workspace

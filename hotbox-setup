@@ -41,16 +41,20 @@ if $system ; then
     test "$(current_user)" = "root" || die "Must be root to set up system features"
 
     for feature in $features ; do
-        test -f $HOTBOX/features/$feature.system || continue
+        test -f $HOTBOX/features/$feature.feature.sys.sh || continue
 
         heading "Setting up system $feature"
-        $HOTBOX/features/$feature.system
+        env \
+            HOTBOX=$HOTBOX \
+            /bin/sh -eu $HOTBOX/features/$feature.feature.sys.sh
     done
 else
     for feature in $features ; do
-        test -f $HOTBOX/features/$feature || continue
+        test -f $HOTBOX/features/$feature.feature.sh || continue
 
         heading "Setting up $feature"
-        $HOTBOX/features/$feature
+        env \
+            HOTBOX=$HOTBOX \
+            /bin/sh -eu $HOTBOX/features/$feature.feature.sh
     done
 fi

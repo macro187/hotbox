@@ -1,8 +1,3 @@
-#!/bin/sh
-set -eu
-HOTBOX=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd -P)
-
-
 . $HOTBOX/lib/sh.sh
 
 
@@ -28,7 +23,4 @@ case $(current_distro) in
         echo_off
         ;;
 
-    *)
-        echo "No base tools setup required on $(current_distro) os"
-        ;;
 esac

@@ -1,8 +1,3 @@
-#!/bin/sh
-set -eu
-HOTBOX=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd -P)
-
-
 . $HOTBOX/lib/sh.sh
 
 
@@ -23,7 +18,6 @@ disturl="https://github.com/OmniSharp/omnisharp-roslyn/releases/download/v$versi
 cd $HOME
 
 
-heading "Installing OmniSharp"
 echo_on
 mkdir omnisharp
 cd omnisharp

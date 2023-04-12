@@ -108,8 +108,8 @@ if [ -z "$container_id" ] ; then
 
     featureopts=""
     for feature in $features ; do
-        test -f $HOTBOX/features/$feature.run || continue
-        featureopts="$featureopts $($HOTBOX/features/$feature.run)"
+        test -f $HOTBOX/features/$feature.feature.run.sh || continue
+        featureopts="$featureopts $(env HOTBOX=$HOTBOX /bin/sh -eu $HOTBOX/features/$feature.feature.run.sh)"
     done
 
     heading "Starting $name hotbox container from $image image"

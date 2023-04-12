@@ -1,17 +1,7 @@
-#!/bin/sh
-set -eu
-HOTBOX=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd -P)
-
-
 . $HOTBOX/lib/sh.sh
 
 
-test -n "${HOTBOX_USER+x}" || die "HOTBOX_USER not set"
-test -n "${HOTBOX_UID+x}" || die "HOTBOX_UID not set"
-test -n "${HOTBOX_GID+x}" || die "HOTBOX_GID not set"
-
-
-test "$(whoami)" = "root" || die "This script must be run as root"
+test -n "${HOTBOX_USER:-}" || die "HOTBOX_USER not set"
 
 
 case $(current_distro) in
@@ -31,6 +21,6 @@ case $(current_distro) in
         ;;
 
     *)
-        echo "Don't know how to set up doas on $(current_distro) os"
+        die "Don't know how to set up doas on $(current_distro) os"
         ;;
 esac

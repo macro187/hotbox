@@ -1,12 +1,6 @@
-#!/bin/sh
-set -eu
-HOTBOX=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd -P)
-
-
 . $HOTBOX/lib/sh.sh
 
 
-heading "Installing omnisharp-vim"
 echo_on
 
 cd $HOME/.vim/pack/hotbox/start
