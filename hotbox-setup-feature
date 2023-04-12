@@ -1,0 +1,54 @@
+#!/bin/sh
+set -eu
+HOTBOX=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd -P)
+
+
+. $HOTBOX/lib/sh.sh
+
+
+#
+# Command-line arguments
+#
+system=false
+while test $# -gt 0 ; do
+    case $1 in
+        --system)
+            shift
+            system=true
+            ;;
+        -*)
+            die "Unrecognised option '$1'"
+            ;;
+        *)
+            break
+            ;;
+    esac
+done
+
+test $# -gt 0 || die "Expected <feature>"
+feature="$1" ; shift
+
+test $# -eq 0 || die "Unexpected argument '$1'"
+
+
+#
+# Find script
+#
+description="$feature"
+scriptname="$feature.feature.sh"
+
+if $system ; then
+    test "$(current_user)" = "root" || die "Must be root to set up system features"
+    description="system $feature"
+    scriptname="$feature.feature.sys.sh"
+fi
+
+script="$HOTBOX/features/$scriptname"
+test -f $script || exit 0
+
+
+#
+# Run script
+#
+heading "Setting up $description"
+env HOTBOX=$HOTBOX /bin/sh -eu $script

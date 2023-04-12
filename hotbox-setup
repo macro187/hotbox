@@ -6,6 +6,9 @@ HOTBOX=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd -P)
 . $HOTBOX/lib/sh.sh
 
 
+#
+# Command-line arguments
+#
 system=false
 while test $# -gt 0 ; do
     case $1 in
@@ -29,7 +32,7 @@ test $# -eq 0 || die "Unexpected argument '$1'"
 
 
 #
-# Read features from spec
+# Read features from <spec>
 #
 . $HOTBOX/lib/source-spec.sh
 
@@ -37,24 +40,10 @@ test $# -eq 0 || die "Unexpected argument '$1'"
 #
 # Set up features
 #
+system_switch=""
 if $system ; then
-    test "$(current_user)" = "root" || die "Must be root to set up system features"
-
-    for feature in $features ; do
-        test -f $HOTBOX/features/$feature.feature.sys.sh || continue
-
-        heading "Setting up system $feature"
-        env \
-            HOTBOX=$HOTBOX \
-            /bin/sh -eu $HOTBOX/features/$feature.feature.sys.sh
-    done
-else
-    for feature in $features ; do
-        test -f $HOTBOX/features/$feature.feature.sh || continue
-
-        heading "Setting up $feature"
-        env \
-            HOTBOX=$HOTBOX \
-            /bin/sh -eu $HOTBOX/features/$feature.feature.sh
-    done
+    system_switch="--system"
 fi
+for feature in $features ; do
+    $HOTBOX/hotbox-setup-feature $system_switch $feature
+done
