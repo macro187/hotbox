@@ -1,4 +1,4 @@
-. $HOTBOX/specs/container.sh
+. $HOTBOX/specs/container.spec.sh
 
 baseimage="alpine"
 features="

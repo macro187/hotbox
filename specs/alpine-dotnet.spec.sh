@@ -1,4 +1,4 @@
-. $HOTBOX/specs/alpine.sh
+. $HOTBOX/specs/alpine.spec.sh
 
 features="
     $features
