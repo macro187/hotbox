@@ -115,9 +115,10 @@ if [ -z "$container_id" ] ; then
     heading "Starting $name hotbox container from $image image"
     echo_on
     docker run \
-        --ipc=host \
         --rm \
         -it \
+        --ipc=host \
+        --network=host \
         $termopts \
         $dockersockopts \
         $x11sockopts \
