@@ -4,6 +4,7 @@ HOTBOX=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd -P)
 
 
 . $HOTBOX/lib/sh.sh
+. $HOTBOX/lib/specs.sh
 
 
 #
@@ -34,7 +35,7 @@ test $# -eq 0 || die "Unexpected argument '$1'"
 #
 # Read features from <spec>
 #
-. $HOTBOX/lib/source-spec.sh
+read_spec $spec
 
 
 #

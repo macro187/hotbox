@@ -4,6 +4,7 @@ HOTBOX=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd -P)
 
 
 . $HOTBOX/lib/sh.sh
+. $HOTBOX/lib/specs.sh
 
 
 test $# -gt 0 || die "Expected <spec>"
@@ -15,7 +16,7 @@ test $# -eq 0 || die "Unexpected argument '$1'"
 #
 # Read container information from <spec>
 #
-. $HOTBOX/lib/source-spec.sh
+read_spec $spec
 test -n "$baseimage" || die "No baseimage specified in $spec spec"
 test -n "$shell" || die "No shell specified in $spec spec"
 test -n "$workdir" || die "No workdir specified in $spec spec"
