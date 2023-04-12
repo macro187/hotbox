@@ -1,7 +1,7 @@
 . $HOTBOX/lib/sh.sh
 
 
-if ! which docker > /dev/null ; then
+if ! which docker >/dev/null ; then
     case $(current_distro) in
 
         alpine)

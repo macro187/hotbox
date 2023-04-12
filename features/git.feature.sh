@@ -1,7 +1,7 @@
 . $HOTBOX/lib/sh.sh
 
 
-if ! which git > /dev/null ; then
+if ! which git >/dev/null ; then
     case $(current_distro) in
 
         alpine)
@@ -40,11 +40,11 @@ fi
 #
 if ! grep -qF 'conf/gitconfig' .gitconfig ; then
     info "No hotbox gitconfig include found in .gitconfig, prepending"
-    cat .gitconfig > .gitconfig.old
-    echo "[include]" > .gitconfig
-    echo "	path = $HOTBOX/conf/gitconfig" >> .gitconfig
-    echo >> .gitconfig
-    cat .gitconfig.old >> .gitconfig
+    cat .gitconfig >.gitconfig.old
+    echo "[include]" >.gitconfig
+    echo "	path = $HOTBOX/conf/gitconfig" >>.gitconfig
+    echo >>.gitconfig
+    cat .gitconfig.old >>.gitconfig
     rm .gitconfig.old
 fi
 

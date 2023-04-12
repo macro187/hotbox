@@ -26,7 +26,7 @@ install_ubuntu() {
 
     # Write wrapper script
     echo_on
-    cat > bin/code <<- "EOF"
+    cat >bin/code <<-"EOF"
 		#!/bin/sh
 		/usr/bin/code --no-sandbox --disable-gpu $@
 	EOF
@@ -35,7 +35,7 @@ install_ubuntu() {
 }
 
 
-if ! which code > /dev/null ; then
+if ! which code >/dev/null ; then
     info "Visual Studio Code not found on system, installing"
     case $(current_distro) in
         ubuntu)

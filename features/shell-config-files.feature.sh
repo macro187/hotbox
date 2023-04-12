@@ -29,10 +29,10 @@ fi
 #
 if ! grep -qF '. "$HOME/.bashrc"' $profile ; then
     info "No .bashrc source found in $profile, adding"
-    cat $profile > .profile.old
-    echo '. "$HOME/.bashrc"' > $profile
-    echo >> $profile
-    cat .profile.old >> $profile
+    cat $profile >.profile.old
+    echo '. "$HOME/.bashrc"' >$profile
+    echo >>$profile
+    cat .profile.old >>$profile
     rm .profile.old
 fi
 
@@ -41,8 +41,8 @@ fi
 #
 if ! grep -qF 'export ENV="$HOME/.bashrc"' $profile ; then
     info "No .bashrc ENV found in $profile, adding"
-    echo >> $profile
-    echo 'export ENV="$HOME/.bashrc"' >> $profile
+    echo >>$profile
+    echo 'export ENV="$HOME/.bashrc"' >>$profile
 fi
 
 #
@@ -60,15 +60,15 @@ fi
 #
 if ! grep -qF '$-' .bashrc ; then
     info "No non-interactive return found in .bashrc, prepending"
-    cat .bashrc > .bashrc.old
-    cat << 'EOF' > .bashrc
+    cat .bashrc >.bashrc.old
+    cat << 'EOF' >.bashrc
 case $- in
     *i*) ;;
       *) return;;
 esac
 EOF
-    echo >> .bashrc
-    cat .bashrc.old >> .bashrc
+    echo >>.bashrc
+    cat .bashrc.old >>.bashrc
     rm .bashrc.old
 fi
 
@@ -77,8 +77,8 @@ fi
 #
 if ! grep -qF 'conf/bashrc' .bashrc ; then
     info "No hotbox bashrc source found in .bashrc, adding"
-    echo >> .bashrc
-    echo ". \"$HOTBOX/conf/bashrc\"" >> .bashrc
+    echo >>.bashrc
+    echo ". \"$HOTBOX/conf/bashrc\"" >>.bashrc
 fi
 
 #
@@ -96,10 +96,10 @@ fi
 #
 if ! grep -qF 'conf/inputrc' .inputrc ; then
     info "No hotbox inputrc source found in .inputrc, prepending"
-    cat .inputrc > .inputrc.old
-    echo "\$include $HOTBOX/conf/inputrc" > .inputrc
-    echo >> .inputrc
-    cat .inputrc.old >> .inputrc
+    cat .inputrc >.inputrc.old
+    echo "\$include $HOTBOX/conf/inputrc" >.inputrc
+    echo >>.inputrc
+    cat .inputrc.old >>.inputrc
     rm .inputrc.old
 fi
 

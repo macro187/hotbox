@@ -11,7 +11,7 @@ get_binds() {
     docker inspect \
         $HOSTNAME \
         --format='{{range $b := .HostConfig.Binds}}{{$b}} {{end}}' \
-        2> /dev/null \
+        2>/dev/null \
         || true
 }
 

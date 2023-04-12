@@ -1,7 +1,7 @@
 . $HOTBOX/lib/sh.sh
 
 
-if ! which dotnet > /dev/null ; then
+if ! which dotnet >/dev/null ; then
     case $(current_distro) in
 
         alpine)

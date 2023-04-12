@@ -1,7 +1,7 @@
 . $HOTBOX/lib/sh.sh
 
 
-if ! which vim > /dev/null ; then
+if ! which vim >/dev/null ; then
     case $(current_distro) in
 
         alpine)
