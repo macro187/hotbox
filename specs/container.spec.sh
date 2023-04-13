@@ -11,4 +11,8 @@ features="
     container-cook
     doas
     container-cache
+    container-host-x11
+    container-host-docker
+    container-host-git-credentials
+    container-host-term
 "

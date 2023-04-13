@@ -77,7 +77,7 @@ fi
 
 
 #
-# If the hotbox is already running, just join it
+# If the container is already running, join it
 #
 container_id=$(docker ps -q --filter label=hotbox.name=$name)
 if [ -n "$container_id" ] ; then
@@ -106,32 +106,10 @@ fi
 # Collect docker run options
 #
 options="--workdir /root"
-
-if [ -n "${TERM:+x}" ] ; then
-    options="$options -e TERM=$TERM"
-fi
-
-if [ -S /var/run/docker.sock ] ; then
-    options="$options -v /var/run/docker.sock:/var/run/docker.sock"
-fi
-
-if [ -d /tmp/.X11-unix ] ; then
-    options="$options -v /tmp/.X11-unix:/tmp/.X11-unix"
-fi
-
-if [ -n "${DISPLAY:+x}" ] ; then
-    options="$options -e DISPLAY=$DISPLAY"
-fi
-
-if [ -f $HOME/.git-credentials ] ; then
-    options="$options -v $HOME/.git-credentials:/home/$(current_user)/.git-credentials"
-fi
-
 for feature in $features ; do
     test -f $HOTBOX/features/$feature.feature.run.sh || continue
     options="$options $(env HOTBOX=$HOTBOX /bin/sh -eu $HOTBOX/features/$feature.feature.run.sh)"
 done
-
 options="$(echo $options)"
 
 
@@ -143,6 +121,9 @@ workdir="${workdir%% *}"
 workdir="${workdir:-/root}"
 
 
+#
+# Run the container
+#
 heading "Starting $name hotbox container from $image image"
 echo_on
 docker run \
