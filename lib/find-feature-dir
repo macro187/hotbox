@@ -1,0 +1,22 @@
+#!/bin/sh
+set -eu
+HOTBOX=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd -P)
+
+
+feature="${1:?expected <feature>}"
+
+
+for p in $($HOTBOX/lib/get-paths) ; do
+    if test -f $p/$feature.feature.sh ; then
+        echo $p
+        exit 0
+    fi
+    if test -f $p/$feature.feature.sys.sh ; then
+        echo $p
+        exit 0
+    fi
+    if test -f $p/$feature.feature.run.sh ; then
+        echo $p
+        exit 0
+    fi
+done

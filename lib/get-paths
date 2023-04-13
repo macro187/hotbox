@@ -1,0 +1,14 @@
+#!/bin/sh
+set -eu
+HOTBOX=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd -P)
+
+
+HOTBOX_PATH="${HOTBOX_PATH:-}"
+paths="$(echo "$HOTBOX_PATH" | tr ':' ' ')"
+
+for p in $paths ; do
+    echo $p
+done
+
+echo $HOTBOX/specs
+echo $HOTBOX/features

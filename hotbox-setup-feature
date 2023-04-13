@@ -34,8 +34,10 @@ test $# -eq 0 || die "Unexpected argument '$1'"
 #
 # Find script
 #
-description="$feature"
+scriptdir="$($HOTBOX/lib/find-feature-dir $feature)"
+test -n "$scriptdir" || die "Feature $feature not found"
 scriptname="$feature.feature.sh"
+description="$feature"
 
 if $system ; then
     test "$(current_user)" = "root" || die "Must be root to set up system features"
@@ -43,7 +45,7 @@ if $system ; then
     scriptname="$feature.feature.sys.sh"
 fi
 
-script="$HOTBOX/features/$scriptname"
+script="$scriptdir/$scriptname"
 test -f $script || exit 0
 
 

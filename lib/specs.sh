@@ -1,8 +1,14 @@
 test -n "${__hotbox_specs:+x}" && return ; __hotbox_specs=1
 
 
+. $HOTBOX/lib/sh.sh
+
+
 read_spec() {
-    spec="${1:?expected <spec>}"
+    local spec="${1:?expected <spec>}"
+
+    local specdir="$($HOTBOX/lib/find-spec-dir $spec)"
+    test -n "$specdir" || die "Spec $spec not found"
 
     #
     # Remember current specifications
@@ -21,7 +27,8 @@ read_spec() {
     workdir=""
     shell=""
     shellarg=""
-    . $HOTBOX/specs/$spec.spec.sh
+
+    . $specdir/$spec.spec.sh
 
     #
     # Layer previous specifications back on top

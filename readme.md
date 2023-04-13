@@ -81,6 +81,28 @@ with the feature are started.  They:
 * Contribute `docker run` command line options by echoing them to stdout.
 
 
+hotbox-setup-feature
+--------------------
+
+Set up a feature
+
+### Synopsis
+
+```
+hotbox-setup-feature [--system] <feature>
+```
+
+### Options
+
+```
+--system
+    Set up system-level aspects of the feature.  Must be run as root.
+
+<feature>
+    The feature to set up.
+```
+
+
 
 Specs
 =====
@@ -89,15 +111,15 @@ Specs
 They are defined in shell scripts in the `specs/` subdirectory.
 
 
-hotbox-setup
-------------
+hotbox-setup-spec
+-----------------
 
-Set up features according to a spec
+Set up all features in a spec
 
 ### Synopsis
 
 ```
-hotbox-setup [--system] <spec>
+hotbox-setup-spec [--system] <spec>
 ```
 
 ### Options
@@ -248,6 +270,17 @@ hotbox-clean
 ------------
 
 Delete all hotbox container images
+
+
+
+Environment Variables
+=====================
+
+```
+HOTBOX_PATH
+    Colon-separated list of paths (in decreasing order of priority) to search
+    for features and specs.
+```
 
 
 
