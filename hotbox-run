@@ -6,6 +6,9 @@ HOTBOX=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd -P)
 . $HOTBOX/lib/sh.sh
 
 
+#
+# Command line arguments
+#
 volume1=""
 volume2=""
 volume3=""
@@ -50,7 +53,7 @@ name="${name:-$spec}"
 
 
 #
-# Get image information
+# Read information from container image metadata
 #
 image="hotbox-$spec"
 
@@ -64,12 +67,9 @@ shell="$(docker inspect --format '{{ index .ContainerConfig.Labels "hotbox.shell
 shellarg="$(docker inspect --format '{{ index .ContainerConfig.Labels "hotbox.shellarg"}}' $image_id)"
 test -n "$shell" || die "No hotbox.shell label found on container image"
 
-workdir="$(docker inspect --format '{{ index .ContainerConfig.Labels "hotbox.workdir"}}' $image_id)"
-test -n "$workdir" || die "No hotbox.workdir label found on container image"
-
 
 #
-# Run a login shell if no <command> <args> were specified
+# Default to a login shell if no <command> was specified
 #
 if [ $# -eq 0 ] ; then
     set -- $shell $shellarg
@@ -77,82 +77,17 @@ fi
 
 
 #
-# if the hotbox isn't running, start it...
+# If the hotbox is already running, just join it
 #
 container_id=$(docker ps -q --filter label=hotbox.name=$name)
-if [ -z "$container_id" ] ; then
-    termopts=""
-    if [ -n "${TERM:+x}" ] ; then
-        termopts="-e TERM=$TERM"
-    fi
-
-    dockersockopts=""
-    if [ -S /var/run/docker.sock ] ; then
-        dockersockopts="-v /var/run/docker.sock:/var/run/docker.sock"
-    fi
-
-    x11sockopts=""
-    if [ -d /tmp/.X11-unix ] ; then
-        x11sockopts="-v /tmp/.X11-unix:/tmp/.X11-unix"
-    fi
-
-    displayopts=""
-    if [ -n "${DISPLAY:+x}" ] ; then
-        displayopts="-e DISPLAY=$DISPLAY"
-    fi
-
-    gitcredentialsopts=""
-    if [ -f $HOME/.git-credentials ] ; then
-        gitcredentialsopts="-v $HOME/.git-credentials:/home/$(current_user)/.git-credentials"
-    fi
-
-    featureopts=""
-    for feature in $features ; do
-        test -f $HOTBOX/features/$feature.feature.run.sh || continue
-        featureopts="$featureopts $(env HOTBOX=$HOTBOX /bin/sh -eu $HOTBOX/features/$feature.feature.run.sh)"
-    done
-
-    heading "Starting $name hotbox container from $image image"
-    echo_on
-    docker run \
-        --rm \
-        -it \
-        --ipc=host \
-        --network=host \
-        $termopts \
-        $dockersockopts \
-        $x11sockopts \
-        $displayopts \
-        $gitcredentialsopts \
-        --label hotbox.name=$name \
-        --label hotbox.workdir=$workdir \
-        --env HOTBOX_NAME=$name \
-        --workdir $workdir \
-        \
-        $featureopts \
-        \
-        ${volume1:+--volume} $volume1 \
-        ${volume2:+--volume} $volume2 \
-        ${volume3:+--volume} $volume3 \
-        \
-        $image \
-        \
-        $@
-    echo_off
-
-
-#
-# ...otherwise join it
-#
-else
+if [ -n "$container_id" ] ; then
     heading "Joining $name hotbox container $container_id"
 
     container_image="$(docker inspect --format '{{ .Config.Image }}' $container_id)"
-    test "$container_image" = "$image" || \
-        die "Container image $container_image does not match specified image $image"
+    test "$container_image" = "$image" || die "Container image $container_image does not match specified image $image"
 
     workdir="$(docker inspect --format '{{ index .Config.Labels "hotbox.workdir"}}' $container_id)"
-    test -n "$workdir" || dir "No hotbox.workdir label found on container"
+    test -n "$workdir" || die "No hotbox.workdir label found on container"
 
     echo_on
     docker exec \
@@ -162,4 +97,71 @@ else
         $container_id \
         $@
     echo_off
+
+    exit
 fi
+
+
+#
+# Collect docker run options
+#
+options="--workdir /root"
+
+if [ -n "${TERM:+x}" ] ; then
+    options="$options -e TERM=$TERM"
+fi
+
+if [ -S /var/run/docker.sock ] ; then
+    options="$options -v /var/run/docker.sock:/var/run/docker.sock"
+fi
+
+if [ -d /tmp/.X11-unix ] ; then
+    options="$options -v /tmp/.X11-unix:/tmp/.X11-unix"
+fi
+
+if [ -n "${DISPLAY:+x}" ] ; then
+    options="$options -e DISPLAY=$DISPLAY"
+fi
+
+if [ -f $HOME/.git-credentials ] ; then
+    options="$options -v $HOME/.git-credentials:/home/$(current_user)/.git-credentials"
+fi
+
+for feature in $features ; do
+    test -f $HOTBOX/features/$feature.feature.run.sh || continue
+    options="$options $(env HOTBOX=$HOTBOX /bin/sh -eu $HOTBOX/features/$feature.feature.run.sh)"
+done
+
+options="$(echo $options)"
+
+
+#
+# Grab workdir from last --workdir option
+#
+workdir="${options##*--workdir }"
+workdir="${workdir%% *}"
+workdir="${workdir:-/root}"
+
+
+heading "Starting $name hotbox container from $image image"
+echo_on
+docker run \
+    --rm \
+    -it \
+    --ipc=host \
+    --network=host \
+    \
+    --label hotbox.name=$name \
+    --label hotbox.workdir=$workdir \
+    --env HOTBOX_NAME=$name \
+    \
+    $options \
+    \
+    ${volume1:+--volume $volume1} \
+    ${volume2:+--volume $volume2} \
+    ${volume3:+--volume $volume3} \
+    \
+    $image \
+    \
+    $@
+echo_off

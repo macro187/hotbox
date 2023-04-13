@@ -7,6 +7,9 @@ HOTBOX=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd -P)
 . $HOTBOX/lib/specs.sh
 
 
+#
+# Command line arguments
+#
 test $# -gt 0 || die "Expected <spec>"
 spec="$1" ; shift
 
@@ -19,7 +22,6 @@ test $# -eq 0 || die "Unexpected argument '$1'"
 read_spec $spec
 test -n "$baseimage" || die "No baseimage specified in $spec spec"
 test -n "$shell" || die "No shell specified in $spec spec"
-test -n "$workdir" || die "No workdir specified in $spec spec"
 
 
 #
@@ -48,7 +50,6 @@ docker build \
     --label "hotbox.features=$features" \
     --label hotbox.shell=$shell \
     --label hotbox.shellarg=$shellarg \
-    --label hotbox.workdir=$workdir \
     \
     --build-arg baseimage=$baseimage \
     --build-arg spec=$spec \
@@ -56,7 +57,6 @@ docker build \
     --build-arg uid=$uid \
     --build-arg gid=$gid \
     --build-arg docker_gid=$docker_gid \
-    --build-arg workdir=$workdir \
     \
     -f - \
     $HOTBOX \

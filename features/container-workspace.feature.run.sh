@@ -71,4 +71,5 @@ if $HOTBOX/hotbox-in-container ; then
 fi
 
 
-echo --volume $hostsrc:$dst --workdir $wrk
+echo --volume  $hostsrc:$dst
+echo --workdir $wrk

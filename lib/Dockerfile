@@ -6,7 +6,6 @@ ARG user
 ARG uid
 ARG gid
 ARG docker_gid
-ARG workdir
 
 #
 # Copy hotbox from host into /hotbox
@@ -53,9 +52,8 @@ RUN set -eu ; \
     doas chmod 755 /hotbox
 
 #
-# Set some reasonable startup defaults even though hotbox-run specifies these
-# explicitly
+# Set some fallback startup defaults even though hotbox-run specifies these
 #
 USER $user
-WORKDIR $workdir
+WORKDIR /home/$user
 CMD ["/bin/sh", "-l"]

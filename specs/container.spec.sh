@@ -1,6 +1,5 @@
 shell="/bin/sh"
 shellarg="-l"
-workdir="/workspace"
 features="
     $features
     container-initialise
