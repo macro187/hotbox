@@ -103,14 +103,16 @@ fi
 
 
 #
-# Collect docker run options
+# Collect docker run options from features
 #
 options="--workdir /root"
 for feature in $features ; do
-    featuredir="$($HOTBOX/lib/find-feature-dir $feature)"
-    test -n "$featuredir" || die "Feature $feature not found"
-    test -f $featuredir/$feature.feature.run.sh || continue
-    options="$options $(env HOTBOX=$HOTBOX /bin/sh -eu $featuredir/$feature.feature.run.sh)"
+    feature_dir="$($HOTBOX/lib/find-feature $feature)"
+    test -n "$feature_dir" || die "Feature $feature not found"
+    feature_run_script="$feature_dir/$feature.feature.run.sh"
+    test -f $feature_run_script || continue
+    feature_options="$(env HOTBOX=$HOTBOX /bin/sh -eu $feature_run_script)"
+    options="$options $feature_options"
 done
 options="$(echo $options)"
 
@@ -120,7 +122,7 @@ options="$(echo $options)"
 #
 workdir="${options##*--workdir }"
 workdir="${workdir%% *}"
-workdir="${workdir:-/root}"
+test -n "$workdir" || die "no --workdir found in docker run options"
 
 
 #

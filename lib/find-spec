@@ -6,7 +6,7 @@ HOTBOX=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd -P)
 spec="${1:?expected <spec>}"
 
 
-for p in $($HOTBOX/lib/get-paths) ; do
+for p in $($HOTBOX/lib/hotbox-paths) ; do
     if test -f $p/$spec.spec.sh ; then
         echo $p
         exit 0
