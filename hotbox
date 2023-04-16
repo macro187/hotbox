@@ -6,6 +6,9 @@ HOTBOX=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd -P)
 . $HOTBOX/lib/sh.sh
 
 
+#
+# Command line arguments
+#
 volume1=""
 volume2=""
 volume3=""
@@ -59,17 +62,26 @@ fi
 # Remaining arguments are <command> and <args> to run in container
 
 
+#
+# Find container image
+#
 spec="${spec:-alpine}"
 name="${name:-$spec}"
 image="hotbox-$spec"
 image_id="$(docker image ls -q $image)"
 
 
+#
+# Build container image if necessary
+#
 if [ -z "$image_id" ] ; then
     $HOTBOX/hotbox-build $spec
 fi
 
 
+#
+# Start or join container
+#
 $HOTBOX/hotbox-run \
     ${volume1:+--volume} $volume1 \
     ${volume2:+--volume} $volume2 \
