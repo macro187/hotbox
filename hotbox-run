@@ -138,7 +138,6 @@ docker run \
     \
     --label hotbox.name=$name \
     --label hotbox.workdir=$workdir \
-    --env HOTBOX_NAME=$name \
     \
     $options \
     \
