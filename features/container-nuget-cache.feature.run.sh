@@ -1,16 +1,10 @@
 . $HOTBOX/lib/sh.sh
+. $HOTBOX/lib/state.sh
 
 
-if $HOTBOX/hotbox-in-container ; then
-    hotbox_cache="/hotbox-cache"
-else
-    hotbox_cache="$HOME/.hotbox/cache"
-fi
-
-
-if ! [ -d $hotbox_cache/nuget-packages ] ; then
-    heading "Creating NuGet package cache in hotbox cache"
+if ! [ -d $HOTBOX_STATE/nuget-packages ] ; then
+    heading "Creating NuGet package cache in hotbox state"
     echo_on
-    mkdir -p $hotbox_cache/nuget-packages
+    mkdir -p $HOTBOX_STATE/nuget-packages
     echo_off
 fi

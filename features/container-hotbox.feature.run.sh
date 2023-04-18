@@ -1,14 +1,17 @@
 . $HOTBOX/lib/sh.sh
+. $HOTBOX/lib/state.sh
 
 
 host_hotbox="$HOTBOX"
+host_hotbox_state="$HOTBOX_STATE"
 if $HOTBOX/hotbox-in-container ; then
     host_hotbox="$($HOTBOX/hotbox-map $HOTBOX)"
-    if [ -z "$host_hotbox" ] ; then
-        warn "$HOTBOX will be unavailable because it has not been bind mounted from the host"
-        exit 0
-    fi
+    host_hotbox_state="$($HOTBOX/hotbox-map $HOTBOX_STATE)"
+    test -n "$host_hotbox" || die "Can't mount $HOTBOX because it wasn't mounted from the host"
+    test -n "$host_hotbox_state" || die "Can't mount $HOTBOX_STATE because it wasn't mounted from the host"
 fi
 
 
 echo --volume $host_hotbox:/hotbox
+echo --volume $host_hotbox_state:/hotbox-state
+echo --env HOTBOX_STATE=/hotbox-state
