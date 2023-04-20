@@ -23,6 +23,7 @@ RUN set -eu ; \
     echo "==> Setting up system features as root" >&2 ; \
     set -x ; \
     export HOTBOX_SOURCES="/hotbox-sources" ; \
+    export HOTBOX_STATE="/hotbox-state" ; \
     export HOTBOX_USER="$user" ; \
     export HOTBOX_UID="$uid" ; \
     export HOTBOX_GID="$gid" ; \
@@ -39,6 +40,7 @@ RUN set -eu ; \
     echo "==> Setting up features as $user" >&2 ; \
     set -x ; \
     export HOTBOX_SOURCES="/hotbox-sources" ; \
+    export HOTBOX_STATE="/hotbox-state" ; \
     export HOTBOX_USER="$user" ; \
     export HOTBOX_UID="$uid" ; \
     export HOTBOX_GID="$gid" ; \

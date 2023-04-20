@@ -10,6 +10,24 @@ HOTBOX=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd -P)
 #
 # Command line arguments
 #
+extra_sources=
+while test $# -gt 0 ; do
+    case $1 in
+        --source)
+            shift
+            test $# -gt 0 || die "Expected <source>"
+            extra_sources="$extra_sources $1"
+            shift
+            ;;
+        -*)
+            die "Unrecognised option '$1'"
+            ;;
+        *)
+            break
+            ;;
+    esac
+done
+
 test $# -gt 0 || die "Expected <spec>"
 spec="$1" ; shift
 
@@ -27,6 +45,12 @@ mkdir -p $sources
 cp $HOTBOX/specs/* $sources
 cp $HOTBOX/features/* $sources
 echo_off
+for source in $extra_sources ; do
+    echo_on
+    cp $source/*.spec.sh $sources 2>/dev/null || true
+    cp $source/*.feature.sh $sources 2>/dev/null || true
+    echo_off
+done
 
 
 #
