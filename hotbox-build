@@ -4,6 +4,7 @@ HOTBOX=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd -P)
 
 
 . $HOTBOX/lib/sh.sh
+. $HOTBOX/lib/state.sh
 
 
 #
@@ -16,12 +17,39 @@ test $# -eq 0 || die "Unexpected argument '$1'"
 
 
 #
+# Collect sources
+#
+sources=$HOTBOX_STATE/sources/$spec
+heading "Collecting specs and features"
+echo_on
+rm -rf $sources
+mkdir -p $sources
+cp $HOTBOX/specs/* $sources
+cp $HOTBOX/features/* $sources
+echo_off
+
+
+#
+# Build Docker context
+#
+context=$HOTBOX_STATE/context/$spec
+heading "Building Docker build context"
+echo_on
+rm -rf $context
+mkdir -p $context
+cp -R $HOTBOX $context/hotbox
+rm -rf $context/hotbox/.git
+cp -R $sources $context/hotbox-sources
+echo_off
+
+
+#
 # Read container information from <spec>
 #
-features=$(echo $($HOTBOX/lib/read-spec $HOTBOX/specs $spec feature))
-baseimage=$($HOTBOX/lib/read-spec $HOTBOX/specs $spec baseimage | tail -n 1)
-shell=$($HOTBOX/lib/read-spec $HOTBOX/specs $spec shell | tail -n 1)
-shellarg=$($HOTBOX/lib/read-spec $HOTBOX/specs $spec shellarg | tail -n 1)
+features=$(echo $($HOTBOX/lib/read-spec $sources $spec feature))
+baseimage=$($HOTBOX/lib/read-spec $sources $spec baseimage | tail -n 1)
+shell=$($HOTBOX/lib/read-spec $sources $spec shell | tail -n 1)
+shellarg=$($HOTBOX/lib/read-spec $sources $spec shellarg | tail -n 1)
 test -n "$baseimage" || die "No baseimage specified in $spec spec"
 test -n "$shell" || die "No shell specified in $spec spec"
 
@@ -61,8 +89,17 @@ docker build \
     --build-arg docker_gid=$docker_gid \
     \
     -f - \
-    $HOTBOX \
+    $context \
     < $HOTBOX/lib/Dockerfile
+echo_off
+
+
+#
+# Clean up context
+#
+heading "Cleaning up Docker build context"
+echo_on
+rm -rf $context
 echo_off
 
 

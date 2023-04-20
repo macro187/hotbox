@@ -4,6 +4,7 @@ HOTBOX=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd -P)
 
 
 . $HOTBOX/lib/sh.sh
+. $HOTBOX/lib/state.sh
 
 
 #
@@ -105,9 +106,10 @@ fi
 #
 # Collect docker run options from features
 #
+sources=$HOTBOX_STATE/sources/$spec
 options="--workdir /root"
 for feature in $features ; do
-    feature_options="$($HOTBOX/lib/run-feature-command $HOTBOX/features $feature run)"
+    feature_options="$($HOTBOX/lib/run-feature-command $sources $feature run)"
     options="$options $feature_options"
 done
 options="$(echo $options)"
