@@ -107,11 +107,7 @@ fi
 #
 options="--workdir /root"
 for feature in $features ; do
-    feature_dir="$($HOTBOX/lib/find-feature $feature)"
-    test -n "$feature_dir" || die "Feature $feature not found"
-    feature_run_script="$feature_dir/$feature.feature.run.sh"
-    test -f $feature_run_script || continue
-    feature_options="$(env HOTBOX=$HOTBOX /bin/sh -eu $feature_run_script)"
+    feature_options="$($HOTBOX/lib/run-feature-command $HOTBOX/features $feature run)"
     options="$options $feature_options"
 done
 options="$(echo $options)"

@@ -1,0 +1,12 @@
+#!/bin/sh
+set -eu
+HOTBOX=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd -P)
+
+
+location="${1:?expected <location>}"
+feature="${2:?expected <feature>}"
+
+
+test -f $location/$feature.system.feature.sh \
+    || test -f $location/$feature.setup.feature.sh \
+    || test -f $location/$feature.run.feature.sh

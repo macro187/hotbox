@@ -1,0 +1,21 @@
+#!/bin/sh
+set -eu
+HOTBOX=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd -P)
+
+
+. $HOTBOX/lib/sh.sh
+
+
+location="${1:?expected <location>}"
+feature="${2:?expected <feature>}"
+command="${3:?expected <command>}"
+
+
+$HOTBOX/lib/feature-exists $location $feature || die "Feature $feature not found"
+
+
+script="$location/$feature.$command.feature.sh"
+test -f $script || exit 0
+
+
+env HOTBOX=$HOTBOX /bin/sh -eu $script

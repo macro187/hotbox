@@ -34,7 +34,7 @@ test $# -eq 0 || die "Unexpected argument '$1'"
 #
 # Read features from <spec>
 #
-features="$(cd $HOTBOX/specs && $HOTBOX/lib/read-spec $spec feature)"
+features="$(echo $(cd $HOTBOX/specs && $HOTBOX/lib/read-spec $spec feature))"
 
 
 #

@@ -18,7 +18,7 @@ test $# -eq 0 || die "Unexpected argument '$1'"
 #
 # Read container information from <spec>
 #
-features=$(cd $HOTBOX/specs && $HOTBOX/lib/read-spec $spec feature)
+features=$(echo $(cd $HOTBOX/specs && $HOTBOX/lib/read-spec $spec feature))
 baseimage=$(cd $HOTBOX/specs && $HOTBOX/lib/read-spec $spec baseimage | tail -n 1)
 shell=$(cd $HOTBOX/specs && $HOTBOX/lib/read-spec $spec shell | tail -n 1)
 shellarg=$(cd $HOTBOX/specs && $HOTBOX/lib/read-spec $spec shellarg | tail -n 1)

@@ -32,25 +32,29 @@ test $# -eq 0 || die "Unexpected argument '$1'"
 
 
 #
-# Find script
+# User check
 #
-feature_dir="$($HOTBOX/lib/find-feature $feature)"
-test -n "$feature_dir" || die "Feature $feature not found"
-feature_script_name="$feature.feature.sh"
-feature_description="$feature"
-
 if $system ; then
     test "$(current_user)" = "root" || die "Must be root to set up system features"
-    feature_description="system $feature"
-    feature_script_name="$feature.feature.sys.sh"
+else
+    test "$(current_user)" != "root" || die "Must be unprivileged user to set up features"
 fi
 
-feature_script="$feature_dir/$feature_script_name"
-test -f $feature_script || exit 0
+
+#
+# Work out command to run
+#
+command="setup"
+description="$feature"
+if $system ; then
+    command="system"
+    description="system $feature"
+fi
 
 
 #
-# Run script
+# Run it
 #
-heading "Setting up $feature_description"
-env HOTBOX=$HOTBOX /bin/sh -eu $feature_script
+$HOTBOX/lib/feature-command-exists $HOTBOX/features $feature $command || exit 0
+heading "Setting up $description"
+$HOTBOX/lib/run-feature-command $HOTBOX/features $feature $command
