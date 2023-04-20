@@ -1,9 +1,0 @@
-#!/bin/sh
-set -eu
-HOTBOX=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd -P)
-
-
-paths="$(echo ${HOTBOX_PATH:-} | tr ':' ' ')"
-for p in $paths ; do
-    echo $p
-done
