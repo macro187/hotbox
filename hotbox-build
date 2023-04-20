@@ -18,10 +18,10 @@ test $# -eq 0 || die "Unexpected argument '$1'"
 #
 # Read container information from <spec>
 #
-features=$(echo $(cd $HOTBOX/specs && $HOTBOX/lib/read-spec $spec feature))
-baseimage=$(cd $HOTBOX/specs && $HOTBOX/lib/read-spec $spec baseimage | tail -n 1)
-shell=$(cd $HOTBOX/specs && $HOTBOX/lib/read-spec $spec shell | tail -n 1)
-shellarg=$(cd $HOTBOX/specs && $HOTBOX/lib/read-spec $spec shellarg | tail -n 1)
+features=$(echo $($HOTBOX/lib/read-spec $HOTBOX/specs $spec feature))
+baseimage=$($HOTBOX/lib/read-spec $HOTBOX/specs $spec baseimage | tail -n 1)
+shell=$($HOTBOX/lib/read-spec $HOTBOX/specs $spec shell | tail -n 1)
+shellarg=$($HOTBOX/lib/read-spec $HOTBOX/specs $spec shellarg | tail -n 1)
 test -n "$baseimage" || die "No baseimage specified in $spec spec"
 test -n "$shell" || die "No shell specified in $spec spec"
 

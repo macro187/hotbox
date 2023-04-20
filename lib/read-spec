@@ -6,20 +6,21 @@ HOTBOX=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd -P)
 . $HOTBOX/lib/sh.sh
 
 
-spec="${1:?expected <spec>}"
-selected_key="${2:-}"
+location="${1:?expected <location>}"
+spec="${2:?expected <spec>}"
+selected_key="${3:-}"
 
 
-spec_script="$spec.spec.sh"
-test -f $spec_script || die "Spec $spec not found"
+script="$location/$spec.spec.sh"
+test -f $script || die "Spec $spec not found"
 
 
-env HOTBOX=$HOTBOX /bin/sh -eu $spec_script | while read -r line ; do
+env HOTBOX=$HOTBOX /bin/sh -eu $script | while read -r line ; do
     key="${line%%:*}"
     value="${line#*:}"
 
     if [ "$key" = "inherit" ] ; then
-        $HOTBOX/lib/read-spec $value $selected_key || die "Error reading inherited $value spec"
+        $HOTBOX/lib/read-spec $location $value $selected_key || die "Error reading inherited $value spec"
         continue
     fi
 
