@@ -1,0 +1,36 @@
+#!/bin/sh
+set -eu
+HOTBOX=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd -P)
+
+
+. $HOTBOX/lib/sh.sh
+
+
+spec="${1:?expected <spec>}"
+selected_key="${2:-}"
+
+
+spec_script="$spec.spec.sh"
+test -f $spec_script || die "Spec $spec not found"
+
+
+env HOTBOX=$HOTBOX /bin/sh -eu $spec_script | while read -r line ; do
+    key="${line%%:*}"
+    value="${line#*:}"
+
+    if [ "$key" = "inherit" ] ; then
+        $HOTBOX/lib/read-spec $value $selected_key || die "Error reading inherited $value spec"
+        continue
+    fi
+
+    if [ -n "$selected_key" ] ; then
+        if [ "$key" != "$selected_key" ] ; then
+            continue
+        fi
+
+        echo "$value"
+        continue
+    fi
+
+    echo "$line"
+done

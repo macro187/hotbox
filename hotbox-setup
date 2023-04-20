@@ -34,10 +34,7 @@ test $# -eq 0 || die "Unexpected argument '$1'"
 #
 # Read features from <spec>
 #
-spec_dir="$($HOTBOX/lib/find-spec $spec)"
-test -n "$spec_dir" || die "Spec $spec not found"
-spec_script="$spec_dir/$spec.spec.sh"
-. $HOTBOX/lib/source-spec.sh
+features="$(cd $HOTBOX/specs && $HOTBOX/lib/read-spec $spec feature)"
 
 
 #

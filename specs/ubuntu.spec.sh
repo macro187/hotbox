@@ -1,5 +1,7 @@
-. $HOTBOX/specs/container.spec.sh
-. $HOTBOX/specs/workstation.spec.sh
+. $HOTBOX/lib/spec.sh
 
-baseimage="ubuntu:rolling"
-shell="/bin/bash"
+
+inherit container
+inherit workstation
+baseimage ubuntu:rolling
+shell /bin/bash

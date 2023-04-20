@@ -1,12 +1,12 @@
-features="
-    $features
-    shell-config-files
-    user-bin-directory
-    base-tools
-    man
-    docker-cli
-    git
-    vimrc
-    vim
-    neovim
-"
+. $HOTBOX/lib/spec.sh
+
+
+feature shell-config-files
+feature user-bin-directory
+feature base-tools
+feature man
+feature docker-cli
+feature git
+feature vimrc
+feature vim
+feature neovim

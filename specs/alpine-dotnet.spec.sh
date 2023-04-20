@@ -1,8 +1,7 @@
-. $HOTBOX/specs/alpine.spec.sh
+. $HOTBOX/lib/spec.sh
 
-features="
-    $features
-    dotnet-sdk
-    container-nuget-cache
-    omnisharp
-"
+
+inherit alpine
+feature dotnet-sdk
+feature container-nuget-cache
+feature omnisharp

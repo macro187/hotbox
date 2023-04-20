@@ -1,4 +1,6 @@
-. $HOTBOX/specs/container.spec.sh
-. $HOTBOX/specs/workstation.spec.sh
+. $HOTBOX/lib/spec.sh
 
-baseimage="alpine"
+
+inherit container
+inherit workstation
+baseimage alpine

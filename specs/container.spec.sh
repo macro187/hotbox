@@ -1,17 +1,17 @@
-shell="/bin/sh"
-shellarg="-l"
-features="
-    $features
-    container-initialise
-    container-package-manager-update
-    container-user
-    container-docker-group
-    container-hotbox
-    container-workspace
-    container-cook
-    doas
-    container-host-x11
-    container-host-docker
-    container-host-git-credentials
-    container-host-term
-"
+. $HOTBOX/lib/spec.sh
+
+
+shell /bin/sh
+shellarg -l
+feature container-initialise
+feature container-package-manager-update
+feature container-user
+feature container-docker-group
+feature container-hotbox
+feature container-workspace
+feature container-cook
+feature doas
+feature container-host-x11
+feature container-host-docker
+feature container-host-git-credentials
+feature container-host-term
