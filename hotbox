@@ -9,25 +9,14 @@ HOTBOX=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd -P)
 #
 # Command line arguments
 #
-volume1=""
-volume2=""
-volume3=""
+volume_options=""
 spec=""
-
 while test $# -gt 0 ; do
     case $1 in
         --volume)
             shift
             test $# -gt 0 || die "Expected <volume>"
-            if [ -z "$volume1" ] ; then
-                volume1="$1"
-            elif [ -z "$volume2" ] ; then
-                volume2="$1"
-            elif [ -z "$volume3" ] ; then
-                volume3="$1"
-            else
-                die "Too many --volume's"
-            fi
+            volume_options="$volume_options --volume $1"
             shift
             ;;
         --)
@@ -83,8 +72,6 @@ fi
 # Start or join container
 #
 $HOTBOX/hotbox-run \
-    ${volume1:+--volume} $volume1 \
-    ${volume2:+--volume} $volume2 \
-    ${volume3:+--volume} $volume3 \
+    $volume_options \
     $spec $name \
     $@
