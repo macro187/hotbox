@@ -46,6 +46,7 @@ cp $HOTBOX/specs/* $sources
 cp $HOTBOX/features/* $sources
 echo_off
 for source in $extra_sources ; do
+    test -d $source || continue
     echo_on
     cp $source/*.spec.sh $sources 2>/dev/null || true
     cp $source/*.feature.sh $sources 2>/dev/null || true
