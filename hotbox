@@ -9,10 +9,17 @@ HOTBOX=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd -P)
 #
 # Command line arguments
 #
+source_options=""
 volume_options=""
 spec=""
 while test $# -gt 0 ; do
     case $1 in
+        --source)
+            shift
+            test $# -gt 0 || die "Expected <source>"
+            source_options="$source_options --source $1"
+            shift
+            ;;
         --volume)
             shift
             test $# -gt 0 || die "Expected <volume>"
@@ -64,7 +71,9 @@ image_id="$(docker image ls -q $image)"
 # Build container image if necessary
 #
 if [ -z "$image_id" ] ; then
-    $HOTBOX/hotbox-build $spec
+    $HOTBOX/hotbox-build \
+        $source_options \
+        $spec
 fi
 
 
