@@ -7,9 +7,13 @@ path="${1:-}"
 test -n "$path" || exit 0
 
 
+container_id="$($HOTBOX/lib/container-id)"
+test -n "$container_id" || exit 0
+
+
 get_binds() {
     docker inspect \
-        $HOSTNAME \
+        $container_id \
         --format='{{range $b := .HostConfig.Binds}}{{$b}} {{end}}' \
         2>/dev/null \
         || true

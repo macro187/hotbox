@@ -1,0 +1,11 @@
+#!/bin/sh
+set -eu
+HOTBOX=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd -P)
+
+
+id="$(cat /proc/self/mountinfo | grep /docker/containers/ | head -n 1)"
+id="${id##*/docker/containers/}"
+id="${id%%/*}"
+test -n "$id" || exit 1
+echo $id
+exit 0
