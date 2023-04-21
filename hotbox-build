@@ -16,7 +16,7 @@ while test $# -gt 0 ; do
         --source)
             shift
             test $# -gt 0 || die "Expected <source>"
-            extra_sources="$extra_sources $1"
+            extra_sources="$extra_sources ${1%/}"
             shift
             ;;
         -*)
