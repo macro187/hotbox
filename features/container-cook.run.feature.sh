@@ -1,9 +1,8 @@
 . $HOTBOX/lib/sh.sh
 
 
-cook="$(which cook)"
+cook="$(which cook)" || exit 0
 cook="${cook%/*}"
-test -n "$cook" || exit 0
 
 
 host_cook="$cook"
