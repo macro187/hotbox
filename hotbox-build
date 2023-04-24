@@ -71,7 +71,8 @@ echo_off
 #
 # Read container information from <spec>
 #
-features=$(echo $($HOTBOX/lib/read-spec $sources $spec feature))
+features=$($HOTBOX/lib/read-spec $sources $spec feature)
+features=$(echo $features)
 baseimage=$($HOTBOX/lib/read-spec $sources $spec baseimage | tail -n 1)
 shell=$($HOTBOX/lib/read-spec $sources $spec shell | tail -n 1)
 shellarg=$($HOTBOX/lib/read-spec $sources $spec shellarg | tail -n 1)
