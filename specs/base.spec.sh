@@ -3,7 +3,7 @@
 
 inherit _alpine
 feature container-initialise
-feature container-package-manager-update
+feature package-manager
 feature container-user
 feature container-docker-group
 feature container-hotbox
