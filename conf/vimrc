@@ -92,6 +92,13 @@ if ! has('nvim')
                 \ 'allowlist': [ 'cs' ],
                 \ })
         endif
+        if executable('bash-language-server')
+            call lsp#register_server({
+                \ 'name': 'bash-language-server',
+                \ 'cmd': [ 'bash-language-server', 'start' ],
+                \ 'allowlist': [ 'sh', 'bash' ],
+                \ })
+        endif
     endfunction
 
     augroup lsp_install
