@@ -1,8 +1,7 @@
 . $HOTBOX/lib/spec.sh
 
 
-shell /bin/sh
-shellarg -l
+inherit _alpine
 feature container-initialise
 feature container-package-manager-update
 feature container-user

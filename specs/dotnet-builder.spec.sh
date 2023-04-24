@@ -1,7 +1,6 @@
 . $HOTBOX/lib/spec.sh
 
 
-inherit container
-baseimage alpine
+inherit base
 feature dotnet-sdk
 feature container-nuget-cache
