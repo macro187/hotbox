@@ -25,14 +25,11 @@ if ! which vim >/dev/null ; then
 fi
 
 
-heading "Installing Vim plugins"
+heading "Creating Vim plugin directory"
 echo_on
 cd $HOME
 mkdir -p .vim/pack
 cd .vim/pack
 rm -rf hotbox
 mkdir -p hotbox/start
-cd hotbox/start
-git clone https://github.com/macro187/vim-macrobsidian.git
-git clone --depth 1 https://github.com/prabirshrestha/vim-lsp.git
 echo_off

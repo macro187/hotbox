@@ -25,13 +25,11 @@ if ! which nvim >/dev/null ; then
 fi
 
 
-heading "Installing Neovim plugins"
+heading "Creating Neovim plugin director"
 echo_on
 cd $HOME
 mkdir -p .local/share/nvim/site/pack
 cd .local/share/nvim/site/pack
 rm -rf hotbox
 mkdir -p hotbox/start
-cd hotbox/start
-git clone https://github.com/macro187/vim-macrobsidian.git
 echo_off
