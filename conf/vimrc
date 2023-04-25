@@ -80,6 +80,16 @@ nmap <c-l> :wincmd l<cr>
 au FileType netrw nmap <buffer> <c-l> :wincmd l<cr>
 
 
+if ! has('nvim')
+    autocmd VimEnter * call s:SetupNerdTree()
+    function s:SetupNerdTree() abort
+        if exists('g:loaded_nerdtree_autoload')
+            nmap <Leader>e :NERDTreeFocus<cr>
+        endif
+    endfunction
+endif
+
+
 "
 " Shell
 "
