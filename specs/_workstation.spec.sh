@@ -9,4 +9,3 @@ feature docker-cli
 feature git
 feature vimrc
 feature vim
-feature neovim
