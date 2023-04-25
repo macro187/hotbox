@@ -37,6 +37,10 @@ set formatoptions+=r
 set formatoptions+=o
 set formatoptions+=j
 
+
+"
+" Color Scheme
+"
 syntax on
 try
   colorscheme macrobsidian
@@ -46,6 +50,32 @@ try
     catch
   endtry
 endtry
+
+
+"
+" Explorer
+"
+let g:netrw_winsize = 20
+let g:netrw_banner = 0
+let g:netrw_liststyle = 0
+
+
+"
+" Key Bindings
+"
+let mapleader = ' '
+nmap <tab> :bnext<cr>
+nmap <s-tab> :bprevious<cr>
+nmap <c-n> :cnext<cr>
+nmap <c-p> :cprevious<cr>
+nmap <Leader>bd :bdelete<cr>
+nmap <Leader>e :Lexplore<cr>
+nmap <Leader>w :close<cr>
+nmap <c-j> :wincmd j<cr>
+nmap <c-k> :wincmd k<cr>
+nmap <c-h> :wincmd h<cr>
+nmap <c-l> :wincmd l<cr>
+au FileType netrw nmap <buffer> <c-l> :wincmd l<cr>
 
 
 "
@@ -128,9 +158,6 @@ endif
 
 
 if ! has('nvim')
-    nmap <c-n> :cn<cr>
-    nmap <c-p> :cp<cr>
-
     " dotnet build and error format
     autocmd BufRead *.cs set makeprg=clear\ &&\ dotnet\ build\ /p:GenerateFullPaths=true\ /clp:NoSummary
     autocmd BufRead *.cs set efm=%f(%l\\\,%c):\ %tarning\ %m\ [%.%#],%f(%l\\\,%c):\ %trror\ %m\ [%.%#]
