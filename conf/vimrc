@@ -68,7 +68,9 @@ nmap <tab> :bnext<cr>
 nmap <s-tab> :bprevious<cr>
 nmap <c-n> :cnext<cr>
 nmap <c-p> :cprevious<cr>
-nmap <Leader>bd :bdelete<cr>
+"nmap <Leader>bd :bdelete<cr>
+"Closes the buffer without also nuking the window it's in
+nmap <Leader>bd :bp<bar>sp<bar>bn<bar>bd<CR>
 nmap <Leader>e :Lexplore<cr>
 nmap <Leader>w :close<cr>
 nmap <c-j> :wincmd j<cr>
