@@ -34,11 +34,11 @@ spec="$1" ; shift
 test $# -eq 0 || die "Unexpected argument '$1'"
 
 
-#
-# Collect sources
-#
-sources=$HOTBOX_STATE/sources/$spec
-heading "Collecting specs and features"
+sources=$HOTBOX_STATE/sources/$spec.next
+image="hotbox-$spec.next"
+
+
+heading "Collecting hotbox specs and features"
 echo_on
 rm -rf $sources
 mkdir -p $sources
@@ -54,23 +54,7 @@ for source in $extra_sources ; do
 done
 
 
-#
-# Build Docker context
-#
-context=$HOTBOX_STATE/context/$spec
-heading "Building Docker build context"
-echo_on
-rm -rf $context
-mkdir -p $context
-cp -R $HOTBOX $context/hotbox
-rm -rf $context/hotbox/.git
-cp -R $sources $context/hotbox-sources
-echo_off
-
-
-#
-# Read container information from <spec>
-#
+heading "Reading $spec hotbox spec"
 features=$($HOTBOX/lib/read-spec $sources $spec feature)
 features=$(echo $features)
 baseimage=$($HOTBOX/lib/read-spec $sources $spec baseimage | tail -n 1)
@@ -80,59 +64,120 @@ test -n "$baseimage" || die "No baseimage specified in $spec spec"
 test -n "$shell" || die "No shell specified in $spec spec"
 
 
-#
-# Work out additional container information
-#
-image="hotbox-$spec"
 user="$(current_user)"
 uid="$(current_uid)"
 gid="$(current_gid)"
 docker_gid="$(getent group docker | cut -d: -f3)"
 
 
-#
-# Build container image
-#
-heading "Building $image container image"
+heading "Checking for existing $image container image"
 echo_on
-PROGRESS_NO_TRUNC=1 \
-docker build \
-    --progress plain \
-    --network=host \
-    \
-    -t $image \
-    \
-    --label hotbox \
-    --label "hotbox.features=$features" \
-    --label hotbox.shell=$shell \
-    --label hotbox.shellarg=$shellarg \
-    \
-    --build-arg baseimage=$baseimage \
-    --build-arg spec=$spec \
-    --build-arg user=$user \
-    --build-arg uid=$uid \
-    --build-arg gid=$gid \
-    --build-arg docker_gid=$docker_gid \
-    \
-    -f - \
-    $context \
-    < $HOTBOX/lib/Dockerfile
+imageid="$(docker image ls -q $image)"
 echo_off
 
 
-#
-# Clean up context
-#
-heading "Cleaning up Docker build context"
+if [ -n "$imageid" ] ; then
+    heading "Deleting existing $image container image"
+    echo_on
+    docker image rm -f $image
+    echo_off
+fi
+
+
+heading "Forking $image container image from $baseimage"
 echo_on
-rm -rf $context
+echo "FROM $baseimage" | \
+    docker build \
+        --label hotbox \
+        -t "$image" \
+        -
 echo_off
 
 
-#
-# Clean up unused intermediate container images
-#
-heading "Pruning hotbox container images"
+hotbox_mount_options="$($HOTBOX/lib/run-feature-command $sources container-hotbox run)"
+
+
+heading "Setting up system features in container"
 echo_on
+container=$(\
+    docker create \
+        --network host \
+        $hotbox_mount_options \
+        --env HOTBOX_SOURCES=/hotbox-state/sources/$spec.next \
+        --env HOTBOX_USER=$user \
+        --env HOTBOX_UID=$uid \
+        --env HOTBOX_GID=$gid \
+        --env HOTBOX_DOCKER_GID=$docker_gid \
+        --user root \
+        --workdir /root \
+        $image \
+        /hotbox/hotbox-setup --system $spec \
+        )
+docker start -ai $container
+docker commit $container $image
+echo_off
+
+
+heading "Rebuilding /hotbox mount point in container"
+echo_on
+container=$(\
+    docker create \
+        --user root \
+        --workdir /root \
+        $image \
+        /bin/sh -c "rm -rf /hotbox && mkdir /hotbox && chown $user:$user /hotbox && chmod 755 /hotbox" \
+        )
+docker start -ai $container
+docker commit $container $image
+echo_off
+
+
+heading "Rebuilding /hotbox-state mount point in container"
+echo_on
+container=$(\
+    docker create \
+        --user root \
+        --workdir /root \
+        $image \
+        /bin/sh -c "rm -rf /hotbox-state && mkdir /hotbox-state && chown $user:$user /hotbox-state && chmod 755 /hotbox-state" \
+        )
+docker start -ai $container
+docker commit $container $image
+echo_off
+
+
+heading "Setting up features in container"
+echo_on
+container=$(\
+    docker create \
+        --network host \
+        $hotbox_mount_options \
+        --env HOTBOX_SOURCES=/hotbox-state/sources/$spec.next \
+        --env HOTBOX_USER=$user \
+        --env HOTBOX_UID=$uid \
+        --env HOTBOX_GID=$gid \
+        --env HOTBOX_DOCKER_GID=$docker_gid \
+        --user $user \
+        --workdir /home/$user \
+        $image \
+        /hotbox/hotbox-setup $spec \
+        )
+docker start -ai $container
+docker commit $container $image
+echo_off
+
+
+heading "Committing final $spec container image"
+echo_on
+docker tag $image hotbox-$spec
+rm -rf $HOTBOX_STATE/sources/$spec
+mv $sources $HOTBOX_STATE/sources/$spec
+docker image rm -f $image
+echo_off
+
+
+heading "Pruning orphaned hotbox containers and images"
+echo_on
+docker container prune -f --filter label=hotbox
 docker image prune -f --filter label=hotbox
 echo_off

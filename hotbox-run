@@ -41,22 +41,15 @@ name="$1" ; shift
 
 spec="${spec:-alpine}"
 name="${name:-$spec}"
-
-
-#
-# Read information from container image metadata
-#
 image="hotbox-$spec"
+sources=$HOTBOX_STATE/sources/$spec
 
-image_id="$(docker image ls -q $image)"
-test -n "$image_id" || die "Image $image for spec $spec not found"
 
-features="$(docker inspect --format '{{ index .ContainerConfig.Labels "hotbox.features"}}' $image_id)"
-test -n "$features" || die "No hotbox.features label found on container image"
-
-shell="$(docker inspect --format '{{ index .ContainerConfig.Labels "hotbox.shell"}}' $image_id)"
-shellarg="$(docker inspect --format '{{ index .ContainerConfig.Labels "hotbox.shellarg"}}' $image_id)"
-test -n "$shell" || die "No hotbox.shell label found on container image"
+features=$($HOTBOX/lib/read-spec $sources $spec feature)
+features=$(echo $features)
+shell=$($HOTBOX/lib/read-spec $sources $spec shell | tail -n 1)
+shellarg=$($HOTBOX/lib/read-spec $sources $spec shellarg | tail -n 1)
+test -n "$shell" || die "No shell specified in $spec spec"
 
 
 #
@@ -96,7 +89,6 @@ fi
 #
 # Collect docker run options from features
 #
-sources=$HOTBOX_STATE/sources/$spec
 options="--workdir /root"
 for feature in $features ; do
     feature_options="$($HOTBOX/lib/run-feature-command $sources $feature run)"
