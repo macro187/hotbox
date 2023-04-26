@@ -18,7 +18,7 @@ COPY --chown=$uid:$gid /hotbox-sources /hotbox-sources
 #
 USER root
 WORKDIR /root
-RUN set -eu ; \
+RUN set -eu ; set -o | grep -q pipefail && set -o pipefail ; \
     echo "" >&2 ; \
     echo "==> Setting up system features as root" >&2 ; \
     set -x ; \
@@ -35,7 +35,7 @@ RUN set -eu ; \
 #
 USER $user
 WORKDIR /home/$user
-RUN set -eu ; \
+RUN set -eu ; set -o | grep -q pipefail && set -o pipefail ; \
     echo "" >&2 ; \
     echo "==> Setting up features as $user" >&2 ; \
     set -x ; \
@@ -50,7 +50,7 @@ RUN set -eu ; \
 #
 # Remove and recreate /hotbox so it can be mounted from host when run
 #
-RUN set -eu ; \
+RUN set -eu ; set -o | grep -q pipefail && set -o pipefail ; \
     doas rm -rf /hotbox ; \
     doas mkdir /hotbox ; \
     doas chown $user:$user /hotbox ; \
@@ -59,7 +59,7 @@ RUN set -eu ; \
 #
 # Remove /hotbox-sources
 #
-RUN set -eu ; \
+RUN set -eu ; set -o | grep -q pipefail && set -o pipefail ; \
     doas rm -rf /hotbox-sources
 
 #
