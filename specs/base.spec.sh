@@ -2,6 +2,7 @@
 
 
 inherit _alpine
+feature container-package-manager-cache
 feature container-initialise
 feature package-manager
 feature container-user
