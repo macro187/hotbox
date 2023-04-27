@@ -2,8 +2,7 @@
 
 
 echo_on
-cd $HOME
-mkdir -p $HOME/bin
+mkdir -p ~/bin
 echo_off
 
 
