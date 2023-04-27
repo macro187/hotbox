@@ -9,7 +9,7 @@ case $(current_distro) in
     ubuntu)
         info "Unminimizing Ubuntu"
         echo_on
-        yes | unminimize
+        yes | unminimize || checkpipe
         echo_off
         ;;
 

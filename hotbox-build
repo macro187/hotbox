@@ -57,9 +57,9 @@ done
 heading "Reading $spec hotbox spec"
 features=$($HOTBOX/lib/read-spec $sources $spec feature)
 features=$(echo $features)
-baseimage=$($HOTBOX/lib/read-spec $sources $spec baseimage | tail -n 1)
-shell=$($HOTBOX/lib/read-spec $sources $spec shell | tail -n 1)
-shellarg=$($HOTBOX/lib/read-spec $sources $spec shellarg | tail -n 1)
+baseimage=$($HOTBOX/lib/read-spec $sources $spec baseimage | tail -n 1 || checkpipe)
+shell=$($HOTBOX/lib/read-spec $sources $spec shell | tail -n 1 || checkpipe)
+shellarg=$($HOTBOX/lib/read-spec $sources $spec shellarg | tail -n 1 || checkpipe)
 test -n "$baseimage" || die "No baseimage specified in $spec spec"
 test -n "$shell" || die "No shell specified in $spec spec"
 
@@ -67,7 +67,7 @@ test -n "$shell" || die "No shell specified in $spec spec"
 user="$(current_user)"
 uid="$(current_uid)"
 gid="$(current_gid)"
-docker_gid="$(getent group docker | cut -d: -f3)"
+docker_gid="$(getent group docker | cut -d: -f3 || checkpipe)"
 
 
 heading "Checking for existing $image container image"
@@ -90,7 +90,8 @@ echo "FROM $baseimage" | \
     docker build \
         --label hotbox \
         -t "$image" \
-        -
+        - \
+    || checkpipe
 echo_off
 
 

@@ -13,7 +13,7 @@ add_docker_group() {
         return 0
     fi
 
-    existing_group="$(getent group $HOTBOX_DOCKER_GID | cut -d: -f1)"
+    existing_group="$(getent group $HOTBOX_DOCKER_GID | cut -d: -f1 || checkpipe)"
     if [ "$existing_group" = "docker" ] ; then
         info "docker group already exists with GID $HOTBOX_DOCKER_GID, nothing to do"
         return 0
@@ -33,7 +33,7 @@ add_docker_group
 add_user_to_docker_group() {
     heading "Adding user to docker group"
 
-    local docker_gid="$(getent group docker | cut -d: -f3)"
+    local docker_gid="$(getent group docker | cut -d: -f3 || checkpipe)"
     if [ -z "$docker_gid" ] ; then
         info "No docker group on system, can't add"
         return 0

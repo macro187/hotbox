@@ -3,6 +3,7 @@ test -n "${__hotbox_sh:+x}" && return ; __hotbox_sh=1
 
 alias echo_on="set -x"
 alias echo_off="{ set +x ; } 2>/dev/null"
+alias checkpipe="{ ec=\$? ; test \$ec -eq 141 || (exit \$ec) ; }"
 
 
 info() {

@@ -47,8 +47,8 @@ sources=$HOTBOX_STATE/sources/$spec
 
 features=$($HOTBOX/lib/read-spec $sources $spec feature)
 features=$(echo $features)
-shell=$($HOTBOX/lib/read-spec $sources $spec shell | tail -n 1)
-shellarg=$($HOTBOX/lib/read-spec $sources $spec shellarg | tail -n 1)
+shell=$($HOTBOX/lib/read-spec $sources $spec shell | tail -n 1 || checkpipe)
+shellarg=$($HOTBOX/lib/read-spec $sources $spec shellarg | tail -n 1 || checkpipe)
 test -n "$shell" || die "No shell specified in $spec spec"
 
 
