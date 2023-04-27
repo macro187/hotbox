@@ -115,6 +115,7 @@ docker run \
     -it \
     --ipc=host \
     --network=host \
+    --hostname $name \
     \
     --label hotbox.name=$name \
     --label hotbox.workdir=$workdir \
