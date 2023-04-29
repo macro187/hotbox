@@ -88,6 +88,7 @@ heading "Forking $image container image from $baseimage"
 echo_on
 echo "FROM $baseimage" | \
     docker build \
+        --network host \
         --label hotbox \
         -t "$image" \
         - \
@@ -123,6 +124,7 @@ heading "Rebuilding /hotbox mount point in container"
 echo_on
 container=$(\
     docker create \
+        --network host \
         --user root \
         --workdir /root \
         $image \
@@ -137,6 +139,7 @@ heading "Rebuilding /hotbox-state mount point in container"
 echo_on
 container=$(\
     docker create \
+        --network host \
         --user root \
         --workdir /root \
         $image \
