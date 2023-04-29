@@ -8,7 +8,7 @@ set nobackup
 set nowritebackup
 set noswapfile
 
-set visualbell
+set visualbell t_vb=
 
 set colorcolumn=121
 
