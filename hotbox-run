@@ -118,7 +118,7 @@ docker run \
     --rm \
     --ipc=host \
     --network=host \
-    --hostname $name \
+    --hostname $image \
     \
     --label hotbox.name=$name \
     --label hotbox.workdir=$workdir \
