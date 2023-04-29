@@ -77,6 +77,7 @@ if [ -n "$container_id" ] ; then
     docker exec \
         --interactive \
         --tty \
+        --detach-keys "ctrl-\\,ctrl-\\" \
         --workdir $workdir \
         $container_id \
         $@
@@ -111,8 +112,10 @@ test -n "$workdir" || die "no --workdir found in docker run options"
 heading "Starting $name hotbox container from $image image"
 echo_on
 docker run \
+    --interactive \
+    --tty \
+    --detach-keys "ctrl-\\,ctrl-\\" \
     --rm \
-    -it \
     --ipc=host \
     --network=host \
     --hostname $name \
