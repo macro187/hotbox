@@ -109,7 +109,7 @@ test -n "$workdir" || die "no --workdir found in docker run options"
 #
 # Run the container
 #
-heading "Starting $name hotbox container from $image image"
+heading "Starting $spec hotbox named $name"
 echo_on
 docker run \
     --interactive \
