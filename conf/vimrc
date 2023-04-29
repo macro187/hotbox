@@ -53,54 +53,53 @@ endtry
 
 
 "
-" Explorer
-"
-let g:netrw_winsize = 20
-let g:netrw_banner = 0
-let g:netrw_liststyle = 0
-
-
-"
-" Key Bindings
+" Leader key
 "
 let mapleader = ' '
+
+
+"
+" Buffers
+"
+set hidden "Allow unsaved buffers
 nmap <tab> :bnext<cr>
 nmap <s-tab> :bprevious<cr>
-nmap <c-n> :cnext<cr>
-nmap <c-p> :cprevious<cr>
-"nmap <Leader>bd :bdelete<cr>
-"Closes the buffer without also nuking the window it's in
+" Close the buffer without also nuking the window it's in
 nmap <Leader>bd :bp<bar>sp<bar>bn<bar>bd<CR>
-nmap <Leader>e :Lexplore<cr>
+
+
+"
+" Windows
+"
 nmap <Leader>w :close<cr>
 nmap <c-j> :wincmd j<cr>
 nmap <c-k> :wincmd k<cr>
 nmap <c-h> :wincmd h<cr>
 nmap <c-l> :wincmd l<cr>
-au FileType netrw nmap <buffer> <c-l> :wincmd l<cr>
-
-
-if ! has('nvim')
-    autocmd VimEnter * call s:SetupNerdTree()
-    function s:SetupNerdTree() abort
-        if exists('g:loaded_nerdtree_autoload')
-            nmap <Leader>e :NERDTreeFocus<cr>
-        endif
-    endfunction
-endif
 
 
 "
-" Shell
+" Error list
 "
-let g:is_posix = 1
+" nmap <c-n> :cnext<cr>
+" nmap <c-p> :cprevious<cr>
 
 
 "
-" Markdown
+" Wildcard completion
 "
-autocmd BufRead,BufNew *.md set filetype=markdown
-let g:markdown_fenced_languages = ["csharp=cs"]
+set wildmenu
+set wildoptions=pum
+
+
+"
+" Built-in File Explorer
+"
+let g:netrw_winsize = 20
+let g:netrw_banner = 0
+let g:netrw_liststyle = 0
+nmap <Leader>e :Lexplore<cr>
+au FileType netrw nnoremap <buffer> <c-l> :wincmd l<cr>
 
 
 "
@@ -121,7 +120,35 @@ endif
 
 
 "
-" Vim LSP Setup
+" Vim NerdTree
+"
+if ! has('nvim')
+    autocmd VimEnter * call s:SetupNerdTree()
+    function s:SetupNerdTree() abort
+        if exists('g:loaded_nerdtree_autoload')
+            nnoremap <Leader>e :NERDTreeFocus<cr>
+            nnoremap <expr> <tab> bufname('%') !~# 'NERD_tree_' ? ":bnext<cr>" : "\<tab>"
+            nnoremap <expr> <s-tab> bufname('%') !~# 'NERD_tree_' ? ":bprevious<cr>" : "\<s-tab>"
+        endif
+    endfunction
+
+    " Start NERDTree when Vim is started without file arguments.
+    autocmd StdinReadPre * let s:std_in=1
+    autocmd VimEnter *
+        \ if exists('g:loaded_nerdtree_autoload') |
+            \ if argc() == 0 && !exists('s:std_in') | NERDTree | endif
+        \ | endif
+
+    " Exit Vim if NERDTree is the only window remaining in the only tab.
+    autocmd BufEnter *
+        \ if exists('g:loaded_nerdtree_autoload') |
+            \ if tabpagenr('$') == 1 && winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() | quit | endif
+        \ | endif
+endif
+
+
+"
+" Vim LSP
 "
 if ! has('nvim')
 
@@ -169,9 +196,22 @@ if ! has('nvim')
 endif
 
 
-if ! has('nvim')
-    " dotnet build and error format
-    autocmd BufRead *.cs set makeprg=clear\ &&\ dotnet\ build\ /p:GenerateFullPaths=true\ /clp:NoSummary
-    autocmd BufRead *.cs set efm=%f(%l\\\,%c):\ %tarning\ %m\ [%.%#],%f(%l\\\,%c):\ %trror\ %m\ [%.%#]
-    autocmd BufRead *.cs nmap <buffer> <Leader>b :exe ':wa'<CR>:silent make<CR>:redr!<CR>:cw<CR>
-endif
+"
+" C#
+"
+autocmd BufRead *.cs set makeprg=clear\ &&\ dotnet\ build\ /p:GenerateFullPaths=true\ /clp:NoSummary
+autocmd BufRead *.cs set efm=%f(%l\\\,%c):\ %tarning\ %m\ [%.%#],%f(%l\\\,%c):\ %trror\ %m\ [%.%#]
+autocmd BufRead *.cs nmap <buffer> <Leader>b :exe ':wa'<CR>:silent make<CR>:redr!<CR>:cw<CR>
+
+
+"
+" Shell
+"
+let g:is_posix = 1
+
+
+"
+" Markdown
+"
+autocmd BufRead,BufNew *.md set filetype=markdown
+let g:markdown_fenced_languages = ["csharp=cs"]
