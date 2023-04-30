@@ -25,7 +25,7 @@ if ! which nvim >/dev/null ; then
 fi
 
 
-heading "Creating Neovim plugin director"
+heading "Creating Neovim plugin directory"
 echo_on
 cd $HOME
 mkdir -p .local/share/nvim/site/pack

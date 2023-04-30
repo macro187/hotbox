@@ -12,12 +12,10 @@ fi
 
 
 cd $HOME
-if ! grep -q '/conf/vimrc.neovim.lua$' .vimrc ; then
-    heading "Sourcing Ron's Neovim Lua vimrc from ~/.vimrc"
+if ! grep -q '/conf/vimrc.lua$' .vimrc.lua ; then
+    heading "Sourcing Ron's Neovim Lua vimrc from ~/.vimrc.lua"
     echo_on
-    echo >>.vimrc
-    echo "if has('nvim')" >>.vimrc
-    echo "source $HOTBOX/conf/vimrc.neovim.lua" >>.vimrc
-    echo "endif" >>.vimrc
+    echo >>.vimrc.lua
+    echo "vim.cmd(\"source $HOTBOX/conf/vimrc.lua\")" >>.vimrc.lua
     echo_off
 fi
