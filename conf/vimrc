@@ -72,10 +72,10 @@ nmap <Leader>bd :bp<bar>sp<bar>bn<bar>bd<CR>
 " Windows
 "
 nmap <Leader>w :close<cr>
-nmap <c-j> :wincmd j<cr>
-nmap <c-k> :wincmd k<cr>
-nmap <c-h> :wincmd h<cr>
-nmap <c-l> :wincmd l<cr>
+nnoremap <c-j> :wincmd j<cr>
+nnoremap <c-k> :wincmd k<cr>
+nnoremap <c-h> :wincmd h<cr>
+nnoremap <c-l> :wincmd l<cr>
 
 
 "
@@ -99,7 +99,12 @@ let g:netrw_winsize = 20
 let g:netrw_banner = 0
 let g:netrw_liststyle = 0
 nmap <Leader>e :Lexplore<cr>
-au FileType netrw nnoremap <buffer> <c-l> :wincmd l<cr>
+autocmd FileType netrw  call s:SetupNetrwBuffer()
+function! s:SetupNetrwBuffer() abort
+    nnoremap <buffer> <c-l> :wincmd l<cr>
+    nnoremap <buffer> <tab> <tab>
+    nnoremap <buffer> <s-tab> <s-tab>
+endfunction
 
 
 "
@@ -120,80 +125,72 @@ endif
 
 
 "
-" Vim NerdTree
+" nerdtree
 "
-if ! has('nvim')
-    autocmd VimEnter * call s:SetupNerdTree()
-    function s:SetupNerdTree() abort
-        if exists('g:loaded_nerdtree_autoload')
-            nnoremap <Leader>e :NERDTreeFocus<cr>
-            nnoremap <expr> <tab> bufname('%') !~# 'NERD_tree_' ? ":bnext<cr>" : "\<tab>"
-            nnoremap <expr> <s-tab> bufname('%') !~# 'NERD_tree_' ? ":bprevious<cr>" : "\<s-tab>"
-        endif
-    endfunction
+autocmd StdinReadPre * let s:std_in=1
 
-    " Start NERDTree when Vim is started without file arguments.
-    autocmd StdinReadPre * let s:std_in=1
-    autocmd VimEnter *
-        \ if exists('g:loaded_nerdtree_autoload') |
-            \ if argc() == 0 && !exists('s:std_in') | NERDTree | endif
-        \ | endif
+autocmd VimEnter * call s:SetupNerdTree()
+function! s:SetupNerdTree() abort
+    if ! exists('g:loaded_nerdtree_autoload') | return | endif
+    nnoremap <Leader>e :NERDTreeFocus<cr>
 
-    " Exit Vim if NERDTree is the only window remaining in the only tab.
+    autocmd FileType nerdtree call s:SetupNerdtreeBuffer()
+
+    " Close Vim when NerdTree becomes the last open window
     autocmd BufEnter *
-        \ if exists('g:loaded_nerdtree_autoload') |
-            \ if tabpagenr('$') == 1 && winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() | quit | endif
-        \ | endif
-endif
+        \ if tabpagenr('$') == 1 && winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() | quit | endif
+
+    " Show NerdTree when Vim started with no file
+    if argc() == 0 && !exists('s:std_in') | NERDTree | endif
+endfunction
+
+function! s:SetupNerdtreeBuffer() abort
+    nnoremap <buffer> <tab> <tab>
+    nnoremap <buffer> <s-tab> <s-tab>
+endfunction
 
 
 "
-" Vim LSP
+" vim-lsp
 "
-if ! has('nvim')
+autocmd User lsp_setup call s:SetupLsp()
 
-    autocmd User lsp_setup call s:SetupOmnisharpLsp()
-    function s:SetupOmnisharpLsp() abort
-        if executable('OmniSharp')
-            call lsp#register_server({
-                \ 'name': 'omnisharp-roslyn',
-                \ 'cmd': [ 'OmniSharp', '-lsp' ],
-                \ 'allowlist': [ 'cs' ],
-                \ })
-        endif
-        if executable('bash-language-server')
-            call lsp#register_server({
-                \ 'name': 'bash-language-server',
-                \ 'cmd': [ 'bash-language-server', 'start' ],
-                \ 'allowlist': [ 'sh', 'bash' ],
-                \ })
-        endif
-    endfunction
+function! s:SetupLsp() abort
+    if executable('OmniSharp')
+        call lsp#register_server({
+            \ 'name': 'omnisharp-roslyn',
+            \ 'cmd': [ 'OmniSharp', '-lsp' ],
+            \ 'allowlist': [ 'cs' ],
+            \ })
+    endif
+    if executable('bash-language-server')
+        call lsp#register_server({
+            \ 'name': 'bash-language-server',
+            \ 'cmd': [ 'bash-language-server', 'start' ],
+            \ 'allowlist': [ 'sh', 'bash' ],
+            \ })
+    endif
+    autocmd User lsp_buffer_enabled call s:SetupLspBuffer()
+endfunction
 
-    augroup lsp_install
-        au!
-        autocmd User lsp_buffer_enabled call s:SetupLspBuffer()
-    augroup end
-
-    function! s:SetupLspBuffer() abort
-        setlocal omnifunc=lsp#complete
-        setlocal signcolumn=yes
-        if exists('+tagfunc') | setlocal tagfunc=lsp#tagfunc | endif
-        nmap <buffer> gd <plug>(lsp-definition)
-        nmap <buffer> gs <plug>(lsp-document-symbol-search)
-        nmap <buffer> gS <plug>(lsp-workspace-symbol-search)
-        nmap <buffer> gr <plug>(lsp-references)
-        nmap <buffer> gi <plug>(lsp-implementation)
-        " nmap <buffer> gt <plug>(lsp-type-definition)
-        nmap <buffer> <leader>rn <plug>(lsp-rename)
-        nmap <buffer> [g <plug>(lsp-previous-diagnostic)
-        nmap <buffer> ]g <plug>(lsp-next-diagnostic)
-        nmap <buffer> K <plug>(lsp-hover)
-        " nnoremap <buffer> <expr><c-f> lsp#scroll(+4)
-        " nnoremap <buffer> <expr><c-d> lsp#scroll(-4)
-        let g:lsp_format_sync_timeout = 1000
-    endfunction
-endif
+function! s:SetupLspBuffer() abort
+    setlocal omnifunc=lsp#complete
+    setlocal signcolumn=yes
+    if exists('+tagfunc') | setlocal tagfunc=lsp#tagfunc | endif
+    nmap <buffer> gd <plug>(lsp-definition)
+    nmap <buffer> gs <plug>(lsp-document-symbol-search)
+    nmap <buffer> gS <plug>(lsp-workspace-symbol-search)
+    nmap <buffer> gr <plug>(lsp-references)
+    nmap <buffer> gi <plug>(lsp-implementation)
+    " nmap <buffer> gt <plug>(lsp-type-definition)
+    nmap <buffer> <leader>rn <plug>(lsp-rename)
+    nmap <buffer> [g <plug>(lsp-previous-diagnostic)
+    nmap <buffer> ]g <plug>(lsp-next-diagnostic)
+    nmap <buffer> K <plug>(lsp-hover)
+    " nnoremap <buffer> <expr><c-f> lsp#scroll(+4)
+    " nnoremap <buffer> <expr><c-d> lsp#scroll(-4)
+    let g:lsp_format_sync_timeout = 1000
+endfunction
 
 
 "
