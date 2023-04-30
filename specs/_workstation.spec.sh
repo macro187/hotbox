@@ -8,6 +8,8 @@ feature man
 feature docker-cli
 feature git
 feature vimrc
-feature vim
 feature ron-vimrc
+feature vim
 feature ron-vim-plugins
+feature neovim
+feature ron-neovim-plugins
