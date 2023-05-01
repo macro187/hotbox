@@ -86,10 +86,16 @@ nnoremap <c-l> :wincmd l<cr>
 
 
 "
-" Wildcard completion
+" Command line
 "
 set wildmenu
 set wildoptions=pum
+set wildmode=longest:full
+set wildchar=<c-@>
+cmap <c-j> <down>
+cmap <c-k> <up>
+cmap <c-h> <left>
+cmap <c-l> <right>
 
 
 "
@@ -125,6 +131,42 @@ endif
 
 
 "
+" wilder
+"
+autocmd VimEnter * call s:SetupWilder()
+function! s:SetupWilder() abort
+    runtime autoload/wilder.vim
+    if ! exists('*wilder#setup') | return | endif
+
+    call wilder#set_option('use_python_remote_plugin', 0)
+
+    call wilder#setup({
+        \ 'modes': [':'],
+        \ 'next_key': '<down>',
+        \ 'previous_key': '<up>',
+        \ 'accept_key': '<right>',
+        \ 'reject_key': '<left>',
+        \ })
+    cmap <c-@> <down>
+
+    call wilder#set_option('renderer',
+        \ wilder#popupmenu_renderer(
+            \ wilder#popupmenu_border_theme({
+                \ 'border': 'rounded',
+                \ 'min_width': '100%',
+                \ 'left': [
+                    \ wilder#popupmenu_devicons(),
+                    \ ' ',
+                \ ],
+                \ 'highlights': {
+                    \ 'empty_message': 'Normal',
+                \ },
+                \ 'empty_message': ' (no matches)',
+            \ })))
+endfunction
+
+
+"
 " nerdtree
 "
 autocmd StdinReadPre * let s:std_in=1
@@ -133,7 +175,6 @@ autocmd VimEnter * call s:SetupNerdTree()
 function! s:SetupNerdTree() abort
     if ! exists('g:loaded_nerdtree_autoload') | return | endif
     nnoremap <Leader>e :NERDTreeFocus<cr>
-
     autocmd FileType nerdtree call s:SetupNerdtreeBuffer()
 
     " Close Vim when NerdTree becomes the last open window
