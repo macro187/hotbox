@@ -99,7 +99,7 @@ cmap <c-l> <right>
 
 
 "
-" Built-in File Explorer
+" Explorer
 "
 let g:netrw_winsize = 20
 let g:netrw_banner = 0
@@ -111,6 +111,17 @@ function! s:SetupNetrwBuffer() abort
     nnoremap <buffer> <tab> <tab>
     nnoremap <buffer> <s-tab> <s-tab>
 endfunction
+
+
+"
+" Omni Completion
+"
+filetype plugin on
+set omnifunc=syntaxcomplete#Complete
+set completeopt=longest,menuone
+imap <expr> <c-j> pumvisible() ? '<c-n>' : '<c-j>'
+imap <expr> <c-k> pumvisible() ? '<c-p>' : '<c-k>'
+imap <expr> <c-@> pumvisible() ? '<c-n>' : '<c-x><c-o><down>'
 
 
 "
