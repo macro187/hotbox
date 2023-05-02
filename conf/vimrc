@@ -119,9 +119,9 @@ endfunction
 filetype plugin on
 set omnifunc=syntaxcomplete#Complete
 set completeopt=longest,menuone
-imap <expr> <c-j> pumvisible() ? '<c-n>' : '<c-j>'
-imap <expr> <c-k> pumvisible() ? '<c-p>' : '<c-k>'
-imap <expr> <c-@> pumvisible() ? '<c-n>' : '<c-x><c-o><down>'
+imap <expr> <c-j> pumvisible() ? '<c-n>' : '<c-x><c-o>'
+imap <expr> <c-k> pumvisible() ? '<c-p>' : '<c-x><c-o>'
+imap <expr> <c-@> pumvisible() ? '<c-n>' : '<c-x><c-o>'
 
 
 "
