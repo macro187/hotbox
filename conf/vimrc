@@ -223,6 +223,12 @@ function! s:SetupLsp() abort
             \ })
     endif
     autocmd User lsp_buffer_enabled call s:SetupLspBuffer()
+
+    "
+    " LSP Debug Logging
+    "
+    "let g:lsp_log_file = '/tmp/lsplog.txt'
+    "let g:lsp_show_message_log_level = 'log'
 endfunction
 
 function! s:SetupLspBuffer() abort
