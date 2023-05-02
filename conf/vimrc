@@ -17,6 +17,9 @@ set encoding=utf8
 set fileformats=unix,dos
 
 set number
+set cursorline
+set cursorlineopt=number
+
 set ruler
 set rulerformat=%#ModeMsg#%l,%c%V%=%P
 
@@ -197,6 +200,7 @@ function! s:SetupNerdTree() abort
 endfunction
 
 function! s:SetupNerdtreeBuffer() abort
+    setlocal cursorlineopt=number,line
     nnoremap <buffer> <tab> <tab>
     nnoremap <buffer> <s-tab> <s-tab>
 endfunction
