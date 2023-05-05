@@ -18,6 +18,17 @@ end
 
 
 --
+-- nvim-tree
+--
+if has("nvim-tree") then
+    vim.g.loaded_netrw = 1
+    vim.g.loaded_netrwPlugin = 1
+    require("nvim-tree").setup()
+    vim.keymap.set("n", "<Leader>e", "<cmd>NvimTreeFocus<cr>")
+end
+
+
+--
 -- Neovim LSP
 --
 vim.api.nvim_create_autocmd("LspAttach", {
