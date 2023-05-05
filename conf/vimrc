@@ -4,6 +4,27 @@
 " This is sourced by all Vim-like editors
 "
 
+"
+" Vim Status (2023-05-05)
+"
+" Suitable for basic text editing.
+"
+" Not suitable for Real Programming (tm) due to limitation of no overload
+" support in completions.  A vim-lsp bug about this was opened in January 2022
+" but was auto-closed by some bot 3 months later with no further comment or
+" resolution:
+"
+" https://github.com/prabirshrestha/vim-lsp/issues/1271
+"
+
+
+"
+" NeoVim Status (2023-05)
+"
+" Work in-progress towards making NeoVim suitable for Real Programming.
+"
+
+
 set nobackup
 set nowritebackup
 set noswapfile
@@ -39,6 +60,23 @@ set autoindent
 set formatoptions+=r
 set formatoptions+=o
 set formatoptions+=j
+
+
+"
+" GVim
+"
+if ! has('nvim')
+    if has("gui_running")
+        if has("gui_win32")
+            set guifont=DejaVu_Sans_Mono:h11:cDEFAULT
+        else
+            set guifont=monospace\ 12
+        endif
+        set guioptions=arbh
+        set columns=120
+        set lines=40
+    endif
+endif
 
 
 "
@@ -125,23 +163,6 @@ set completeopt=longest,menuone
 imap <expr> <c-j> pumvisible() ? '<c-n>' : '<c-x><c-o>'
 imap <expr> <c-k> pumvisible() ? '<c-p>' : '<c-x><c-o>'
 imap <expr> <c-@> pumvisible() ? '<c-n>' : '<c-x><c-o>'
-
-
-"
-" GVim
-"
-if ! has('nvim')
-    if has("gui_running")
-        if has("gui_win32")
-            set guifont=DejaVu_Sans_Mono:h11:cDEFAULT
-        else
-            set guifont=monospace\ 12
-        endif
-        set guioptions=arbh
-        set columns=120
-        set lines=40
-    endif
-endif
 
 
 "
