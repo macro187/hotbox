@@ -91,32 +91,108 @@ end
 --
 if has("cmp") then
     local cmp = require("cmp")
+
+    local completeopt = "menu,menuone,popup,noinsert"
+
+    local preselect = cmp.PreselectMode.Item
+
+    local window = {
+        completion = {
+            border = "rounded",
+        },
+        documentation = {
+            border = "rounded",
+        },
+    }
+
+    local mapping = {
+        ['<c-space>'] = cmp.mapping(
+            function(fallback)
+                cmp.complete_common_string()
+            end,
+            { "i", "c" }
+        ),
+        ['<c-j>'] = cmp.mapping(
+            function(fallback)
+                if cmp.visible() then
+                    cmp.select_next_item()
+                else
+                    cmp.complete_common_string()
+                end
+            end,
+            { "i", "c" }
+        ),
+        ['<c-k>'] = cmp.mapping(
+            function(fallback)
+                if cmp.visible() then
+                    cmp.select_prev_item()
+                else
+                    cmp.complete_common_string()
+                end
+            end,
+            { "i", "c" }
+        ),
+        ['<cr>'] = cmp.mapping(
+            function(fallback)
+                if cmp.visible() and cmp.get_selected_entry() then
+                    cmp.confirm()
+                elseif cmp.visible() then
+                    cmp.close()
+                    fallback()
+                else
+                    fallback()
+                end
+            end,
+            { "i", "c" }
+        ),
+        ['<c-[>'] = cmp.mapping(
+            function(fallback)
+                if cmp.visible() then
+                    cmp.abort()
+                else
+                    fallback()
+                end
+            end,
+            { "i", "c" }
+        ),
+        -- ['<C-b>'] = cmp.mapping.scroll_docs(-4),
+        -- ['<C-f>'] = cmp.mapping.scroll_docs(4),
+        -- ['<cr>'] = cmp.mapping.confirm({ select = true }),
+    }
+
+    local performance = {
+    }
+
     cmp.setup({
+        completeopt = completeopt,
+        preselect = preselect,
+        window = window,
+        performance = performance,
+        mapping = mapping,
+        sources = cmp.config.sources({
+            { name = 'nvim_lsp' },
+            { name = 'vsnip' },
+        }, {
+            { name = 'nvim_lua' },
+        }, {
+            { name = 'buffer' },
+        }),
         snippet = {
             expand = function(args)
                 vim.fn["vsnip#anonymous"](args.body)
             end,
         },
-        window = {
-            completion = {
-                border = "rounded",
-            },
-            documentation = {
-                border = "rounded",
-            },
-        },
-        mapping = cmp.mapping.preset.insert({
-        --    ['<C-b>'] = cmp.mapping.scroll_docs(-4),
-        --    ['<C-f>'] = cmp.mapping.scroll_docs(4),
-        --    ['<C-Space>'] = cmp.mapping.complete(),
-        --    ['<C-e>'] = cmp.mapping.abort(),
-        --    ['<CR>'] = cmp.mapping.confirm({ select = true }),
-        }),
+    })
+
+    cmp.setup.cmdline(':', {
+        completeopt = completeopt,
+        preselect = preselect,
+        window = window,
+        performance = performance,
+        mapping = mapping,
         sources = cmp.config.sources({
-            { name = 'nvim_lsp' },
-            { name = 'vsnip' },
-        }, {
-            { name = 'buffer' },
-        })
+            { name = 'cmdline' },
+            { name = 'path', option = { trailing_slash = true } },
+        }),
     })
 end
