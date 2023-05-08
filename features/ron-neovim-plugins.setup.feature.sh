@@ -15,4 +15,5 @@ git clone --depth 1 https://github.com/hrsh7th/cmp-path.git
 git clone --depth 1 https://github.com/hrsh7th/cmp-buffer.git
 git clone --depth 1 https://github.com/hrsh7th/vim-vsnip.git
 git clone --depth 1 https://github.com/hrsh7th/cmp-vsnip.git
+git clone --depth 1 https://github.com/Issafalcon/lsp-overloads.nvim.git
 echo_off

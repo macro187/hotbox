@@ -50,11 +50,38 @@ end
 --
 vim.api.nvim_create_autocmd("LspAttach", {
     callback = function(args)
-        local buffer_number = args.buf
         local client = vim.lsp.get_client_by_id(args.data.client_id)
-        vim.keymap.set("n", "K", vim.lsp.buf.hover, { buffer = buffer_number })
+        local buffer_number = args.buf
+        local opts = { silent = true, buffer = buffer_number }
+        vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
+        vim.keymap.set({ "n", "i" }, "<c-_>", vim.lsp.buf.signature_help, opts)
+        setup_lsp_overloads(client, buffer_number)
     end,
 })
+
+function setup_lsp_overloads(client, buffer_number)
+    if not has('lsp-overloads') then return end
+    if not client.server_capabilities.signatureHelpProvider then return end
+    require('lsp-overloads').setup(client, {
+        ui = {
+            border = "rounded",
+            width = 80,
+            offset_x = 0,
+            focusable = false,
+            floating_window_above_cur_line = true,
+        },
+        keymaps = {
+            next_signature = "<c-n>",
+            previous_signature = "<c-p>",
+            next_parameter = "<c-l>",
+            previous_parameter = "<c-h>",
+            close_signature = "<c-k>"
+        },
+    })
+    local opts = { silent = true, buffer = buffer_number }
+    vim.keymap.set("n", "<c-k>", ":LspOverloadsSignature<CR>", opts)
+    vim.keymap.set("i", "<c-k>", "<cmd>LspOverloadsSignature<CR>", opts)
+end
 
 if vim.fn.executable("OmniSharp") == 1 then
     vim.api.nvim_create_autocmd("FileType", {
