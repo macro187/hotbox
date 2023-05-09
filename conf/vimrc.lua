@@ -85,28 +85,23 @@ end
 
 if vim.fn.executable("OmniSharp") == 1 then
     vim.api.nvim_create_autocmd("FileType", {
-        pattern = "cs",
+        pattern = { "cs" },
         callback = function()
             vim.lsp.start({
                 name = "omnisharp",
                 cmd = { "OmniSharp", "-lsp" },
-                --root_dir = vim.fs.dirname(vim.fs.find(root_files, { upward = true })[1]),
-                --settings = {
-                --  Lua = {
-                --    runtime = {
-                --      version = "LuaJIT",
-                --    },
-                --    diagnostics = {
-                --      globals = { "vim" },
-                --    },
-                --    workspace = {
-                --      library = vim.api.nvim_get_runtime_file("", true),
-                --    },
-                --    telemetry = {
-                --      enable = false,
-                --    },
-                --  },
-                --},
+            })
+        end,
+    })
+end
+
+if vim.fn.executable("bash-language-server") == 1 then
+    vim.api.nvim_create_autocmd("FileType", {
+        pattern = { "sh", "bash" },
+        callback = function()
+            vim.lsp.start({
+                name = "bash-language-server",
+                cmd = { "bash-language-server", "start" },
             })
         end,
     })
