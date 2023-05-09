@@ -11,5 +11,5 @@ feature vimrc
 feature ron-vimrc
 feature vim
 feature ron-vim-plugins
-feature neovim
-feature ron-neovim-plugins
+feature nvim
+feature ron-nvim-plugins
