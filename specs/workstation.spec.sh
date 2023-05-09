@@ -1,5 +1,9 @@
 . $HOTBOX/lib/spec.sh
 
 
-inherit base
-inherit _workstation
+inherit container
+feature shell-config-files
+feature user-bin-directory
+feature base-tools
+feature man
+feature docker-cli

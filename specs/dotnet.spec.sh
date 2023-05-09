@@ -1,7 +1,7 @@
 . $HOTBOX/lib/spec.sh
 
 
-inherit workstation
+inherit dev
 feature dotnet-sdk
 feature container-nuget-cache
 feature omnisharp
