@@ -103,20 +103,20 @@ let mapleader = ' '
 " Buffers
 "
 set hidden "Allow unsaved buffers
-nmap <tab> :bnext<cr>
-nmap <s-tab> :bprevious<cr>
+nmap <silent> <tab> :bnext<cr>
+nmap <silent> <s-tab> :bprevious<cr>
 " Close the buffer without also nuking the window it's in
-nmap <Leader>bd :bp<bar>sp<bar>bn<bar>bd<CR>
+nmap <silent> <Leader>bd :bp<bar>sp<bar>bn<bar>bd<CR>
 
 
 "
 " Windows
 "
-nmap <Leader>w :close<cr>
-nnoremap <c-j> :wincmd j<cr>
-nnoremap <c-k> :wincmd k<cr>
-nnoremap <c-h> :wincmd h<cr>
-nnoremap <c-l> :wincmd l<cr>
+nmap <silent> <Leader>w :close<cr>
+nnoremap <silent> <c-j> :wincmd j<cr>
+nnoremap <silent> <c-k> :wincmd k<cr>
+nnoremap <silent> <c-h> :wincmd h<cr>
+nnoremap <silent> <c-l> :wincmd l<cr>
 
 
 "
@@ -148,9 +148,9 @@ let g:netrw_liststyle = 0
 nmap <Leader>e :Lexplore<cr>
 autocmd FileType netrw  call s:SetupNetrwBuffer()
 function! s:SetupNetrwBuffer() abort
-    nnoremap <buffer> <c-l> :wincmd l<cr>
-    nnoremap <buffer> <tab> <tab>
-    nnoremap <buffer> <s-tab> <s-tab>
+    nnoremap <silent> <buffer> <c-l> :wincmd l<cr>
+    nnoremap <silent> <buffer> <tab> <tab>
+    nnoremap <silent> <buffer> <s-tab> <s-tab>
 endfunction
 
 
@@ -160,9 +160,9 @@ endfunction
 filetype plugin on
 set omnifunc=syntaxcomplete#Complete
 set completeopt=longest,menuone
-imap <expr> <c-j> pumvisible() ? '<c-n>' : '<c-x><c-o>'
-imap <expr> <c-k> pumvisible() ? '<c-p>' : '<c-x><c-o>'
-imap <expr> <c-@> pumvisible() ? '<c-n>' : '<c-x><c-o>'
+imap <silent> <expr> <c-j> pumvisible() ? '<c-n>' : '<c-x><c-o>'
+imap <silent> <expr> <c-k> pumvisible() ? '<c-p>' : '<c-x><c-o>'
+imap <silent> <expr> <c-@> pumvisible() ? '<c-n>' : '<c-x><c-o>'
 
 
 "
@@ -222,8 +222,8 @@ endfunction
 
 function! s:SetupNerdtreeBuffer() abort
     setlocal cursorlineopt=number,line
-    nnoremap <buffer> <tab> <tab>
-    nnoremap <buffer> <s-tab> <s-tab>
+    nnoremap <silent> <buffer> <tab> <tab>
+    nnoremap <silent> <buffer> <s-tab> <s-tab>
 endfunction
 
 
