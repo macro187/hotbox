@@ -122,8 +122,8 @@ nnoremap <silent> <c-l> :wincmd l<cr>
 "
 " Error list
 "
-" nmap <c-n> :cnext<cr>
-" nmap <c-p> :cprevious<cr>
+nmap <c-n> :cnext<cr>
+nmap <c-p> :cprevious<cr>
 
 
 "
