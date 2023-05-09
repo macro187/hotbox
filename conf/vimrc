@@ -80,6 +80,16 @@ endif
 
 
 "
+" Enable truecolor terminal if supported
+"
+if ! has("gui_running")
+    if $COLORTERM ==# "truecolor"
+        set termguicolors
+    endif
+endif
+
+
+"
 " Color Scheme
 "
 syntax on
