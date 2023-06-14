@@ -22,7 +22,7 @@ if $HOTBOX/hotbox-in-container ; then
 fi
 
 
-info "Found cook at $cook ($host_cook on host)"
+info "Using cook $cook ($host_cook on host)"
 
 
 echo --volume $host_cook:/cook

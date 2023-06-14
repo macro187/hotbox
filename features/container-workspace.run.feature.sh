@@ -1,28 +1,16 @@
 . $HOTBOX/lib/sh.sh
 
 
-#
-# Current directory
-#
-current="$(pwd)"
-current_name="${current##*/}"
-
-
-#
-# See if we're in a workspace
-#
-workspace=""
-workspace_local=""
 is_workspace() {
     test ! -d .git && ls */.git >/dev/null 2>&1
 }
+
+
 find_workspace() {
-    heading "Searching for workspace"
     while true ; do
         workspace="$(pwd)"
 
         if [ "$workspace" = "/" ] ; then
-            info "No workspace found"
             cd $current
             workspace=""
             workspace_local=""
@@ -30,7 +18,6 @@ find_workspace() {
         fi
 
         if is_workspace ; then
-            info "Found workspace $workspace"
             cd $current
             return
         fi
@@ -39,12 +26,18 @@ find_workspace() {
         cd ..
     done
 }
+
+
+heading "Locating workspace"
+
+
+current="$(pwd)"
+current_name="${current##*/}"
+workspace=""
+workspace_local=""
 find_workspace
 
 
-#
-# Determine mount and work directories based on whether we're in a workspace
-#
 if [ -n "$workspace" ] ; then
     src="$workspace"
     dst="/workspace"
@@ -56,9 +49,6 @@ else
 fi
 
 
-#
-# If we're in a container, map mount source to the container host
-#
 hostsrc="$src"
 if $HOTBOX/hotbox-in-container ; then
     hostsrc="$($HOTBOX/hotbox-map $src)"
@@ -69,6 +59,9 @@ if $HOTBOX/hotbox-in-container ; then
         exit 0
     fi
 fi
+
+
+info "Using workspace $src ($hostsrc on host)"
 
 
 echo --volume  $hostsrc:$dst
