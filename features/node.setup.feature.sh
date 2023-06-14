@@ -19,7 +19,7 @@ if ! which node >/dev/null ; then
             ;;
 
         *)
-            die "Don't know how to install node on $current_distro os"
+            die "Don't know how to install node on $(current_distro) os"
             ;;
     esac
 fi
