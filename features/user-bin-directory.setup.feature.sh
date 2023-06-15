@@ -1,16 +1,14 @@
 . $HOTBOX/lib/sh.sh
 
 
+cd $HOME
+
+
 echo_on
-mkdir -p ~/bin
+mkdir -p bin
 echo_off
 
 
-case $(current_distro) in
-    alpine)
-        echo_on
-        echo >>.profile
-        echo 'PATH="$HOME/bin:$PATH"' >>.profile
-        echo_off
-        ;;
-esac
+echo_on
+echo 'PATH="$HOME/bin:$PATH"' >.profile.d/50-user-bin-directory.sh
+echo_off

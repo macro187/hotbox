@@ -6,6 +6,9 @@ feature container-package-manager-cache
 feature container-initialise
 feature package-manager
 feature container-user
+feature profile
+feature shrc
+feature inputrc
 feature container-docker-group
 feature container-hotbox
 feature container-workspace
