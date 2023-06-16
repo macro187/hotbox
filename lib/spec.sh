@@ -4,8 +4,8 @@ test -n "${__hotbox_spec:+x}" && return ; __hotbox_spec=1
 . $HOTBOX/lib/sh.sh
 
 
-inherit() {
-    echo inherit:$1
+include() {
+    echo include:$1
 }
 
 

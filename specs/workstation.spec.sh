@@ -1,7 +1,7 @@
 . $HOTBOX/lib/spec.sh
 
 
-inherit container
+include container
 feature user-bin-directory
 feature base-tools
 feature man

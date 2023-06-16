@@ -1,7 +1,7 @@
 . $HOTBOX/lib/spec.sh
 
 
-inherit workstation
+include workstation
 feature git
 feature container-host-git-credentials
 feature vimrc

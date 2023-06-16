@@ -1,6 +1,6 @@
 . $HOTBOX/lib/spec.sh
 
 
-inherit dev
+include dev
 feature node
 feature bash-language-server

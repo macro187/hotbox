@@ -1,6 +1,6 @@
 . $HOTBOX/lib/spec.sh
 
 
-inherit base
+include container
 feature dotnet-sdk
 feature container-nuget-cache

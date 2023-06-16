@@ -19,8 +19,8 @@ env HOTBOX=$HOTBOX /bin/sh -eu $script | while read -r line ; do
     key="${line%%:*}"
     value="${line#*:}"
 
-    if [ "$key" = "inherit" ] ; then
-        $HOTBOX/lib/read-spec $location $value $selected_key || die "Error reading inherited $value spec"
+    if [ "$key" = "include" ] ; then
+        $HOTBOX/lib/read-spec $location $value $selected_key || die "Error reading included $value spec"
         continue
     fi
 
