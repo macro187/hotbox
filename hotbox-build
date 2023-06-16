@@ -35,7 +35,7 @@ test $# -eq 0 || die "Unexpected argument '$1'"
 
 
 sources=$HOTBOX_STATE/sources/$spec.next
-image="hotbox-$spec.next"
+image="hotbox-$spec:next"
 
 
 heading "Collecting hotbox specs and features"
@@ -88,7 +88,6 @@ heading "Forking $image container image from $baseimage"
 echo_on
 echo "FROM $baseimage" | \
     docker build \
-        --network host \
         --label hotbox \
         -t "$image" \
         - \
@@ -104,6 +103,7 @@ echo_on
 container=$(\
     docker create \
         --network host \
+        --hostname hotbox-$spec \
         $hotbox_mount_options \
         --env HOTBOX_SOURCES=/hotbox-state/sources/$spec.next \
         --env HOTBOX_USER=$user \
@@ -165,6 +165,26 @@ container=$(\
         --workdir /home/$user \
         $image \
         /hotbox/hotbox-setup $spec \
+        )
+docker start -ai $container
+docker commit $container $image
+echo_off
+
+
+heading "Setting final container metadata"
+echo_on
+container=$(\
+    docker create \
+        --env HOTBOX_SOURCES= \
+        --env HOTBOX_USER= \
+        --env HOTBOX_UID= \
+        --env HOTBOX_GID= \
+        --env HOTBOX_DOCKER_GID= \
+        --env HOTBOX_STATE= \
+        --user $user \
+        --workdir /home/$user \
+        $image \
+        /bin/sh -l \
         )
 docker start -ai $container
 docker commit $container $image
