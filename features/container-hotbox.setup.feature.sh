@@ -5,7 +5,8 @@ user="$(current_user)"
 
 
 heading "Adding /hotbox to path"
-echo_on
 cd $HOME
+echo_on
+rm -f .profile.d/??-container-hotbox.sh
 echo 'PATH="/hotbox:$PATH"' >.profile.d/50-container-hotbox.sh
 echo_off

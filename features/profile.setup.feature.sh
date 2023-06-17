@@ -56,6 +56,7 @@ fi
 
 info "Writing .profile.d/10-stock-profile.sh that runs the stock .profile"
 echo_on
+rm -f .profile.d/??-stock-profile.sh
 cat << 'EOF' >.profile.d/10-stock-profile.sh
 if [ -e $HOME/.profile.stock ] ; then
     . $HOME/.profile.stock
@@ -78,6 +79,7 @@ fi
 
 info "Writing .profile.d/11-stock-bash-profile.sh that runs the stock .bash_profile"
 echo_on
+rm -f .profile.d/??-stock-bash-profile.sh
 cat << 'EOF' >.profile.d/11-stock-bash-profile.sh
 test -n "$BASH_VERSION" || return 0
 if [ -e $HOME/.bash_profile.stock ] ; then

@@ -13,7 +13,8 @@ echo_off
 
 
 heading "Adding /cook to path"
-echo_on
 cd $HOME
+echo_on
+rm -f .profile.d/??-container-cook.sh
 echo 'PATH="/cook:$PATH"' >.profile.d/50-container-cook.sh
 echo_off

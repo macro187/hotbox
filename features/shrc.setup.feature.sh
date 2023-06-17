@@ -41,6 +41,7 @@ fi
 
 info "Writing .profile.d/90-shrc.sh that sources .shrc on login"
 echo_on
+rm -f .profile.d/??-shrc.sh
 cat << 'EOF' >.profile.d/90-shrc.sh
 if [ -e $HOME/.shrc ] ; then
     . $HOME/.shrc
@@ -51,6 +52,7 @@ echo_off
 
 info "Writing .profile.d/50-shrc-env.sh that sources .shrc on interactive ash/dash startup via the \$ENV variable"
 echo_on
+rm -f .profile.d/??-shrc-env.sh
 cat << 'EOF' >.profile.d/50-shrc-env.sh
 export ENV="$HOME/.shrc"
 EOF
