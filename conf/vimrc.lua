@@ -171,6 +171,7 @@ if has("cmp") then
             function(fallback)
                 if cmp.visible() then
                     cmp.abort()
+                    fallback()
                 else
                     fallback()
                 end
