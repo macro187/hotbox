@@ -7,5 +7,6 @@ echo_on
 cd $HOME
 mkdir -p .nuget
 cd .nuget
-ln -s $HOTBOX_STATE/nuget-packages packages
+mkdir -p $HOTBOX_STATE/nuget-package-cache
+ln -s $HOTBOX_STATE/nuget-package-cache packages
 echo_off
