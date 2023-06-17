@@ -3,7 +3,7 @@
 
 if ! which bash-language-server >/dev/null ; then
     echo_on
-    doas npm i -g bash-language-server
+    npm i -g bash-language-server
     echo_off
 fi
 

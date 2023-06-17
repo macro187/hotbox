@@ -2,6 +2,7 @@
 
 
 if ! which node >/dev/null ; then
+    heading "Installing Node.js and NPM"
     case $(current_distro) in
 
         alpine)
@@ -23,3 +24,27 @@ if ! which node >/dev/null ; then
             ;;
     esac
 fi
+
+
+cd $HOME
+
+
+if [ ! -d .npm-global ] ; then
+    heading "Creating global NPM prefix in user home directory"
+    echo_on
+    mkdir .npm-global
+    echo_off
+fi
+
+
+heading "Configuring global NPM prefix"
+echo_on
+npm config set prefix "$HOME/.npm-global"
+echo_off
+
+
+heading "Adding global NPM bin/ directory to PATH"
+echo_on
+rm -f .profile.d/??-npm.sh
+echo 'PATH="$HOME/.npm-global/bin:$PATH"' >.profile.d/50-npm.sh
+echo_off
