@@ -13,8 +13,8 @@ fi
 
 
 host_cook="$cook"
-if $HOTBOX/hotbox-in-container ; then
-    host_cook="$($HOTBOX/hotbox-map $cook)"
+if $HOTBOX/lib/in-container ; then
+    host_cook="$($HOTBOX/lib/map-container-path $cook)"
     if [ -z "$host_cook" ] ; then
         warn "$cook not bind-mounted from host, /cook will be unavailable in container"
         exit 0

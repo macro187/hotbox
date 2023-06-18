@@ -7,7 +7,7 @@ test -n "${__hotbox_state:+x}" && return ; __hotbox_state=1
 HOTBOX_STATE="${HOTBOX_STATE:-}"
 
 
-if $HOTBOX/hotbox-in-container && [ -z "$HOTBOX_STATE" ] ; then
+if $HOTBOX/lib/in-container && [ -z "$HOTBOX_STATE" ] ; then
     die "In container but HOTBOX_STATE not set"
 fi
 

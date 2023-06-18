@@ -1,6 +1,6 @@
 #!/bin/sh
 set -eu ; set -o | grep -q pipefail && set -o pipefail
-HOTBOX=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd -P)
+HOTBOX=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd -P)
 
 
 . $HOTBOX/lib/sh.sh

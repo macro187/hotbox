@@ -50,8 +50,8 @@ fi
 
 
 hostsrc="$src"
-if $HOTBOX/hotbox-in-container ; then
-    hostsrc="$($HOTBOX/hotbox-map $src)"
+if $HOTBOX/lib/in-container ; then
+    hostsrc="$($HOTBOX/lib/map-container-path $src)"
 
     if [ -z "$hostsrc" ] ; then
         warn "/workspace will be unavailable because $src is not bind mounted from the container host"
