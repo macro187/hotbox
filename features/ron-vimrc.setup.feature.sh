@@ -2,20 +2,16 @@
 
 
 cd $HOME
-if ! grep -q '/conf/vimrc$' .vimrc ; then
-    heading "Sourcing Ron's vimrc from ~/.vimrc"
-    echo_on
-    echo >>.vimrc
-    echo "source $HOTBOX/conf/vimrc" >>.vimrc
-    echo_off
-fi
 
 
-cd $HOME
-if ! grep -q '/conf/vimrc.lua$' .vimrc.lua ; then
-    heading "Sourcing Ron's Neovim Lua vimrc from ~/.vimrc.lua"
-    echo_on
-    echo >>.vimrc.lua
-    echo "vim.cmd(\"source $HOTBOX/conf/vimrc.lua\")" >>.vimrc.lua
-    echo_off
-fi
+heading "Sourcing Ron's vimrc and vimrc.lua"
+echo_on
+rm -f .vimrc.d/??-ron-vimrc.vim
+cat << EOF >.vimrc.d/40-ron-vimrc.vim
+source $HOTBOX/conf/vimrc
+
+if has('nvim')
+    source $HOTBOX/conf/vimrc.lua
+endif
+EOF
+echo_off
