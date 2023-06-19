@@ -44,7 +44,7 @@ fi
 #
 # Work out command to run
 #
-command="setup"
+command="user"
 description="$feature"
 if $system ; then
     command="system"

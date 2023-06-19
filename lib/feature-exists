@@ -8,5 +8,5 @@ feature="${2:?expected <feature>}"
 
 
 test -f $location/$feature.system.feature.sh \
-    || test -f $location/$feature.setup.feature.sh \
+    || test -f $location/$feature.user.feature.sh \
     || test -f $location/$feature.run.feature.sh
