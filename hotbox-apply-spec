@@ -46,5 +46,5 @@ if $system ; then
     system_switch="--system"
 fi
 for feature in $features ; do
-    $HOTBOX/hotbox-setup-feature $system_switch $feature
+    $HOTBOX/hotbox-apply-feature $system_switch $feature
 done
