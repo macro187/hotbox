@@ -4,103 +4,72 @@ hotbox
 My workstation containers, setup scripts, and config files
 
 
-Scripting Language
-------------------
+Introduction
+------------
 
-Scripts are POSIX shell scripts (see https://shellhaters.org/) so they should
-work in most common shells including Bash, Dash, Ash, etc.
+*Features* are uniquely-named, plain old shell scripts that automate the setup
+of individual aspects of machines (whether physical, virtual, or container).
+They are applied using the `hotbox-apply-feature` command, which basically just
+runs the specified feature script.  Features can be used on their own and do not
+require the use of any further hotbox functionality.
+
+>   Some features currently implement personal preferences of mine, but this may
+>   change in the future.
+
+*Specs* are uniquely-named sets of features defining machine setups for
+particular use-cases.  An include mechanism allows deriving new specs from
+existing ones.  Specs are applied using the `hotbox-apply-spec` command, which
+basically just implements the include mechanism and applies all the features
+listed in the specified spec.  Specs can be used on their own (along with
+features) and do not require the use of any further hotbox functionality.
+
+Hotbox containers (or just *hotboxes*) are Docker containers built from specs.
+They are built using the `hotbox-build` command and run using the `hotbox-run`
+or `hotbox` commands.  Although hotboxes can be used in a batch / background
+fashion as containers normally are, the hotbox tooling and features are designed
+to enable a more lightweight, interactive usage style where users can quickly
+jump in and out of different hotbox containers depending on the task at hand.
 
 
 
 Features
 ========
 
-A *feature* is a script (or 2 or 3 related scripts) that sets up a particular
-aspect of a machine (whether physical, virtual, or container).
+Features consist of one or more related scripts in the `features/` subdirectory,
+each of which performs actions at different times:
 
->   Some features currently implement personal preferences of mine, but this may
->   change in the future.
+-   `<feature>.user.feature.sh`
 
-Feature scripts are located in the `features/` subdirectory.
+    Performs one-time setup action(s) as the unprivileged user.
 
-Currently, the scripts work on the following Linux distributions:
+    Can perform privileged operations using `doas` (if available).
+
+    Features should be designed to do as much setup as possible at this time.
+
+-   `<feature>.system.feature.sh`
+
+    Performs one-time setup actions as root, usually early in the machine setup
+    process, usually before unprivileged users or `doas` have been set up.
+
+    Features should only perform setup at this time if necessary.
+
+-   `<feature>.run.feature.sh` 
+
+    (containers only)
+
+    Performs actions on the host as the unprivileged host user just before
+    starting a container, with any stdout output being included in the `docker
+    run` command line.
+
+A number of features are included with hotbox itself.  User-defined features can
+be used in addition to or instead of the included ones.
+
+Features can support any number of operating systems, but the included features
+currently support:
 
 - Alpine Linux
 
 - Ubuntu Linux
-
-Each feature is implemented as any combination of a *regular*, *system*, and
-*run* script.
-
-
-Regular Scripts
----------------
-
-Regular feature scripts are what normally set up features.  They:
-
-* Are named according to the feature, e.g. `my-feature`.
-
-* Run as the non-privileged user.
-
-* Run together with other feature scripts.
-
-* Can perform privileged operations using `doas`.
-
-
-System Scripts
---------------
-
-System scripts set up "system-level" aspects of features which, in this context,
-means potentially early in the process of setting up a machine when things like
-unprivileged users, doas, etc. may not be available.  These scripts:
-
-* Are named according to the feature plus a .system suffix, e.g.
-  `my-feature.system`.
-
-* Run as root.
-
-* Run together with other system scripts before regular scripts run.
-
-* May run early in the machine setup process before e.g. unprivileged users have
-  been created.
-
-
-Run Scripts
------------
-
-Run scripts contribute `docker run` command line options when hotbox containers
-with the feature are started.  They:
-
-* Are named according to the feature plus a .run suffix, e.g.
-  `my-feature.run`.
-
-* Run as the non-privileged user.
-
-* Run when hotbox containers are started.
-
-* Contribute `docker run` command line options by echoing them to stdout.
-
-
-hotbox-setup-feature
---------------------
-
-Set up a feature
-
-### Synopsis
-
-```
-hotbox-setup-feature [--system] <feature>
-```
-
-### Options
-
-```
---system
-    Set up system-level aspects of the feature.  Must be run as root.
-
-<feature>
-    The feature to set up.
-```
 
 
 
@@ -111,47 +80,37 @@ Specs
 They are defined in shell scripts in the `specs/` subdirectory.
 
 
-hotbox-setup-spec
------------------
-
-Set up all features in a spec
-
-### Synopsis
-
-```
-hotbox-setup-spec [--system] <spec>
-```
-
-### Options
-
-```
---system
-    Set up system-level aspects of features.  Must be run as root.
-
-<spec>
-    The spec listing the features to set up.
-```
-
-
 
 Containers
 ==========
 
 Hotbox can build and run containers configured with *features* according to
-*specs*.  In addition to functionality provided by the features, these
-containers are equipped with:
+*specs*.
 
-- The host Docker socket so Docker works
-- The host X11 socket so X11 applications work
-- The host user's `.git-credentials`
-- The host `$TERM` setting
+Hotbox includes a number of features that can be used to support interactive
+container use.  These include:
 
-Hotbox containers are identified primarily by the spec they derive from.  A spec
-named *foo* and its related image and containers can all be loosely referred to
-as *the foo hotbox* or *a foo hotbox*.
+- Unprivileged container user matching the unprivileged host user so file
+  ownership and permissions work
 
-In addition, hotbox attaches names to containers to identify them and to
-distinguish amongst multiple containers from the same spec.
+- Host `$TERM` and `$COLORTERM` environment variables so 256-color and truecolor
+  terminals work
+
+- Host user's `~/.git-credentials` so Git works
+
+- Host Docker socket so Docker works
+
+- Host X11 socket and `$DISPLAY` environment variable so X11 applications work
+
+- Shared, persistent caches for various package managers (Alpine APK, Ubuntu
+  APT, Nuget, NPM, etc.) so packages only get downloaded once
+
+Hotbox containers are identified primarily by the name of the spec they are
+built from.  A spec named *foo* and its related image and containers can all be
+loosely referred to as *the foo hotbox* or *a foo hotbox*.
+
+In addition, hotbox attaches names to individual containers to identify them and
+to distinguish amongst multiple containers from the same spec.
 
 
 Host Requirements
@@ -166,15 +125,63 @@ the host X server.  This can be done manually each session or prepended to
     xhost +
 
 
-hotbox
-------
 
-Enter a hotbox container
+Commands
+========
+
+hotbox-apply-feature
+--------------------
+
+Apply a feature to the running system
 
 ### Synopsis
 
 ```
-hotbox [--volume <volume>] [<spec> [<name>]] [-- [<command> [<arg>...]]
+hotbox-apply-feature [--system] <feature>
+```
+
+### Options
+
+```
+--system
+    Apply system aspects of the feature.  Must be run as root.
+
+<feature>
+    The feature to apply.
+```
+
+
+hotbox-apply-spec
+-----------------
+
+Apply all features in a spec to the running system
+
+### Synopsis
+
+```
+hotbox-apply-spec [--system] <spec>
+```
+
+### Options
+
+```
+--system
+    Apply system aspects of features.  Must be run as root.
+
+<spec>
+    The spec whose features are to be applied.
+```
+
+
+hotbox
+------
+
+Enter or join a hotbox container, building it if necessary
+
+### Synopsis
+
+```
+hotbox [--volume <volume>] <spec> [<name>] [-- <command> [<arg>...]]
 ```
 
 ### Options
@@ -185,10 +192,10 @@ hotbox [--volume <volume>] [<spec> [<name>]] [-- [<command> [<arg>...]]
     be specified more than once.
 
 <spec>
-    The spec of the container to enter.  Default "alpine".
+    The spec of the container to enter.
 
 <name>
-    The name of the container to enter.  Default same as spec.
+    The name of the container to enter.  Default same as <spec>.
 
 <command>
     The command to run in the container instead of a login shell.
@@ -228,7 +235,7 @@ hotbox-build <spec>
 hotbox-run
 ----------
 
-Enter a hotbox container
+Enter or join a hotbox container
 
 ### Synopsis
 
@@ -261,33 +268,30 @@ hotbox-run [--volume <volume>] <spec> <name> [<command> [<arg>...]]
 
 ### Description
 
-If a container with the name is not running, start it.
+If a container with the specified `<name>` is not running, start it.
 
-If a container with the name is already running, join it.
+If a container with the specified `<name>` is already running, join it.
 
 
 hotbox-clean
 ------------
 
-Delete all hotbox container images
+Delete all hotbox container images and associated feature/spec snapshots.
 
 
 
-Environment Variables
-=====================
+Scripting Language
+==================
 
-```
-HOTBOX_PATH
-    Colon-separated list of paths (in decreasing order of priority) to search
-    for features and specs.
-```
+All hotbox scripts are POSIX shell scripts (https://shellhaters.org/) so they
+work in all common Bourne-style shells including Bash, Dash, Ash, etc.
 
 
 
 License
 =======
 
-MIT License <https://github.com/macro187/cook/blob/master/license.txt>
+MIT License (https://github.com/macro187/cook/blob/master/license.txt)
 
 
 
@@ -295,4 +299,4 @@ Copyright
 =========
 
 Copyright (c) 2023  
-Ron MacNeil <https://github.com/macro187>
+Ron MacNeil (https://github.com/macro187)
