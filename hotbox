@@ -57,11 +57,12 @@ fi
 
 # Remaining arguments are <command> and <args> to run in container
 
+test -n "$spec" || die "Expected <spec>"
+
 
 #
 # Find container image
 #
-spec="${spec:-alpine}"
 name="${name:-$spec}"
 image="hotbox-$spec"
 image_id="$(docker image ls -q $image)"
