@@ -27,7 +27,7 @@ if ! which shellcheck >/dev/null ; then
             ;;
 
         *)
-            die "Don't know how to install shellcheck on $current_distro os"
+            die "Don't know how to install shellcheck on $(current_distro) os"
             ;;
     esac
 fi

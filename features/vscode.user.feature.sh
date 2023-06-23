@@ -42,7 +42,7 @@ if ! which code >/dev/null ; then
             install_ubuntu
             ;;
         *)
-            die "Don't know how to install vscode on $current_distro os"
+            die "Don't know how to install vscode on $(current_distro) os"
             ;;
     esac
 fi

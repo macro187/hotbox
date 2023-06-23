@@ -17,7 +17,7 @@ if ! which git >/dev/null ; then
             ;;
 
         *)
-            die "Don't know how to install git on $current_distro os"
+            die "Don't know how to install git on $(current_distro) os"
             ;;
     esac
 fi
