@@ -4,7 +4,7 @@
 include workstation
 feature git
 feature container-host-git-credentials
-feature vimrc
+feature vimrc.d
 feature ron-vimrc
 feature vim
 feature ron-vim-plugins
