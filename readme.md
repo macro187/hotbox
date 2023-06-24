@@ -3,10 +3,6 @@ hotbox
 
 My workstation containers, setup scripts, and config files
 
-
-Introduction
-------------
-
 *Features* are uniquely-named, plain old shell scripts that automate the setup
 of individual aspects of machines (whether physical, virtual, or container).
 They are applied using the `hotbox-apply-feature` command, which basically just
@@ -29,6 +25,27 @@ or `hotbox` commands.  Although hotboxes can be used in a batch / background
 fashion as containers normally are, the hotbox tooling and features are designed
 to enable a more lightweight, interactive usage style where users can quickly
 jump in and out of different hotbox containers depending on the task at hand.
+
+
+
+Requirements
+============
+
+Hotbox is written in POSIX shell (https://shellhaters.org/) which works in all
+common Bourne-style shells including Bash, Dash, Ash, etc.
+
+Individual features sometimes require os-specific logic to work.  Where this is
+the case, they currently support:
+
+- Alpine Linux
+
+- Ubuntu Linux
+
+Container functionality requires Docker.  To run X applications in containers,
+they must be allowed access to the host X server.  This can be done manually
+each session or prepended to `.xinitrc` (or similar):
+
+    xhost +
 
 
 
@@ -63,13 +80,6 @@ each of which performs actions at different times:
 
 A number of features are included with hotbox itself.  User-defined features can
 be used in addition to or instead of the included ones.
-
-Features can support any number of operating systems, but the included features
-currently support:
-
-- Alpine Linux
-
-- Ubuntu Linux
 
 
 
@@ -111,18 +121,6 @@ loosely referred to as *the foo hotbox* or *a foo hotbox*.
 
 In addition, hotbox attaches names to individual containers to identify them and
 to distinguish amongst multiple containers from the same spec.
-
-
-Host Requirements
------------------
-
-Docker.
-
-If X applications are to be run in containers, they must be allowed access to
-the host X server.  This can be done manually each session or prepended to
-`.xinitrc` (or whatever):
-
-    xhost +
 
 
 
@@ -277,14 +275,6 @@ hotbox-clean
 ------------
 
 Delete all hotbox container images and associated feature/spec snapshots.
-
-
-
-Scripting Language
-==================
-
-All hotbox scripts are POSIX shell scripts (https://shellhaters.org/) so they
-work in all common Bourne-style shells including Bash, Dash, Ash, etc.
 
 
 
