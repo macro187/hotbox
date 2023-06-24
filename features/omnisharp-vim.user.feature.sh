@@ -5,7 +5,7 @@ cd $HOME/.vim/pack/hotbox/start
 
 
 echo_on
-git clone https://github.com/OmniSharp/omnisharp-vim
+$HOTBOX/lib/git-clone-cached https://github.com/OmniSharp/omnisharp-vim
 echo_off
 
 
