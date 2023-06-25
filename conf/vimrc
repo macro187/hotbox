@@ -257,6 +257,13 @@ function! s:SetupLsp() abort
             \ 'allowlist': [ 'sh', 'bash' ],
             \ })
     endif
+    if executable('serve-d')
+        call lsp#register_server({
+            \ 'name': 'serve-d',
+            \ 'cmd': [ 'serve-d' ],
+            \ 'allowlist': [ 'd' ],
+            \ })
+    endif
     autocmd User lsp_buffer_enabled call s:SetupLspBuffer()
 
     "
