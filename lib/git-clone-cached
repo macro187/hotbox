@@ -40,7 +40,7 @@ if [ ! -d $cache/$name ] ; then
     echo_on
     git clone --bare "$url" $cache/$name
     echo_off
-else
+elif [ -n "${HOTBOX_REFRESH:-}" ] ; then
     echo_on
     git -C $cache/$name fetch
     echo_off

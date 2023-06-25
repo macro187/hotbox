@@ -14,18 +14,22 @@ case $(current_distro) in
 		EOF
         echo_off
 
-        heading "Updating APK database"
-        echo_on
-        apk update
-        echo_off
+        if [ -n "${HOTBOX_REFRESH:-}" ] ; then
+            heading "Updating APK database"
+            echo_on
+            apk update
+            echo_off
+        fi
         ;;
 
 
     ubuntu)
-        heading "Updating APT database"
-        echo_on
-        env DEBIAN_FRONTEND=noninteractive apt update
-        echo_off
+        if [ -n "${HOTBOX_REFRESH:-}" ] ; then
+            heading "Updating APT database"
+            echo_on
+            env DEBIAN_FRONTEND=noninteractive apt update
+            echo_off
+        fi
         ;;
 
 

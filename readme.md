@@ -225,12 +225,15 @@ Build a hotbox container image from a spec
 ### Synopsis
 
 ```
-hotbox-build <spec>
+hotbox-build [--refresh] <spec>
 ```
 
 ### Options
 
 ```
+--refresh
+    Refresh cached assets from their upstream sources
+
 <spec>
     The spec to build.
 ```
