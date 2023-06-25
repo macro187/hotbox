@@ -3,28 +3,34 @@ hotbox
 
 My workstation containers, setup scripts, and config files
 
-*Features* are uniquely-named, plain old shell scripts that automate the setup
-of individual aspects of machines (whether physical, virtual, or container).
-They are applied using the `hotbox-apply-feature` command, which basically just
-runs the specified feature script.  Features can be used on their own and do not
-require the use of any further hotbox functionality.
+*Features* are shell scripts that set up particular aspects of machines
+(physical, virtual, or container).  They can do any kind of setup, both
+system-wide and user-specific.  The `hotbox-apply-feature` command applies
+individual features to the running system, by basically just running the feature
+script.
 
->   Some features currently implement personal preferences of mine, but this may
->   change in the future.
+>   Some features currently implement personal preferences of mine. I am in the
+>   process of extracting those out of hotbox to make it suitable for
+>   general-purpose use by anyone.
 
-*Specs* are uniquely-named sets of features defining machine setups for
-particular use-cases.  An include mechanism allows deriving new specs from
-existing ones.  Specs are applied using the `hotbox-apply-spec` command, which
-basically just implements the include mechanism and applies all the features
-listed in the specified spec.  Specs can be used on their own (along with
-features) and do not require the use of any further hotbox functionality.
+*Specs* are lists of features.  An include mechanism allows specs to build on
+one another.  The `hotbox-apply-spec` command applies specs to the running
+system by applying features in the order listed.
 
-Hotbox containers (or just *hotboxes*) are Docker containers built from specs.
-They are built using the `hotbox-build` command and run using the `hotbox-run`
-or `hotbox` commands.  Although hotboxes can be used in a batch / background
-fashion as containers normally are, the hotbox tooling and features are designed
-to enable a more lightweight, interactive usage style where users can quickly
-jump in and out of different hotbox containers depending on the task at hand.
+>   While some features may depend on the effects of others, there is no
+>   dependency resolution magic in hotbox.  What you see listed in a spec is
+>   what you get.
+
+*Hotboxes* are containers built from specs.  The `hotbox-build` command builds
+container images from specs by starting from a base image and applying features
+in the order listed.  The `hotbox` command runs hotbox containers by allowing
+their features to perform pre-startup tasks on the host and then starting the
+container, usually connected interactively to the terminal.  Hotboxes are just
+plain old containers that can be used in the usual batch/background ways with
+the usual Docker tools, but the hotbox tools and features also enable a more
+lightweight, interactive usage style where users can quickly jump in and out of
+different hotboxes, sometimes from multiple terminal sessions, using assets and
+resources from the host, depending on the task at hand.
 
 
 
