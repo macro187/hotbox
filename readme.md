@@ -4,16 +4,15 @@ hotbox
 My workstation containers, setup scripts, and config files
 
 *Features* are shell scripts that set up particular aspects of machines
-(physical, virtual, or container).  They can do any kind of setup, both
-system-wide and user-specific.  The `hotbox-apply-feature` command applies
-individual features to the running system, by basically just running the feature
-script.
+(physical, virtual, or container).  They can do any kind of system-wide or
+user-specific setup.  The `hotbox-apply-feature` command applies individual
+features to the running system, by basically just running the feature script.
 
 >   Some features currently implement personal preferences of mine. I am in the
 >   process of extracting those out of hotbox to make it suitable for
 >   general-purpose use by anyone.
 
-*Specs* are lists of features.  An include mechanism allows specs to build on
+*Specs* are lists of features.  An include mechanism allows specs to derive from
 one another.  The `hotbox-apply-spec` command applies specs to the running
 system by applying features in the order listed.
 
@@ -37,11 +36,12 @@ resources from the host, depending on the task at hand.
 Requirements
 ============
 
-Hotbox is written in POSIX shell (https://shellhaters.org/) which works in all
-common Bourne-style shells including Bash, Dash, Ash, etc.
+The Hotbox tools are POSIX shell scripts (https://shellhaters.org/) which is
+basically the common subset of Bourne shells (Bash, Dash, Ash, etc.) that works
+on any of them.
 
-Individual features sometimes require os-specific logic to work.  Where this is
-the case, they currently support:
+Some features need to be implemented in os-specific ways.  Where this is the
+case, the features included with Hotbox currently support:
 
 - Alpine Linux
 
