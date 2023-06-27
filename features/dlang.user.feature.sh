@@ -1,35 +1,31 @@
 . $HOTBOX/lib/sh.sh
 
 
-if ! which dmd >/dev/null ; then
+setup_alpine() {
+    heading "Installing gcc"
+    info "(The dmd compiler uses the GCC linker)"
+    echo_on
+    doas apk add gcc gcc-doc
+    echo_off
+
+    heading "Installing libc dev files"
+    info "(D programs usually directly or indirectly use libc)"
+    echo_on
+    doas apk add musl-dev
+    echo_off
+
     heading "Installing dmd compiler"
-    case $(current_distro) in
+    echo_on
+    doas apk add dmd@edgecommunity dmd-doc@edgecommunity
+    echo_off
 
-        alpine)
-            echo_on
-            doas apk add dmd@edgecommunity
-            echo_off
-            ;;
-
-        *)
-            die "Don't know how to install dmd compiler on $(current_distro) os"
-            ;;
-    esac
-fi
-
-
-if ! which dub >/dev/null ; then
     heading "Installing dub build tool"
-    case $(current_distro) in
+    echo_on
+    doas apk add dub@edgecommunity dub-doc@edgecommunity
+    echo_off
+}
 
-        alpine)
-            echo_on
-            doas apk add dub@edgecommunity
-            echo_off
-            ;;
 
-        *)
-            die "Don't know how to install dub build tool on $(current_distro) os"
-            ;;
-    esac
-fi
+setup=setup_$(current_distro)
+function_exists $setup || die "Don't know how to install dlang on $(current_distro) os"
+$setup

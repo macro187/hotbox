@@ -3,3 +3,4 @@
 
 include dev
 feature dlang
+feature serve-d

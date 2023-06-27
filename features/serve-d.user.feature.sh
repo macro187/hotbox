@@ -48,13 +48,6 @@ setup_alpine() {
 }
 
 
-case $(current_distro) in
-
-    alpine)
-        setup_alpine
-        ;;
-
-    *)
-        die "Don't know how to install serve-d on $(current_distro) os"
-        ;;
-esac
+setup=setup_$(current_distro)
+function_exists $setup || die "Don't know how to install serve-d on $(current_distro) os"
+$setup
