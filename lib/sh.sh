@@ -17,6 +17,7 @@ warn() {
 
 
 die() {
+    info
     info "Error:" $@
     exit 1
 }
