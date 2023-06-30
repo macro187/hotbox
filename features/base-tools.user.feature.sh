@@ -8,8 +8,9 @@ case $(current_distro) in
         doas \
             apk add \
             apk-tools-doc \
-            less less-doc \
-            wget wget-doc
+                less less-doc \
+                wget wget-doc \
+                curl curl-doc
         echo_off
         ;;
 
@@ -18,8 +19,9 @@ case $(current_distro) in
         doas \
             env DEBIAN_FRONTEND=noninteractive \
             apt install -y --no-install-recommends \
-            less \
-            wget
+                less \
+                wget \
+                curl
         echo_off
         ;;
 
