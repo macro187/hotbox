@@ -56,6 +56,7 @@ fi
 # Run it
 #
 features=${HOTBOX_SOURCES:-$HOTBOX/features}
+$HOTBOX/lib/feature-exists $features $feature || die "Feature $feature doesn't exist"
 $HOTBOX/lib/feature-command-exists $features $feature $command || exit 0
 heading "Setting up $description"
 $HOTBOX/lib/run-feature-command $features $feature $command
