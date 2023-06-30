@@ -1,4 +1,5 @@
 . $HOTBOX/lib/sh.sh
+. $HOTBOX/lib/state.sh
 
 
 setup_alpine() {
@@ -22,6 +23,60 @@ setup_alpine() {
     heading "Installing dub build tool"
     echo_on
     doas apk add dub@edgecommunity dub-doc@edgecommunity
+    echo_off
+}
+
+
+setup_ubuntu() {
+    if ! which lz >/dev/null ; then
+        heading "Installing xz-utils"
+        echo_on
+        doas \
+            env DEBIAN_FRONTEND=noninteractive \
+            apt install -y --no-install-recommends xz-utils
+        echo_off
+    fi
+
+    if [ -d $HOTBOX_STATE/cache/dlang ] ; then
+        heading "Copying cached dlang installation"
+        echo_on
+        cp -R $HOTBOX_STATE/cache/dlang $HOME/
+        echo_off
+
+        if [ -z "${HOTBOX_REFRESH:-}" ] ; then
+            return
+        fi
+    else
+        heading "Creating dlang directory"
+        echo_on
+        mkdir -p $HOME/dlang
+        echo_off
+    fi
+
+    cd $HOME/dlang
+    if [ -e install.sh ] ; then
+        heading "Updating dlang install.sh"
+        echo_on
+        ./install.sh update
+        echo_off
+    else
+        heading "Downloading dlang install.sh"
+        echo_on
+        wget -nv -O install.sh https://dlang.org/install.sh
+        chmod u+x install.sh
+        echo_off
+    fi
+
+    heading "Installing / updating dmd compiler"
+    echo_on
+    ./install.sh install dmd
+    echo_off
+
+    heading "Caching dlang installation"
+    # TODO lock
+    echo_on
+    rm -rf $HOTBOX_STATE/cache/dlang
+    cp -R $HOME/dlang $HOTBOX_STATE/cache/
     echo_off
 }
 
