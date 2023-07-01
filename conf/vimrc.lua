@@ -107,6 +107,20 @@ if vim.fn.executable("bash-language-server") == 1 then
     })
 end
 
+if vim.fn.executable("serve-d") == 1 then
+    vim.api.nvim_create_autocmd("FileType", {
+        pattern = { "d" },
+        callback = function()
+            vim.lsp.start({
+                name = "serve-d",
+                cmd = { "serve-d" },
+                -- cmd = { "serve-d", '--logfile', '/tmp/served.log', '--loglevel', 'all' },
+                root_dir = vim.fs.dirname(vim.fs.find({'dub.json', 'dub.sdl', '.git'}, { upward = true })[1]),
+            })
+        end,
+    })
+end
+
 
 --
 -- cmp
