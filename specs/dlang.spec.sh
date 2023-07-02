@@ -2,7 +2,7 @@
 
 
 include dev
-include _ubuntu
+include _void
 feature dlang
 feature dmd-activate
 feature serve-d

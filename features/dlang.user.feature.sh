@@ -27,8 +27,8 @@ setup_alpine() {
 }
 
 
-setup_ubuntu() {
-    if ! which lz >/dev/null ; then
+prerequisites_ubuntu() {
+    if ! which xz >/dev/null ; then
         heading "Installing xz-utils"
         echo_on
         doas \
@@ -36,7 +36,20 @@ setup_ubuntu() {
             apt install -y --no-install-recommends xz-utils
         echo_off
     fi
+}
 
+
+prerequisites_void() {
+    if ! which xz >/dev/null ; then
+        heading "Installing xz"
+        echo_on
+        doas xbps-install -y xz
+        echo_off
+    fi
+}
+
+
+install_dlang() {
     if [ -d $HOTBOX_STATE/cache/dlang ] ; then
         heading "Copying cached dlang installation"
         echo_on
@@ -81,6 +94,17 @@ setup_ubuntu() {
 }
 
 
-setup=setup_$(current_distro)
-function_exists $setup || die "Don't know how to install dlang on $(current_distro) os"
-$setup
+case $(current_distro) in
+
+    alpine)
+        setup_alpine
+        ;;
+
+    *)
+        prerequisites=prerequisites_$(current_distro)
+        if function_exists $prerequisites ; then
+            $prerequisites
+        fi
+        install_dlang
+        ;;
+esac

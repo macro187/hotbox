@@ -2,7 +2,7 @@
 . $HOTBOX/lib/state.sh
 
 
-setup_alpine() {
+build_serve_d_from_source() {
     cd $HOME
     if [ ! -d serve-d ] ; then
         heading "Cloning serve-d"
@@ -20,7 +20,10 @@ setup_alpine() {
     rm -f $HOME/bin/serve-d
     ln -s $HOME/serve-d/serve-d $HOME/bin/serve-d
     echo_off
+}
 
+
+build_dcd_from_source() {
     cd $HOME
     if [ ! -d DCD ] ; then
         heading "Cloning dcd"
@@ -44,13 +47,7 @@ setup_alpine() {
 }
 
 
-setup_ubuntu() {
-    setup_ubuntu_serve_d
-    setup_ubuntu_dcd
-}
-
-
-setup_ubuntu_serve_d() {
+install_serve_d_binary_dist() {
     version="0.8.0-beta.14"
     distfile="serve-d_$version-linux-x86_64.tar.xz"
     url="https://github.com/Pure-D/serve-d/releases/download/v0.8.0-beta.14/$distfile"
@@ -88,7 +85,7 @@ setup_ubuntu_serve_d() {
 }
 
 
-setup_ubuntu_dcd() {
+install_dcd_binary_dist() {
     version="0.16.0-beta.2"
     distfile="dcd-v$version-linux-x86_64.tar.gz"
     url="https://github.com/dlang-community/DCD/releases/download/v0.16.0-beta.2/$distfile"
@@ -127,6 +124,15 @@ setup_ubuntu_dcd() {
 }
 
 
-setup=setup_$(current_distro)
-function_exists $setup || die "Don't know how to install serve-d on $(current_distro) os"
-$setup
+case $(current_distro) in
+
+    alpine)
+        build_serve_d_from_source
+        build_dcd_from_source
+        ;;
+
+    *)
+        install_serve_d_binary_dist
+        install_dcd_binary_dist
+        ;;
+esac
