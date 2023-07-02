@@ -23,9 +23,17 @@ add_docker_group() {
         die "HOTBOX_DOCKER_GID $HOTBOX_DOCKER_GID already in use by group $existing_group"
     fi
 
-    echo_on
-    addgroup --gid $HOTBOX_DOCKER_GID docker
-    echo_off
+    if which addgroup >/dev/null 2>&1 ; then
+        echo_on
+        addgroup --gid $HOTBOX_DOCKER_GID docker
+        echo_off
+    elif which groupadd >/dev/null 2>&1 ; then
+        echo_on
+        groupadd --gid $HOTBOX_DOCKER_GID docker
+        echo_off
+    else
+        die "Neither addgroup nor groupadd are present"
+    fi
 }
 add_docker_group
 
@@ -39,8 +47,16 @@ add_user_to_docker_group() {
         return 0
     fi
 
-    echo_on
-    addgroup $HOTBOX_USER docker
-    echo_off
+    if which addgroup >/dev/null 2>&1 ; then
+        echo_on
+        addgroup $HOTBOX_USER docker
+        echo_off
+    elif which usermod >/dev/null 2>&1 ; then
+        echo_on
+        usermod -a -G docker $HOTBOX_USER
+        echo_off
+    else
+        die "Neither addgroup nor usermod are present"
+    fi
 }
 add_user_to_docker_group

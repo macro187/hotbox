@@ -7,7 +7,7 @@ case $(current_distro) in
         echo_on
         doas \
             apk add \
-            apk-tools-doc \
+                apk-tools-doc \
                 less less-doc \
                 wget wget-doc \
                 curl curl-doc
@@ -19,6 +19,17 @@ case $(current_distro) in
         doas \
             env DEBIAN_FRONTEND=noninteractive \
             apt install -y --no-install-recommends \
+                less \
+                wget \
+                curl
+        echo_off
+        ;;
+
+    void)
+        echo_on
+        doas \
+            xbps-install -y \
+                bash \
                 less \
                 wget \
                 curl

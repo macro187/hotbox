@@ -20,6 +20,13 @@ case $(current_distro) in
         echo_off
         ;;
 
+    void)
+        echo_on
+        xbps-install -y opendoas
+        echo "permit nopass $HOTBOX_USER" >>/etc/doas.conf
+        echo_off
+        ;;
+
     *)
         die "Don't know how to set up doas on $(current_distro) os"
         ;;

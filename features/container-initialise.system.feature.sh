@@ -13,4 +13,13 @@ case $(current_distro) in
         echo_off
         ;;
 
+    void)
+        echo_on
+        xbps-install -S
+        xbps-install -uy xbps
+        xbps-install -S
+        xbps-install -uy
+        echo_off
+        ;;
+
 esac

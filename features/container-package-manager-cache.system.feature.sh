@@ -27,6 +27,16 @@ case $(current_distro) in
         ;;
 
 
+    void)
+        heading "Linking XBPS cache to hotbox state"
+        echo_on
+        mkdir -p $HOTBOX_STATE/void-package-cache
+        rm -rf /var/cache/xbps
+        ln -s $HOTBOX_STATE/void-package-cache /var/cache/xbps
+        echo_off
+        ;;
+
+
     *)
         warn "Don't know how to cache packages on $(current_distro) os"
         ;;

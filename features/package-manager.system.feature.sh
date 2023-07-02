@@ -33,6 +33,16 @@ case $(current_distro) in
         ;;
 
 
+    void)
+        if [ -n "${HOTBOX_REFRESH:-}" ] ; then
+            heading "Updating XBPS database"
+            echo_on
+            xbps-install -S
+            echo_off
+        fi
+        ;;
+
+
     *)
         die "Don't know how to configure package manager on $(current_distro) os"
         ;;

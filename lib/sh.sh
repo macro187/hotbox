@@ -48,11 +48,13 @@ current_gid() {
 
 
 current_distro() {
-    if [ -z "${__current_distro:+x}" ] ; then
+    if [ -z "${__current_distro:-}" ] ; then
         if grep -q '^NAME="Alpine Linux"' /etc/os-release ; then
             __current_distro="alpine"
         elif grep -q '^NAME="Ubuntu"' /etc/os-release ; then
             __current_distro="ubuntu"
+        elif grep -q '^NAME="[Vv]oid"' /etc/os-release ; then
+            __current_distro="void"
         else
             __current_distro="unknown"
         fi

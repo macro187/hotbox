@@ -18,6 +18,12 @@ if ! which vim >/dev/null ; then
             echo_off
             ;;
 
+        void)
+            echo_on
+            doas xbps-install -y vim
+            echo_off
+            ;;
+
         *)
             die "Don't know how to install vim on $(current_distro) os"
             ;;

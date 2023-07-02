@@ -47,6 +47,8 @@ case, the features included with Hotbox currently support:
 
 - Ubuntu Linux
 
+- Void Linux
+
 Container functionality requires Docker.  To run X applications in containers,
 they must be allowed access to the host X server.  This can be done manually
 each session or prepended to `.xinitrc` (or similar):

@@ -44,6 +44,13 @@ install_ubuntu() {
 }
 
 
+install_void() {
+    echo_on
+    doas xbps-install -y neovim
+    echo_off
+}
+
+
 if ! which nvim >/dev/null ; then
     install=install_$(current_distro)
     function_exists $install || die "Don't know how to install nvim on $(current_distro) os"
