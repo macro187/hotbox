@@ -28,8 +28,8 @@ container, usually connected interactively to the terminal.  Hotboxes are just
 plain old containers that can be used in the usual batch/background ways with
 the usual Docker tools, but the hotbox tools and features also enable a more
 lightweight, interactive usage style where users can quickly jump in and out of
-different hotboxes, sometimes from multiple terminal sessions, using assets and
-resources from the host, depending on the task at hand.
+different hotboxes depending on the task at hand, sometimes from multiple
+terminal sessions, sharing assets and resources from the host.
 
 
 
@@ -37,8 +37,8 @@ Requirements
 ============
 
 The Hotbox tools are POSIX shell scripts (https://shellhaters.org/) which is
-basically the common subset of Bourne shells (Bash, Dash, Ash, etc.) that works
-on any of them.
+(basically) the common subset of Bourne shells (Bash, Dash, Ash, etc.) that
+works on any of them.
 
 Some features need to be implemented in os-specific ways.  Where this is the
 case, the features included with Hotbox currently support:
@@ -49,9 +49,11 @@ case, the features included with Hotbox currently support:
 
 - Void Linux
 
-Container functionality requires Docker.  To run X applications in containers,
-they must be allowed access to the host X server.  This can be done manually
-each session or prepended to `.xinitrc` (or similar):
+Container functionality requires Docker.
+
+To run X applications in containers, they must be allowed access to the host X
+server.  This can be done manually each session or prepended to `.xinitrc` (or
+similar):
 
     xhost +
 
