@@ -17,6 +17,11 @@ function has(module_name)
 end
 
 
+vim.diagnostic.config {
+    float = { border = "rounded" },
+}
+
+
 --
 -- nvim-tree
 --
@@ -58,6 +63,9 @@ vim.api.nvim_create_autocmd("LspAttach", {
         setup_lsp_overloads(client, buffer_number)
     end,
 })
+
+vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = "rounded" })
+vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = "rounded" })
 
 function setup_lsp_overloads(client, buffer_number)
     if not has('lsp-overloads') then return end
