@@ -29,11 +29,12 @@ setup_alpine() {
 
 prerequisites_ubuntu() {
     if ! which xz >/dev/null ; then
-        heading "Installing xz-utils"
+        heading "Installing dlang prerequisites"
         echo_on
         doas \
             env DEBIAN_FRONTEND=noninteractive \
-            apt install -y --no-install-recommends xz-utils
+            apt install -y --no-install-recommends \
+                xz-utils
         echo_off
     fi
 }
@@ -41,9 +42,12 @@ prerequisites_ubuntu() {
 
 prerequisites_void() {
     if ! which xz >/dev/null ; then
-        heading "Installing xz"
+        heading "Installing dlang prerequisites"
         echo_on
-        doas xbps-install -y xz
+        doas \
+            xbps-install -y \
+                xz \
+                openssl-devel
         echo_off
     fi
 }
