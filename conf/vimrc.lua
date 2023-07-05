@@ -60,6 +60,10 @@ vim.api.nvim_create_autocmd("LspAttach", {
         local opts = { silent = true, buffer = buffer_number }
         vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
         vim.keymap.set({ "n", "i" }, "<c-_>", vim.lsp.buf.signature_help, opts)
+        vim.keymap.set({ "n" }, "gd", vim.lsp.buf.definition, opts)
+        vim.keymap.set({ "n" }, "gD", vim.lsp.buf.declaration, opts)
+        vim.keymap.set({ "n" }, "<leader>gd", vim.lsp.buf.definition, opts)
+        vim.keymap.set({ "n" }, "<leader>gD", vim.lsp.buf.declaration, opts)
         setup_lsp_overloads(client, buffer_number)
     end,
 })
