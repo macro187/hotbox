@@ -47,6 +47,7 @@ prerequisites_void() {
         doas \
             xbps-install -y \
                 xz \
+                gcc \
                 openssl-devel
         echo_off
     fi
