@@ -2,7 +2,7 @@
 . $HOTBOX/lib/state.sh
 
 
-version="1.39.6"
+version="1.39.7"
 
 case $(current_distro) in
     alpine)
