@@ -29,6 +29,7 @@ case $(current_distro) in
         echo_on
         doas \
             xbps-install -y \
+                ncurses \
                 bash \
                 less \
                 wget \
