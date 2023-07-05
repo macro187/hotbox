@@ -66,6 +66,12 @@ vim.api.nvim_create_autocmd("LspAttach", {
         vim.keymap.set({ "n" }, "<leader>gd", vim.lsp.buf.definition, opts)
         vim.keymap.set({ "n" }, "<leader>gD", vim.lsp.buf.declaration, opts)
         vim.keymap.set({ "n" }, "<leader>gi", vim.lsp.buf.implementation, opts)
+        vim.keymap.set({ "n" }, "<leader>lr", vim.lsp.buf.references, opts)
+        vim.keymap.set({ "n" }, "<leader>lw", function()
+            print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
+        end, opts)
+        vim.keymap.set({ "n" }, "<leader>r", vim.lsp.buf.rename, opts)
+        vim.keymap.set({ "n" }, "<leader>a", vim.lsp.buf.code_action, opts)
         setup_lsp_overloads(client, buffer_number)
     end,
 })
