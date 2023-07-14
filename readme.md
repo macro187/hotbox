@@ -1,3 +1,4 @@
+![](hotbox.png)
 hotbox
 ======
 
