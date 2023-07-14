@@ -1,7 +1,7 @@
 hotbox
 ======
 
-My workstation containers, setup scripts, and config files
+Workstation configuration and container automation
 
 *Features* are shell scripts that set up particular aspects of machines
 (physical, virtual, or container).  They can do any kind of system-wide or

@@ -1,0 +1,20 @@
+. $HOTBOX/lib/sh.sh
+
+
+configs="$HOME/configs"
+if $HOTBOX/lib/in-container ; then
+    configs="/hotbox-personal-configs"
+fi
+gitconfig="$configs/gitconfig"
+
+
+cd $HOME
+if ! grep -qF "$gitconfig" .gitconfig ; then
+    info "Including $gitconfig from .gitconfig"
+    cat .gitconfig >.gitconfig.old
+    echo "[include]" >.gitconfig
+    echo "	path = $gitconfig" >>.gitconfig
+    echo >>.gitconfig
+    cat .gitconfig.old >>.gitconfig
+    rm .gitconfig.old
+fi

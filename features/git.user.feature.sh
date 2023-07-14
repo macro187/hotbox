@@ -36,20 +36,6 @@ fi
 
 
 #
-# Make sure .gitconfig includes the hotbox gitconfig
-#
-if ! grep -qF 'conf/gitconfig' .gitconfig ; then
-    info "No hotbox gitconfig include found in .gitconfig, prepending"
-    cat .gitconfig >.gitconfig.old
-    echo "[include]" >.gitconfig
-    echo "	path = $HOTBOX/conf/gitconfig" >>.gitconfig
-    echo >>.gitconfig
-    cat .gitconfig.old >>.gitconfig
-    rm .gitconfig.old
-fi
-
-
-#
 # Use totally insecure "store" credential store on Linux
 #
 if [ "$(uname)" = "Linux" ] ; then
