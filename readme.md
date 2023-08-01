@@ -146,7 +146,8 @@ Apply a feature to the running system
 ### Synopsis
 
 ```
-hotbox-apply-feature [--system] <feature>
+hotbox-apply-feature [--system] <name>
+hotbox-apply-feature <path>
 ```
 
 ### Options
@@ -155,8 +156,11 @@ hotbox-apply-feature [--system] <feature>
 --system
     Apply system aspects of the feature.  Must be run as root.
 
-<feature>
-    The feature to apply.
+<name>
+    Name of feature to apply.
+
+<path>
+    Path to *.user.feature.sh or *.system.feature.sh script to apply.
 ```
 
 
