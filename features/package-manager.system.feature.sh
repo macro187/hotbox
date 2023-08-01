@@ -5,15 +5,12 @@ case $(current_distro) in
 
 
     alpine)
-        heading "Adding edge package repositories"
-        echo_on
-        cat >>/etc/apk/repositories <<-"EOF"
-			@edgemain https://dl-cdn.alpinelinux.org/alpine/edge/main
-			@edgecommunity https://dl-cdn.alpinelinux.org/alpine/edge/community
-			@edgetesting https://dl-cdn.alpinelinux.org/alpine/edge/testing
-		EOF
-        echo_off
-
+        for repo in main community testing ; do
+            if ! grep -qF "@edge$repo" /etc/apk/repositories ; then
+                info "Adding @edge$repo repository"
+                echo "@edge$repo https://dl-cdn.alpinelinux.org/alpine/edge/$repo" >>/etc/apk/repositories
+            fi
+        done
         if [ -n "${HOTBOX_REFRESH:-}" ] ; then
             heading "Updating APK database"
             echo_on
