@@ -4,9 +4,9 @@
 user="$(current_user)"
 
 
-heading "Creating /hotbox-user-configs mount point"
+heading "Creating /hotbox-personal-configs mount point"
 echo_on
-doas mkdir /hotbox-user-configs
-doas chown $user:$user /hotbox-user-configs
-doas chmod 755 /hotbox-user-configs
+doas mkdir /hotbox-personal-configs
+doas chown $user:$user /hotbox-personal-configs
+doas chmod 755 /hotbox-personal-configs
 echo_off
