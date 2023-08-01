@@ -1,7 +1,7 @@
 . $HOTBOX/lib/spec.sh
 
 
-include container
-feature container-cook
+include base
+
 feature dotnet-sdk
 feature container-nuget-cache

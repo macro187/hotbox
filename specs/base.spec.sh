@@ -2,17 +2,17 @@
 
 
 include _alpine
+
 feature container-package-manager-cache
 feature container-initialise
 feature package-manager
+feature base-tools
 feature container-user
+feature doas
+
 feature profile.d
 feature shrc.d
 feature inputrc
-feature container-docker-group
+feature user-bin-directory
+
 feature container-hotbox
-feature container-workspace
-feature container-host-x11
-feature container-host-docker
-feature container-host-term
-feature doas

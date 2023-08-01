@@ -2,6 +2,7 @@
 
 
 include dev
-feature dotnet-sdk
+
 feature container-nuget-cache
+feature dotnet-sdk
 feature omnisharp
