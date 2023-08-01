@@ -230,7 +230,7 @@ Build a hotbox container image from a spec
 ### Synopsis
 
 ```
-hotbox-build [--refresh] <spec>
+hotbox-build [--refresh] [--source <source>] <spec>
 ```
 
 ### Options
@@ -239,8 +239,18 @@ hotbox-build [--refresh] <spec>
 --refresh
     Refresh cached assets from their upstream sources
 
+--source <source>
+    Include features and specs from <source> location
+
 <spec>
     The spec to build.
+```
+
+### Environment
+```
+HOTBOX_PATH
+    Additional locations to include features and specs from, colon-separated,
+    in decreasing order of priority
 ```
 
 

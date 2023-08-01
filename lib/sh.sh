@@ -67,3 +67,12 @@ function_exists() {
     test -n "$1" || die "Expected <function_name>"
     type "$1" 2>/dev/null | grep -Fq function
 }
+
+
+reverse() {
+    local result=""
+    for word in "$@" ; do
+        result="$word $result"
+    done
+    echo "$result"
+}
