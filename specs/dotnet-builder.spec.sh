@@ -2,6 +2,4 @@
 
 
 include base
-
-feature dotnet-sdk
-feature container-nuget-cache
+include _dotnet

@@ -3,7 +3,6 @@
 
 include dev
 include _void
+include _dlang
 
-feature dlang
-feature dmd-activate
 feature serve-d

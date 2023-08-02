@@ -2,7 +2,6 @@
 
 
 include dev
+include _node
 
-feature container-npm-cache
-feature node
 feature bash-language-server
