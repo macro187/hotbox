@@ -65,7 +65,7 @@ fi
 #
 container_id=$(docker ps -q --filter label=hotbox.name=$name)
 if [ -n "$container_id" ] ; then
-    heading "Joining $name hotbox container $container_id"
+    heading "Joining running $name hotbox ($container_id)"
 
     container_image="$(docker inspect --format '{{ .Config.Image }}' $container_id)"
     test "$container_image" = "$image" || die "Container image $container_image does not match specified image $image"
@@ -109,7 +109,7 @@ test -n "$workdir" || die "no --workdir found in docker run options"
 #
 # Run the container
 #
-heading "Starting $spec hotbox named $name"
+heading "Starting $name hotbox from $spec spec"
 echo_on
 docker run \
     --interactive \
@@ -118,7 +118,7 @@ docker run \
     --rm \
     --ipc=host \
     --network=host \
-    --hostname $image \
+    --hostname $name \
     \
     --label hotbox.name=$name \
     --label hotbox.workdir=$workdir \
