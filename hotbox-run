@@ -19,7 +19,13 @@ while test $# -gt 0 ; do
         --volume)
             shift
             test $# -gt 0 || die "Expected <volume>"
-            volume_options="$volume_options --volume $1"
+            volume_src="${1%%:*}"
+            volume_dst="${1#*:}"
+            test -n "$volume_src" || die "Unrecognised volume format: $1"
+            test -n "$volume_dst" || die "Unrecognised volume format: $1"
+            volume_src_mapped="$($HOTBOX/lib/map-container-path "$volume_src")"
+            test -n "$volume_src_mapped" || die "Unable to map --volume $volume_src to host"
+            volume_options="$volume_options --volume $volume_src_mapped:$volume_dst"
             shift
             ;;
         -*)
