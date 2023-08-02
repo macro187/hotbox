@@ -11,6 +11,7 @@ HOTBOX=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd -P)
 #
 source_options=""
 volume_options=""
+workdir_options=""
 spec=""
 while test $# -gt 0 ; do
     case $1 in
@@ -24,6 +25,12 @@ while test $# -gt 0 ; do
             shift
             test $# -gt 0 || die "Expected <volume>"
             volume_options="$volume_options --volume $1"
+            shift
+            ;;
+        --workdir)
+            shift
+            test $# -gt 0 || die "Expected <workdir>"
+            workdir_options="--workdir $1"
             shift
             ;;
         --)
@@ -83,5 +90,6 @@ fi
 #
 $HOTBOX/hotbox-run \
     $volume_options \
+    $workdir_options \
     $spec $name \
     $@

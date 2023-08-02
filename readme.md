@@ -194,7 +194,7 @@ Enter or join a hotbox container, building it if necessary
 ### Synopsis
 
 ```
-hotbox [--volume <volume>] <spec> [<name>] [-- <command> [<arg>...]]
+hotbox [--volume <volume>] [--workdir <workdir>] <spec> [<name>] [-- <command> [<arg>...]]
 ```
 
 ### Options
@@ -203,6 +203,9 @@ hotbox [--volume <volume>] <spec> [<name>] [-- <command> [<arg>...]]
 --volume <hostpath>:<containerpath>
     Mount the specified <hostpath> into the container at <containerpath>.  Can
     be specified more than once.
+
+--workdir <workdir>
+    Enter the container in the specified <workdir>
 
 <spec>
     The spec of the container to enter.
@@ -266,7 +269,7 @@ Enter or join a hotbox container
 ### Synopsis
 
 ```
-hotbox-run [--volume <volume>] <spec> <name> [<command> [<arg>...]]
+hotbox-run [--volume <volume>] [--workdir <workdir>] <spec> <name> [<command> [<arg>...]]
 ```
 
 ### Options
@@ -275,6 +278,9 @@ hotbox-run [--volume <volume>] <spec> <name> [<command> [<arg>...]]
 --volume <hostpath>:<containerpath>
     Mount the specified <hostpath> into the container at <containerpath>.  Can
     be specified more than once.
+
+--workdir <workdir>
+    Enter the container in the specified <workdir>
 
 <spec>
     The hotbox spec to run.

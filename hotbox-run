@@ -11,9 +11,9 @@ HOTBOX=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd -P)
 # Command line arguments
 #
 volume_options=""
+workdir=""
 spec=""
 name=""
-
 while test $# -gt 0 ; do
     case $1 in
         --volume)
@@ -26,6 +26,12 @@ while test $# -gt 0 ; do
             volume_src_mapped="$($HOTBOX/lib/map-container-path "$volume_src")"
             test -n "$volume_src_mapped" || die "Unable to map --volume $volume_src to host"
             volume_options="$volume_options --volume $volume_src_mapped:$volume_dst"
+            shift
+            ;;
+        --workdir)
+            shift
+            test $# -gt 0 || die "Expected <workdir>"
+            workdir="$1"
             shift
             ;;
         -*)
@@ -76,8 +82,10 @@ if [ -n "$container_id" ] ; then
     container_image="$(docker inspect --format '{{ .Config.Image }}' $container_id)"
     test "$container_image" = "$image" || die "Container image $container_image does not match specified image $image"
 
-    workdir="$(docker inspect --format '{{ index .Config.Labels "hotbox.workdir"}}' $container_id)"
-    test -n "$workdir" || die "No hotbox.workdir label found on container"
+    if [ -z "$workdir" ] ; then
+        workdir="$(docker inspect --format '{{ index .Config.Labels "hotbox.workdir"}}' $container_id)"
+        test -n "$workdir" || die "No hotbox.workdir label found on container"
+    fi
 
     echo_on
     docker exec \
@@ -101,6 +109,9 @@ for feature in $features ; do
     feature_options="$($HOTBOX/lib/run-feature-command $sources $feature run)"
     options="$options $feature_options"
 done
+if [ -n "$workdir" ] ; then
+    options="$options --workdir $workdir"
+fi
 options="$(echo $options)"
 
 
