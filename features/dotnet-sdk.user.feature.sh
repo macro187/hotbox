@@ -6,14 +6,14 @@ if ! which dotnet >/dev/null ; then
 
         alpine)
             echo_on
-            doas apk add dotnet7-sdk
+            doas apk add dotnet8-sdk
             echo_off
             ;;
 
         ubuntu)
             echo_on
             doas env DEBIAN_FRONTEND=noninteractive \
-                apt install -y --no-install-recommends dotnet-sdk-7.0
+                apt install -y --no-install-recommends dotnet-sdk-8.0
             echo_off
             ;;
 
