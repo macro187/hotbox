@@ -87,6 +87,14 @@ if [ -n "$imageid" ] ; then
 fi
 
 
+if [ -n "$refresh" ] ; then
+    heading "Pulling latest $baseimage image"
+    echo_on
+    docker image pull $baseimage
+    echo_off
+fi
+
+
 heading "Forking $image container image from $baseimage"
 echo_on
 echo "FROM $baseimage" | \
