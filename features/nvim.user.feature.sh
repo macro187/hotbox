@@ -10,7 +10,7 @@ install_alpine() {
 
 
 install_ubuntu() {
-    version="0.9.1"
+    version="0.9.5"
     localdistfile="nvim-$version-linux64.tar.gz"
     url="https://github.com/neovim/neovim/releases/download/v$version/nvim-linux64.tar.gz"
 
