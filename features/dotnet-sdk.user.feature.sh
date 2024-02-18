@@ -26,7 +26,7 @@ fi
 
 info "Shutting up dotnet welcome message"
 echo_on
-dotnet help &>/dev/null
+dotnet help 2>&1 >/dev/null
 echo_off
 
 
