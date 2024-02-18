@@ -2,4 +2,7 @@
 
 
 feature dotnet-sdk
-feature container-nuget-cache
+
+if [ "$HOTBOX_TARGET" = "container" ] ; then
+    feature container-nuget-cache
+fi

@@ -5,9 +5,14 @@ include base
 
 feature man
 
-feature container-personal-configs
+if [ "$HOTBOX_TARGET" = "container" ] ; then
+    feature container-personal-configs
+fi
+
 feature personal-inputrc
 feature personal-bashrc
 
-feature container-host-term
-feature container-host-x11
+if [ "$HOTBOX_TARGET" = "container" ] ; then
+    feature container-host-term
+    feature container-host-x11
+fi

@@ -1,5 +1,8 @@
 . $HOTBOX/lib/spec.sh
 
 
-feature container-npm-cache
+if [ "$HOTBOX_TARGET" = "container" ] ; then
+    feature container-npm-cache
+fi
+
 feature node

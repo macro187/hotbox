@@ -3,4 +3,7 @@
 
 feature git
 feature personal-gitconfig
-feature container-host-git-credentials
+
+if [ "$HOTBOX_TARGET" = "container" ] ; then
+    feature container-host-git-credentials
+fi

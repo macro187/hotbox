@@ -57,11 +57,11 @@ done
 
 
 heading "Reading '$spec' spec"
-features=$($HOTBOX/lib/read-spec $sources_snapshot $spec feature)
+features=$($HOTBOX/lib/read-spec $sources_snapshot $spec container feature)
 features=$(echo $features)
-baseimage=$($HOTBOX/lib/read-spec $sources_snapshot $spec baseimage | tail -n 1 || checkpipe)
-shell=$($HOTBOX/lib/read-spec $sources_snapshot $spec shell | tail -n 1 || checkpipe)
-shellarg=$($HOTBOX/lib/read-spec $sources_snapshot $spec shellarg | tail -n 1 || checkpipe)
+baseimage=$($HOTBOX/lib/read-spec $sources_snapshot $spec container baseimage | tail -n 1 || checkpipe)
+shell=$($HOTBOX/lib/read-spec $sources_snapshot $spec container shell | tail -n 1 || checkpipe)
+shellarg=$($HOTBOX/lib/read-spec $sources_snapshot $spec container shellarg | tail -n 1 || checkpipe)
 test -n "$baseimage" || die "No baseimage specified in $spec spec"
 test -n "$shell" || die "No shell specified in $spec spec"
 

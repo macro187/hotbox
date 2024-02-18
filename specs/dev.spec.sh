@@ -6,4 +6,6 @@ include interactive
 include _git
 include _docker
 
-feature container-workspace
+if [ "$HOTBOX_TARGET" = "container" ] ; then
+    feature container-workspace
+fi

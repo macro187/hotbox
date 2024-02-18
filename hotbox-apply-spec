@@ -32,10 +32,19 @@ test $# -eq 0 || die "Unexpected argument '$1'"
 
 
 #
+# Detect target
+#
+target=machine
+if $HOTBOX/lib/in-container ; then
+    target=container
+fi
+
+
+#
 # Read features from <spec>
 #
 specs=${HOTBOX_SOURCES:-$HOTBOX/specs}
-features=$(echo $($HOTBOX/lib/read-spec $specs $spec feature))
+features=$(echo $($HOTBOX/lib/read-spec $specs $spec $target feature))
 
 
 #
