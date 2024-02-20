@@ -7,3 +7,4 @@ if [ "$HOTBOX_TARGET" = "container" ] ; then
 fi
 
 feature docker-cli
+feature docker-cli-compose
