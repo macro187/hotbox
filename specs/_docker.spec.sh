@@ -8,3 +8,4 @@ fi
 
 feature docker-cli
 feature docker-cli-compose
+feature docker-cli-buildx
