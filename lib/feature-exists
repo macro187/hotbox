@@ -3,10 +3,12 @@ set -eu ; set -o | grep -q pipefail && set -o pipefail
 HOTBOX=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd -P)
 
 
-location="${1:?expected <location>}"
-feature="${2:?expected <feature>}"
+. "$HOTBOX/lib/sources.sh"
 
 
-test -f $location/$feature.system.feature.sh \
-    || test -f $location/$feature.user.feature.sh \
-    || test -f $location/$feature.run.feature.sh
+feature="${1:?expected <feature>}"
+
+
+[ -f "$HOTBOX_SOURCES/$feature.system.feature.sh" ] || \
+[ -f "$HOTBOX_SOURCES/$feature.user.feature.sh" ] || \
+[ -f "$HOTBOX_SOURCES/$feature.run.feature.sh" ]

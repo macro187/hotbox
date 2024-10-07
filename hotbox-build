@@ -3,8 +3,9 @@ set -eu ; set -o | grep -q pipefail && set -o pipefail
 HOTBOX=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd -P)
 
 
-. $HOTBOX/lib/sh.sh
-. $HOTBOX/lib/state.sh
+. "$HOTBOX/lib/sh.sh"
+. "$HOTBOX/lib/state.sh"
+. "$HOTBOX/lib/sources.sh"
 
 
 refresh=
@@ -13,7 +14,7 @@ while test $# -gt 0 ; do
     case $1 in
         --source)
             shift
-            test $# -gt 0 || die "Expected <source>"
+            [ $# -gt 0 ] || die "Expected <source>"
             commandline_sources="$commandline_sources $1"
             shift
             ;;
@@ -30,40 +31,26 @@ while test $# -gt 0 ; do
     esac
 done
 
-test $# -gt 0 || die "Expected <spec>"
+[ $# -gt 0 ] || die "Expected <spec>"
 spec="$1" ; shift
 
-test $# -eq 0 || die "Unexpected argument '$1'"
+[ $# -eq 0 ] || die "Unexpected argument '$1'"
 
 
-heading "Collecting features and specs"
-hotbox_sources="$HOTBOX/specs $HOTBOX/features"
-hotbox_path_sources="$(echo "${HOTBOX_PATH:-}" | tr ':' ' ')"
-hotbox_path_sources="$(reverse $hotbox_path_sources)"
-all_sources="$hotbox_sources $hotbox_path_sources $commandline_sources"
-sources_snapshot="$HOTBOX_STATE/sources/$spec.next"
-rm -rf $sources_snapshot
-mkdir -p $sources_snapshot
-for source in $all_sources ; do
-    source="${source%/}"
-    if [ ! -d $source ] ; then
-        info "(ignoring source $source because it doesn't exist)"
-        continue
-    fi
-    info "$source"
-    cp $source/*.spec.sh $sources_snapshot 2>/dev/null || true
-    cp $source/*.feature.sh $sources_snapshot 2>/dev/null || true
+for source in $commandline_sources ; do
+    add_source "$source"
 done
 
 
+sources_snapshot="$HOTBOX_STATE/sources/$spec.next"
+rm -rf "$sources_snapshot"
+mkdir -p "$sources_snapshot"
+cp "$HOTBOX_SOURCES"/* "$sources_snapshot" || true
+
+
 heading "Reading '$spec' spec"
-features=$($HOTBOX/lib/read-spec $sources_snapshot $spec container feature)
-features=$(echo $features)
-baseimage=$($HOTBOX/lib/read-spec $sources_snapshot $spec container baseimage | tail -n 1 || checkpipe)
-shell=$($HOTBOX/lib/read-spec $sources_snapshot $spec container shell | tail -n 1 || checkpipe)
-shellarg=$($HOTBOX/lib/read-spec $sources_snapshot $spec container shellarg | tail -n 1 || checkpipe)
-test -n "$baseimage" || die "No baseimage specified in $spec spec"
-test -n "$shell" || die "No shell specified in $spec spec"
+baseimage=$($HOTBOX/lib/read-spec $spec container baseimage | tail -n 1 || checkpipe)
+[ "$baseimage" ] || die "No baseimage specified in $spec spec"
 
 
 user="$(current_user)"
@@ -79,7 +66,7 @@ imageid="$(docker image ls -q $image)"
 echo_off
 
 
-if [ -n "$imageid" ] ; then
+if [ "$imageid" ] ; then
     heading "Deleting existing $image container image"
     echo_on
     docker image rm -f $image
@@ -87,7 +74,7 @@ if [ -n "$imageid" ] ; then
 fi
 
 
-if [ -n "$refresh" ] ; then
+if [ "$refresh" ] ; then
     heading "Pulling latest $baseimage image"
     echo_on
     docker image pull $baseimage
@@ -100,13 +87,13 @@ echo_on
 echo "FROM $baseimage" | \
     docker build \
         --label hotbox \
-        -t "$image" \
+        --tag "$image" \
         - \
     || checkpipe
 echo_off
 
 
-hotbox_mount_options="$($HOTBOX/lib/run-feature-command $sources_snapshot container-hotbox run)"
+hotbox_mount_options="$($HOTBOX/lib/run-feature-command container-hotbox run)"
 
 
 heading "Setting up system features in container"

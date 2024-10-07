@@ -3,17 +3,16 @@ set -eu ; set -o | grep -q pipefail && set -o pipefail
 HOTBOX=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd -P)
 
 
-. $HOTBOX/lib/sh.sh
+. "$HOTBOX/lib/sh.sh"
+. "$HOTBOX/lib/sources.sh"
 
 
-location="${1:?expected <location>}"
-spec="${2:?expected <spec>}"
-target="${3:?expected <target>}"
-selected_key="${4:-}"
+spec="${1:?expected <spec>}"
+target="${2:?expected <target>}"
+selected_key="${3:-}"
 
-
-script="$location/$spec.spec.sh"
-test -f $script || die "Spec $spec not found"
+script="$HOTBOX_SOURCES/$spec.spec.sh"
+[ -f "$script" ] || die "Spec $spec not found"
 
 case $target in
     machine)
@@ -21,20 +20,20 @@ case $target in
     container)
         ;;
     *)
-        die "Unrecognized <target> '$target'"
+        die "Unrecognized <target>: $target"
 esac
 
 
-env HOTBOX=$HOTBOX HOTBOX_TARGET=$target /bin/sh -eu $script | while read -r line ; do
+env HOTBOX="$HOTBOX" HOTBOX_TARGET="$target" /bin/sh -eu "$script" | while read -r line ; do
     key="${line%%:*}"
     value="${line#*:}"
 
     if [ "$key" = "include" ] ; then
-        $HOTBOX/lib/read-spec $location $value $target $selected_key || die "Error reading included $value spec"
+        "$HOTBOX/lib/read-spec" "$value" "$target" "$selected_key" || die "Error reading included $value spec"
         continue
     fi
 
-    if [ -n "$selected_key" ] ; then
+    if [ "$selected_key" ] ; then
         if [ "$key" != "$selected_key" ] ; then
             continue
         fi

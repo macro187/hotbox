@@ -3,12 +3,9 @@ set -eu ; set -o | grep -q pipefail && set -o pipefail
 HOTBOX=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd -P)
 
 
-. $HOTBOX/lib/sh.sh
+. "$HOTBOX/lib/sh.sh"
 
 
-#
-# Command-line arguments
-#
 system=false
 while test $# -gt 0 ; do
     case $1 in
@@ -25,35 +22,25 @@ while test $# -gt 0 ; do
     esac
 done
 
-test $# -gt 0 || die "Expected <spec>"
+[ $# -gt 0 ] || die "Expected <spec>"
 spec="$1" ; shift
 
-test $# -eq 0 || die "Unexpected argument '$1'"
+[ $# -eq 0 ] || die "Unexpected argument '$1'"
 
 
-#
-# Detect target
-#
 target=machine
-if $HOTBOX/lib/in-container ; then
+if "$HOTBOX/lib/in-container" ; then
     target=container
 fi
 
 
-#
-# Read features from <spec>
-#
-specs=${HOTBOX_SOURCES:-$HOTBOX/specs}
-features=$(echo $($HOTBOX/lib/read-spec $specs $spec $target feature))
+features=$(echo $("$HOTBOX/lib/read-spec" "$spec" "$target" feature))
 
 
-#
-# Set up features
-#
 system_switch=""
 if $system ; then
     system_switch="--system"
 fi
 for feature in $features ; do
-    $HOTBOX/hotbox-apply-feature $system_switch $feature
+    "$HOTBOX/hotbox-apply-feature" $system_switch "$feature"
 done

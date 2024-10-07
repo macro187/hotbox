@@ -146,8 +146,7 @@ Apply a feature to the running system
 ### Synopsis
 
 ```
-hotbox-apply-feature [--system] <name>
-hotbox-apply-feature <path>
+hotbox-apply-feature [--system] <feature>
 ```
 
 ### Options
@@ -156,11 +155,8 @@ hotbox-apply-feature <path>
 --system
     Apply system aspects of the feature.  Must be run as root.
 
-<name>
+<feature>
     Name of feature to apply.
-
-<path>
-    Path to *.user.feature.sh or *.system.feature.sh script to apply.
 ```
 
 
@@ -182,7 +178,7 @@ hotbox-apply-spec [--system] <spec>
     Apply system aspects of features.  Must be run as root.
 
 <spec>
-    The spec whose features are to be applied.
+    Name of spec whose features are to be applied.
 ```
 
 
@@ -322,5 +318,5 @@ MIT License (https://github.com/macro187/cook/blob/master/license.txt)
 Copyright
 =========
 
-Copyright (c) 2023  
+Copyright (c) 2023-2024  
 Ron MacNeil (https://github.com/macro187)

@@ -3,19 +3,19 @@ set -eu ; set -o | grep -q pipefail && set -o pipefail
 HOTBOX=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd -P)
 
 
-. $HOTBOX/lib/sh.sh
+. "$HOTBOX/lib/sh.sh"
+. "$HOTBOX/lib/sources.sh"
 
 
-location="${1:?expected <location>}"
-feature="${2:?expected <feature>}"
-command="${3:?expected <command>}"
+feature="${1:?expected <feature>}"
+command="${2:?expected <command>}"
 
 
-$HOTBOX/lib/feature-exists $location $feature || die "Feature $feature not found"
+"$HOTBOX/lib/feature-exists" $feature || die "Feature $feature not found"
 
 
-script="$location/$feature.$command.feature.sh"
-test -f $script || exit 0
+script="$HOTBOX_SOURCES/$feature.$command.feature.sh"
+[ -f "$script" ] || exit 0
 
 
-env HOTBOX=$HOTBOX /bin/sh -eu $script || die "Feature script failed: $script"
+env HOTBOX="$HOTBOX" /bin/sh -eu $script || die "Feature script failed: $script"

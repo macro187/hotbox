@@ -3,12 +3,9 @@ set -eu ; set -o | grep -q pipefail && set -o pipefail
 HOTBOX=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd -P)
 
 
-. $HOTBOX/lib/sh.sh
+. "$HOTBOX/lib/sh.sh"
 
 
-#
-# Command-line arguments
-#
 system=false
 while test $# -gt 0 ; do
     case $1 in
@@ -25,64 +22,24 @@ while test $# -gt 0 ; do
     esac
 done
 
-test $# -gt 0 || die "Expected <feature>"
+[ $# -gt 0 ] || die "Expected <feature>"
 feature="$1" ; shift
 
-test $# -eq 0 || die "Unexpected argument '$1'"
+[ $# -eq 0 ] || die "Unexpected argument '$1'"
 
 
-#
-# Parse <feature> argument
-#
-feature_file="${feature##*/}"
-feature_dir="${feature%"$feature_file"}"
-feature_dir="${feature_dir%/}"
-case "$feature_file" in
-    *.user.feature.sh)
-        feature_name="${feature_file%.user.feature.sh}"
-        ;;
-    *.system.feature.sh)
-        feature_name="${feature_file%.system.feature.sh}"
-        system=true
-        ;;
-    *.run.feature.sh)
-        die "Can't apply a .run.feature.sh script"
-        ;;
-    *.sh)
-        die "Unrecognised feature script '$feature_file'"
-        ;;
-    *)
-        feature_name="$feature_file"
-        ;;
-esac
-
-
-#
-# User check
-#
 if $system ; then
-    test "$(current_user)" = "root" || die "Must be root to set up system features"
-else
-    test "$(current_user)" != "root" || die "Must be unprivileged user to set up user features"
-fi
-
-
-#
-# Work out command to run
-#
-command="user"
-description="$feature_name"
-if $system ; then
+    [ "$(current_user)" = "root" ] || die "Must be root to set up system features"
     command="system"
-    description="system $feature_name"
+    description="system $feature"
+else
+    [ "$(current_user)" != "root" ] || die "Must be unprivileged user to set up user features"
+    command="user"
+    description="$feature"
 fi
 
 
-#
-# Run it
-#
-features=${HOTBOX_SOURCES:-$HOTBOX/features}
-$HOTBOX/lib/feature-exists $features $feature_name || die "Feature $feature_name doesn't exist"
-$HOTBOX/lib/feature-command-exists $features $feature_name $command || exit 0
+$HOTBOX/lib/feature-exists $feature || die "Feature $feature doesn't exist"
+$HOTBOX/lib/feature-command-exists $feature $command || exit 0
 heading "Setting up $description"
-$HOTBOX/lib/run-feature-command $features $feature_name $command
+$HOTBOX/lib/run-feature-command $feature $command

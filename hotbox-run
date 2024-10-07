@@ -18,19 +18,19 @@ while test $# -gt 0 ; do
     case $1 in
         --volume)
             shift
-            test $# -gt 0 || die "Expected <volume>"
+            [ $# -gt 0 ] || die "Expected <volume>"
             volume_src="${1%%:*}"
             volume_dst="${1#*:}"
-            test -n "$volume_src" || die "Unrecognised volume format: $1"
-            test -n "$volume_dst" || die "Unrecognised volume format: $1"
+            [ "$volume_src" ] || die "Unrecognised volume format: $1"
+            [ "$volume_dst" ] || die "Unrecognised volume format: $1"
             volume_src_mapped="$($HOTBOX/lib/map-container-path "$volume_src")"
-            test -n "$volume_src_mapped" || die "Unable to map --volume $volume_src to host"
+            [ "$volume_src_mapped" ] || die "Unable to map --volume $volume_src to host"
             volume_options="$volume_options --volume $volume_src_mapped:$volume_dst"
             shift
             ;;
         --workdir)
             shift
-            test $# -gt 0 || die "Expected <workdir>"
+            [ $# -gt 0 ] || die "Expected <workdir>"
             workdir="$1"
             shift
             ;;
@@ -43,10 +43,10 @@ while test $# -gt 0 ; do
     esac
 done
 
-test $# -gt 0 || die "Expected <spec>"
+[ $# -gt 0 ] || die "Expected <spec>"
 spec="$1" ; shift
 
-test $# -gt 0 || die "Expected <name>"
+[ $# -gt 0 ] || die "Expected <name>"
 name="$1" ; shift
 
 # Remaining args are <command> and <args>
@@ -57,11 +57,11 @@ image="hotbox-$spec"
 sources=$HOTBOX_STATE/sources/$spec
 
 
-features=$($HOTBOX/lib/read-spec $sources $spec container feature)
+features=$($HOTBOX/lib/read-spec $spec container feature)
 features=$(echo $features)
-shell=$($HOTBOX/lib/read-spec $sources $spec container shell | tail -n 1 || checkpipe)
-shellarg=$($HOTBOX/lib/read-spec $sources $spec container shellarg | tail -n 1 || checkpipe)
-test -n "$shell" || die "No shell specified in $spec spec"
+shell=$($HOTBOX/lib/read-spec $spec container shell | tail -n 1 || checkpipe)
+shellarg=$($HOTBOX/lib/read-spec $spec container shellarg | tail -n 1 || checkpipe)
+[ "$shell" ] || die "No shell specified in $spec spec"
 
 
 #
@@ -76,15 +76,15 @@ fi
 # If the container is already running, join it
 #
 container_id=$(docker ps -q --filter label=hotbox.name=$name)
-if [ -n "$container_id" ] ; then
+if [ "$container_id" ] ; then
     heading "Joining running $name hotbox ($container_id)"
 
     container_image="$(docker inspect --format '{{ .Config.Image }}' $container_id)"
-    test "$container_image" = "$image" || die "Container image $container_image does not match specified image $image"
+    [ "$container_image" = "$image" ] || die "Container image $container_image does not match specified image $image"
 
-    if [ -z "$workdir" ] ; then
+    if [ ! "$workdir" ] ; then
         workdir="$(docker inspect --format '{{ index .Config.Labels "hotbox.workdir"}}' $container_id)"
-        test -n "$workdir" || die "No hotbox.workdir label found on container"
+        [ "$workdir" ] || die "No hotbox.workdir label found on container"
     fi
 
     echo_on
@@ -106,10 +106,10 @@ fi
 #
 options="--workdir /root"
 for feature in $features ; do
-    feature_options="$($HOTBOX/lib/run-feature-command $sources $feature run)"
+    feature_options="$($HOTBOX/lib/run-feature-command $feature run)"
     options="$options $feature_options"
 done
-if [ -n "$workdir" ] ; then
+if [ "$workdir" ] ; then
     options="$options --workdir $workdir"
 fi
 options="$(echo $options)"
@@ -120,7 +120,7 @@ options="$(echo $options)"
 #
 workdir="${options##*--workdir }"
 workdir="${workdir%% *}"
-test -n "$workdir" || die "no --workdir found in docker run options"
+[ "$workdir" ] || die "no --workdir found in docker run options"
 
 
 #
