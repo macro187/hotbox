@@ -168,12 +168,15 @@ Apply all features in a spec to the running system
 ### Synopsis
 
 ```
-hotbox-apply-spec [--system] <spec>
+hotbox-apply-spec [--container] [--system] <spec>
 ```
 
 ### Options
 
 ```
+--container
+    Include features that begin with `container-`
+
 --system
     Apply system aspects of features.  Must be run as root.
 

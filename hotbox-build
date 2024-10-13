@@ -49,7 +49,7 @@ cp "$HOTBOX_SOURCES"/* "$sources_snapshot" || true
 
 
 heading "Reading '$spec' spec"
-baseimage=$($HOTBOX/lib/read-spec $spec container baseimage | tail -n 1 || checkpipe)
+baseimage=$($HOTBOX/lib/read-spec $spec baseimage | tail -n 1 || checkpipe)
 [ "$baseimage" ] || die "No baseimage specified in $spec spec"
 
 
@@ -112,7 +112,7 @@ container=$(\
         --user root \
         --workdir /root \
         $image \
-        /hotbox/hotbox-apply-spec --system $spec \
+        /hotbox/hotbox-apply-spec --container --system $spec \
         )
 docker start -ai $container
 docker commit $container $image
@@ -164,7 +164,7 @@ container=$(\
         --user $user \
         --workdir /home/$user \
         $image \
-        /hotbox/hotbox-apply-spec $spec \
+        /hotbox/hotbox-apply-spec --container $spec \
         )
 docker start -ai $container
 docker commit $container $image

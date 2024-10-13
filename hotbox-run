@@ -57,10 +57,10 @@ image="hotbox-$spec"
 sources=$HOTBOX_STATE/sources/$spec
 
 
-features=$($HOTBOX/lib/read-spec $spec container feature)
+features=$($HOTBOX/lib/read-spec $spec feature)
 features=$(echo $features)
-shell=$($HOTBOX/lib/read-spec $spec container shell | tail -n 1 || checkpipe)
-shellarg=$($HOTBOX/lib/read-spec $spec container shellarg | tail -n 1 || checkpipe)
+shell=$($HOTBOX/lib/read-spec $spec shell | tail -n 1 || checkpipe)
+shellarg=$($HOTBOX/lib/read-spec $spec shellarg | tail -n 1 || checkpipe)
 [ "$shell" ] || die "No shell specified in $spec spec"
 
 

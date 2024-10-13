@@ -6,9 +6,14 @@ HOTBOX=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd -P)
 . "$HOTBOX/lib/sh.sh"
 
 
+container=false
 system=false
 while test $# -gt 0 ; do
     case $1 in
+        --container)
+            shift
+            container=true
+            ;;
         --system)
             shift
             system=true
@@ -28,13 +33,7 @@ spec="$1" ; shift
 [ $# -eq 0 ] || die "Unexpected argument '$1'"
 
 
-target=machine
-if "$HOTBOX/lib/in-container" ; then
-    target=container
-fi
-
-
-features=$(echo $("$HOTBOX/lib/read-spec" "$spec" "$target" feature))
+features=$(echo $("$HOTBOX/lib/read-spec" "$spec" feature))
 
 
 system_switch=""
@@ -42,5 +41,10 @@ if $system ; then
     system_switch="--system"
 fi
 for feature in $features ; do
+    case $feature in
+        container-*)
+            $container || continue;
+            ;;
+    esac
     "$HOTBOX/hotbox-apply-feature" $system_switch "$feature"
 done

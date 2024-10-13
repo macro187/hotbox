@@ -1,25 +1,15 @@
 . $HOTBOX/lib/spec.sh
 
 
-if [ "$HOTBOX_TARGET" = "container" ] ; then
-    include _alpine
-    feature container-package-manager-cache
-    feature container-initialise
-fi
-
+include _alpine
+feature container-package-manager-cache
+feature container-initialise
 feature package-manager
 feature base-tools
-
-if [ "$HOTBOX_TARGET" = "container" ] ; then
-    feature container-user
-fi
-
+feature container-user
 feature doas
 feature profile.d
 feature shrc.d
 feature inputrc
 feature user-bin-directory
-
-if [ "$HOTBOX_TARGET" = "container" ] ; then
-    feature container-hotbox
-fi
+feature container-hotbox

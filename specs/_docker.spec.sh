@@ -1,11 +1,8 @@
 . $HOTBOX/lib/spec.sh
 
 
-if [ "$HOTBOX_TARGET" = "container" ] ; then
-    feature container-docker-group
-    feature container-host-docker
-fi
-
+feature container-docker-group
+feature container-host-docker
 feature docker-cli
 feature docker-cli-compose
 feature docker-cli-buildx
