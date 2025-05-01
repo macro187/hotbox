@@ -9,6 +9,7 @@ gitconfig="$configs/gitconfig"
 
 
 cd $HOME
+[ -e .gitconfig ] || touch .gitconfig
 if ! grep -qF "$gitconfig" .gitconfig ; then
     info "Including $gitconfig from .gitconfig"
     cat .gitconfig >.gitconfig.old
