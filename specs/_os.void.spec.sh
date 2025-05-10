@@ -1,6 +1,5 @@
 . $HOTBOX/lib/spec.sh
 
-
-baseimage ubuntu:rolling
+baseimage voidlinux/voidlinux
 shell /bin/bash
 shellarg -l

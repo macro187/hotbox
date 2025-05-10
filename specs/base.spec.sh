@@ -1,7 +1,6 @@
 . $HOTBOX/lib/spec.sh
 
-
-include _alpine
+include _os.alpine
 feature container-package-manager-cache
 feature container-initialise
 feature package-manager

@@ -1,4 +1,4 @@
 . $HOTBOX/lib/spec.sh
 
-include base
+include interactive
 include _os.void

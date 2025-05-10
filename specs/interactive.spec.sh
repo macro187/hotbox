@@ -1,6 +1,5 @@
 . $HOTBOX/lib/spec.sh
 
-
 include base
 feature man
 feature container-personal-configs
