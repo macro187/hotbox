@@ -19,7 +19,9 @@ case $(current_distro) in
         apt install -y --no-install-recommends \
             less \
             wget \
-            curl
+            curl \
+            publicsuffix \
+            ca-certificates
         echo_off
         ;;
 
