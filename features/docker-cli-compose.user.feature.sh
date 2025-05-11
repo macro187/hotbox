@@ -17,6 +17,12 @@ if ! docker compose version >/dev/null 2>&1 ; then
             echo_off
             ;;
 
+        void)
+            echo_on
+            doas xbps-install -y docker-compose
+            echo_off
+            ;;
+
         *)
             die "Don't know how to install Docker Compose on $(current_distro) os"
             ;;

@@ -17,6 +17,12 @@ if ! docker buildx version >/dev/null 2>&1 ; then
             echo_off
             ;;
 
+        void)
+            echo_on
+            doas xbps-install -y docker-buildx
+            echo_off
+            ;;
+
         *)
             die "Don't know how to install Docker buildx on $(current_distro) os"
             ;;
