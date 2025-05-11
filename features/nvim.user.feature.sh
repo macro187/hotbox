@@ -10,9 +10,9 @@ install_alpine() {
 
 
 install_ubuntu() {
-    version="0.9.5"
-    localdistfile="nvim-$version-linux64.tar.gz"
-    url="https://github.com/neovim/neovim/releases/download/v$version/nvim-linux64.tar.gz"
+    version="0.11.1"
+    localdistfile="nvim-$version-linux-x86_64.tar.gz"
+    url="https://github.com/neovim/neovim/releases/download/v$version/nvim-linux-x86_64.tar.gz"
 
     cd $HOME
 
@@ -25,6 +25,7 @@ install_ubuntu() {
         heading "Downloading nvim"
         echo_on
         wget -nv -O $localdistfile "$url"
+        mkdir -p $HOTBOX_STATE/cache
         cp -f $localdistfile $HOTBOX_STATE/cache/
         echo_off
     fi
@@ -32,7 +33,7 @@ install_ubuntu() {
     heading "Extracting nvim"
     echo_on
     tar xf $localdistfile
-    mv nvim-linux64 nvim
+    mv nvim-linux-x86_64 nvim
     rm $localdistfile
     echo_off
 
