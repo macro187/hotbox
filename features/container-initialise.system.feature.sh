@@ -9,6 +9,8 @@ case $(current_distro) in
     ubuntu)
         info "Unminimizing Ubuntu"
         echo_on
+        env DEBIAN_FRONTEND=noninteractive apt update
+        env DEBIAN_FRONTEND=noninteractive apt install -y --no-install-recommends unminimize
         yes | unminimize || checkpipe
         echo_off
         ;;
