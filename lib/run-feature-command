@@ -1,6 +1,7 @@
 #!/bin/sh
 set -eu ; set -o | grep -q pipefail && set -o pipefail
 HOTBOX=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd -P)
+PATH="$HOTBOX:$HOTBOX/lib:$PATH"
 
 
 . "$HOTBOX/lib/sh.sh"
@@ -18,4 +19,4 @@ script="$HOTBOX_SOURCES/$feature.$command.feature.sh"
 [ -f "$script" ] || exit 0
 
 
-env HOTBOX="$HOTBOX" /bin/sh -eu $script || die "Feature script failed: $script"
+env HOTBOX="$HOTBOX" PATH="$HOTBOX:$HOTBOX/lib:$PATH" /bin/sh -eu $script || die "Feature script failed: $script"
