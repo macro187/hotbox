@@ -3,7 +3,6 @@ test -n "${__hotbox_sources:+x}" && return ; __hotbox_sources=1
 
 . "$HOTBOX/lib/sh.sh"
 . "$HOTBOX/lib/invocation.sh"
-. "$HOTBOX/lib/path.sh"
 
 
 #
@@ -54,7 +53,7 @@ _init_sources() {
 
     add_sources "$HOTBOX/specs"
     add_sources "$HOTBOX/features"
-    for source in $(get_hotbox_paths) ; do
+    for source in $($HOTBOX/lib/hotbox-paths) ; do
         add_sources "$source"
     done
 }
