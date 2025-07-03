@@ -47,5 +47,5 @@ for feature in $features ; do
             $container || continue;
             ;;
     esac
-    "$HOTBOX/hotbox-apply-feature" $system_switch "$feature"
+    "$HOTBOX/hotbox-feature-apply" $system_switch "$feature"
 done

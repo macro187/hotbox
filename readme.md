@@ -6,7 +6,7 @@ Workstation and container automation
 
 *Features* are shell scripts that set up particular aspects of machines
 (physical, virtual, or container).  They can do any kind of system-wide or
-user-specific setup.  The `hotbox-apply-feature` command applies individual
+user-specific setup.  The `hotbox-feature-apply` command applies individual
 features to the running system, by basically just running the feature script.
 
 >   Some features currently implement personal preferences of mine. I am in the
@@ -14,7 +14,7 @@ features to the running system, by basically just running the feature script.
 >   general-purpose use by anyone.
 
 *Specs* are lists of features.  An include mechanism allows specs to derive from
-one another.  The `hotbox-apply-spec` command applies specs to the running
+one another.  The `hotbox-spec-apply` command applies specs to the running
 system by applying features in the order listed.
 
 >   While some features may depend on the effects of others, there is no
@@ -138,7 +138,7 @@ to distinguish amongst multiple containers from the same spec.
 Commands
 ========
 
-hotbox-apply-feature
+hotbox-feature-apply
 --------------------
 
 Apply a feature to the running system
@@ -146,7 +146,7 @@ Apply a feature to the running system
 ### Synopsis
 
 ```
-hotbox-apply-feature [--system] <feature>
+hotbox-feature-apply [--system] <feature>
 ```
 
 ### Options
@@ -160,7 +160,7 @@ hotbox-apply-feature [--system] <feature>
 ```
 
 
-hotbox-apply-spec
+hotbox-spec-apply
 -----------------
 
 Apply all features in a spec to the running system
@@ -168,7 +168,7 @@ Apply all features in a spec to the running system
 ### Synopsis
 
 ```
-hotbox-apply-spec [--container] [--system] <spec>
+hotbox-spec-apply [--container] [--system] <spec>
 ```
 
 ### Options

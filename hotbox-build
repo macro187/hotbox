@@ -113,7 +113,7 @@ container=$(\
         --user root \
         --workdir /root \
         $image \
-        /hotbox/hotbox-apply-spec --container --system $spec \
+        /hotbox/hotbox-spec-apply --container --system $spec \
         )
 docker start -ai $container
 docker commit $container $image
@@ -165,7 +165,7 @@ container=$(\
         --user $user \
         --workdir /home/$user \
         $image \
-        /hotbox/hotbox-apply-spec --container $spec \
+        /hotbox/hotbox-spec-apply --container $spec \
         )
 docker start -ai $container
 docker commit $container $image
