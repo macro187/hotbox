@@ -5,7 +5,7 @@ heading "Locating personal configs"
 
 
 configs="$HOME/configs"
-if $HOTBOX/lib/in-container ; then
+if $HOTBOX/lib/hotbox-in-container ; then
     configs="/hotbox-personal-configs"
 fi
 
@@ -17,8 +17,8 @@ fi
 
 
 host_configs="$configs"
-if $HOTBOX/lib/in-container ; then
-    host_configs="$($HOTBOX/lib/map-container-path $configs)"
+if $HOTBOX/lib/hotbox-in-container ; then
+    host_configs="$($HOTBOX/lib/hotbox-map-container-path $configs)"
     if [ -z "$host_configs" ] ; then
         warn "$configs not bind-mounted from host, /hotbox-personal-configs will be unavailable in container"
         exit 0

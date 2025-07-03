@@ -11,7 +11,7 @@ path="${1:-}"
 test -n "$path" || exit 0
 
 
-container_id="$($HOTBOX/lib/container-id)"
+container_id="$($HOTBOX/lib/hotbox-container-id)"
 test -n "$container_id" || exit 0
 
 

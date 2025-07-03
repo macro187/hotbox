@@ -24,7 +24,7 @@ while test $# -gt 0 ; do
             volume_dst="${1#*:}"
             [ "$volume_src" ] || die "Unrecognised volume format: $1"
             [ "$volume_dst" ] || die "Unrecognised volume format: $1"
-            volume_src_mapped="$($HOTBOX/lib/map-container-path "$volume_src")"
+            volume_src_mapped="$($HOTBOX/lib/hotbox-map-container-path "$volume_src")"
             [ "$volume_src_mapped" ] || die "Unable to map --volume $volume_src to host"
             volume_options="$volume_options --volume $volume_src_mapped:$volume_dst"
             shift
@@ -58,10 +58,10 @@ image="hotbox-$spec"
 sources=$HOTBOX_STATE/sources/$spec
 
 
-features=$($HOTBOX/lib/read-spec $spec feature)
+features=$($HOTBOX/lib/hotbox-spec-read $spec feature)
 features=$(echo $features)
-shell=$($HOTBOX/lib/read-spec $spec shell | tail -n 1 || checkpipe)
-shellarg=$($HOTBOX/lib/read-spec $spec shellarg | tail -n 1 || checkpipe)
+shell=$($HOTBOX/lib/hotbox-spec-read $spec shell | tail -n 1 || checkpipe)
+shellarg=$($HOTBOX/lib/hotbox-spec-read $spec shellarg | tail -n 1 || checkpipe)
 [ "$shell" ] || die "No shell specified in $spec spec"
 
 
@@ -107,7 +107,7 @@ fi
 #
 options="--workdir /root"
 for feature in $features ; do
-    feature_options="$($HOTBOX/lib/run-feature-command $feature run)"
+    feature_options="$($HOTBOX/lib/hotbox-feature-run-command $feature run)"
     options="$options $feature_options"
 done
 if [ "$workdir" ] ; then

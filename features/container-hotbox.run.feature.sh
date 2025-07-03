@@ -4,9 +4,9 @@
 
 host_hotbox="$HOTBOX"
 host_hotbox_state="$HOTBOX_STATE"
-if $HOTBOX/lib/in-container ; then
-    host_hotbox="$($HOTBOX/lib/map-container-path $HOTBOX)"
-    host_hotbox_state="$($HOTBOX/lib/map-container-path $HOTBOX_STATE)"
+if $HOTBOX/lib/hotbox-in-container ; then
+    host_hotbox="$($HOTBOX/lib/hotbox-map-container-path $HOTBOX)"
+    host_hotbox_state="$($HOTBOX/lib/hotbox-map-container-path $HOTBOX_STATE)"
     test -n "$host_hotbox" || die "Can't mount $HOTBOX because it wasn't mounted from the host"
     test -n "$host_hotbox_state" || die "Can't mount $HOTBOX_STATE because it wasn't mounted from the host"
 fi

@@ -12,7 +12,7 @@ feature="${1:?expected <feature>}"
 command="${2:?expected <command>}"
 
 
-"$HOTBOX/lib/feature-exists" $feature || die "Feature $feature not found"
+"$HOTBOX/lib/hotbox-feature-exists" $feature || die "Feature $feature not found"
 
 
 script="$HOTBOX_SOURCES/$feature.$command.feature.sh"

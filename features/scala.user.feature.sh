@@ -20,7 +20,7 @@ if [ ! -d scala ] ; then
     distfilebase="scala3-$version"
     distfile="$distfilebase.tar.gz"
     url="https://github.com/lampepfl/dotty/releases/download/$version/$distfile"
-    $HOTBOX/lib/wget-cached "$url" "$distfile"
+    $HOTBOX/lib/hotbox-wget-cached "$url" "$distfile"
     echo_on
     tar xf $distfile
     mv $distfilebase scala
@@ -41,7 +41,7 @@ if [ ! -d sbt ] ; then
     distfilebase="sbt-$version"
     distfile="$distfilebase.tgz"
     url="https://github.com/sbt/sbt/releases/download/v$version/$distfile"
-    $HOTBOX/lib/wget-cached "$url" "$distfile"
+    $HOTBOX/lib/hotbox-wget-cached "$url" "$distfile"
     echo_on
     tar xf $distfile
     rm $distfile

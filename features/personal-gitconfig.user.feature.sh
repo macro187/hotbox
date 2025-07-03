@@ -2,7 +2,7 @@
 
 
 configs="$HOME/configs"
-if $HOTBOX/lib/in-container ; then
+if $HOTBOX/lib/hotbox-in-container ; then
     configs="/hotbox-personal-configs"
 fi
 gitconfig="$configs/gitconfig"

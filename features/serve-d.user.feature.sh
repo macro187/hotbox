@@ -6,7 +6,7 @@ build_serve_d_from_source() {
     cd $HOME
     if [ ! -d serve-d ] ; then
         heading "Cloning serve-d"
-        $HOTBOX/lib/git-clone-cached "https://github.com/Pure-D/serve-d.git"
+        $HOTBOX/lib/hotbox-git-clone-cached "https://github.com/Pure-D/serve-d.git"
     fi
 
     cd serve-d
@@ -27,7 +27,7 @@ build_dcd_from_source() {
     cd $HOME
     if [ ! -d DCD ] ; then
         heading "Cloning dcd"
-        $HOTBOX/lib/git-clone-cached "https://github.com/dlang-community/DCD.git"
+        $HOTBOX/lib/hotbox-git-clone-cached "https://github.com/dlang-community/DCD.git"
     fi
 
     cd DCD
