@@ -53,7 +53,7 @@ _init_sources() {
 
     add_sources "$HOTBOX/specs"
     add_sources "$HOTBOX/features"
-    for source in $($HOTBOX/lib/hotbox-paths) ; do
+    for source in $(hotbox-paths) ; do
         add_sources "$source"
     done
 }

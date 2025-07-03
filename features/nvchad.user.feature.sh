@@ -20,5 +20,5 @@ fi
 heading "Installing NvChad"
 mkdir -p $HOME/.config
 cd $HOME/.config
-$HOTBOX/lib/hotbox-git-clone-cached https://github.com/NvChad/NvChad
+hotbox-git-clone-cached https://github.com/NvChad/NvChad
 mv NvChad nvim

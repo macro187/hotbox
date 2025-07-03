@@ -50,7 +50,7 @@ cp "$HOTBOX_SOURCES"/* "$sources_snapshot" || true
 
 
 heading "Reading '$spec' spec"
-baseimage=$($HOTBOX/lib/hotbox-spec-read $spec baseimage | tail -n 1 || checkpipe)
+baseimage=$(hotbox-spec-read $spec baseimage | tail -n 1 || checkpipe)
 [ "$baseimage" ] || die "No baseimage specified in $spec spec"
 
 
@@ -94,7 +94,7 @@ echo "FROM $baseimage" | \
 echo_off
 
 
-hotbox_mount_options="$($HOTBOX/lib/hotbox-feature-run-command container-hotbox run)"
+hotbox_mount_options="$(hotbox-feature-run-command container-hotbox run)"
 
 
 heading "Setting up system features in container"

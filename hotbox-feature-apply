@@ -40,7 +40,7 @@ else
 fi
 
 
-$HOTBOX/lib/hotbox-feature-exists $feature || die "Feature $feature doesn't exist"
-$HOTBOX/lib/hotbox-feature-command-exists $feature $command || exit 0
+hotbox-feature-exists $feature || die "Feature $feature doesn't exist"
+hotbox-feature-command-exists $feature $command || exit 0
 heading "Setting up $description"
-$HOTBOX/lib/hotbox-feature-run-command $feature $command
+hotbox-feature-run-command $feature $command

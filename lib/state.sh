@@ -11,7 +11,7 @@ HOTBOX_STATE="${HOTBOX_STATE:-}"
 
 
 _init_state() {
-    if "$HOTBOX/lib/hotbox-in-container" && [ ! "$HOTBOX_STATE" ] ; then
+    if hotbox-in-container && [ ! "$HOTBOX_STATE" ] ; then
         die "In container but HOTBOX_STATE not set"
     fi
     if [ "$HOTBOX_STATE" ] && [ ! -d "$HOTBOX_STATE" ] ; then

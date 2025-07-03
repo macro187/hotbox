@@ -7,7 +7,7 @@ cd $HOME
 if [ ! -d $HOME/cook ] ; then
     heading "Cloning cook"
     echo_on
-    $HOTBOX/lib/hotbox-git-clone-cached https://github.com/macro187/cook.git
+    hotbox-git-clone-cached https://github.com/macro187/cook.git
     echo_off
 fi
 

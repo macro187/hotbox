@@ -34,7 +34,7 @@ spec="$1" ; shift
 [ $# -eq 0 ] || die "Unexpected argument '$1'"
 
 
-features=$(echo $("$HOTBOX/lib/hotbox-spec-read" "$spec" feature))
+features=$(echo $(hotbox-spec-read "$spec" feature))
 
 
 system_switch=""

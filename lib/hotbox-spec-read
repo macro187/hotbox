@@ -19,7 +19,7 @@ env HOTBOX="$HOTBOX" PATH="$HOTBOX:$HOTBOX/lib:$PATH" /bin/sh -eu "$script" | wh
     value="${line#*:}"
 
     if [ "$key" = "include" ] ; then
-        "$HOTBOX/lib/hotbox-spec-read" "$value" "$selected_key" || die "Error reading included $value spec"
+        hotbox-spec-read "$value" "$selected_key" || die "Error reading included $value spec"
         continue
     fi
 
