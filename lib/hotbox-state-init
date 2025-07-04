@@ -1,0 +1,31 @@
+#!/bin/sh
+set -eu ; set -o | grep -q pipefail && set -o pipefail
+HOTBOX=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd -P)
+PATH="$HOTBOX:$HOTBOX/lib:$PATH"
+
+
+. "$HOTBOX/lib/sh.sh"
+
+
+HOTBOX_STATE="${HOTBOX_STATE:-}"
+
+if hotbox-in-container && [ ! "$HOTBOX_STATE" ] ; then
+    die "In container but HOTBOX_STATE not set"
+fi
+
+if [ "$HOTBOX_STATE" ] && [ ! -d "$HOTBOX_STATE" ] ; then
+    die "HOTBOX_STATE directory doesn't exist: $HOTBOX_STATE"
+fi
+
+if [ ! "$HOTBOX_STATE" ] ; then
+    HOME="${HOME:?HOME not defined}"
+    HOTBOX_STATE="$HOME/.hotbox-state"
+    if [ ! -d "$HOTBOX_STATE" ] ; then
+        heading "Creating HOTBOX_STATE directory"
+        echo_on
+        mkdir -p "$HOTBOX_STATE"
+        echo_off
+    fi
+fi
+
+echo "$HOTBOX_STATE"

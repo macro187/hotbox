@@ -1,5 +1,4 @@
 . $HOTBOX/lib/sh.sh
-. $HOTBOX/lib/state.sh
 
 
 case $(current_distro) in

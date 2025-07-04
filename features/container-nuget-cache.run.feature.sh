@@ -1,6 +1,5 @@
 . $HOTBOX/lib/sh.sh
-. $HOTBOX/lib/state.sh
-
+export HOTBOX_STATE="$(hotbox-state-init)"
 
 if ! [ -d $HOTBOX_STATE/nuget-package-cache ] ; then
     heading "Creating NuGet package cache in hotbox state"

@@ -1,12 +1,9 @@
 . $HOTBOX/lib/sh.sh
-. $HOTBOX/lib/state.sh
-
-
-cd $HOME
-
+export HOTBOX_STATE="$(hotbox-state-init)"
 
 heading "Linking NPM package cache to hotbox state"
 echo_on
+cd $HOME
 rm -rf .npm
 mkdir -p $HOTBOX_STATE/npm-package-cache
 ln -s $HOTBOX_STATE/npm-package-cache .npm

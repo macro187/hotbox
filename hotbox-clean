@@ -5,7 +5,7 @@ PATH="$HOTBOX:$HOTBOX/lib:$PATH"
 
 
 . $HOTBOX/lib/sh.sh
-. $HOTBOX/lib/state.sh
+export HOTBOX_STATE="$(hotbox-state-init)"
 
 
 hotbox_images="$(docker image ls --filter label=hotbox -q)"

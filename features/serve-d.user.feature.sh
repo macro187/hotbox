@@ -1,5 +1,5 @@
 . $HOTBOX/lib/sh.sh
-. $HOTBOX/lib/state.sh
+export HOTBOX_STATE="$(hotbox-state-init)"
 
 
 build_serve_d_from_source() {

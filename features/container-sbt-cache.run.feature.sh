@@ -1,6 +1,5 @@
 . $HOTBOX/lib/sh.sh
-. $HOTBOX/lib/state.sh
-
+export HOTBOX_STATE="$(hotbox-state-init)"
 
 if [ ! -d $HOTBOX_STATE/sbt-cache ] ; then
     heading "Creating sbt cache in hotbox state"

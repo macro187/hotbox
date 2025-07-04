@@ -1,6 +1,5 @@
 . $HOTBOX/lib/sh.sh
-. $HOTBOX/lib/state.sh
-
+export HOTBOX_STATE="$(hotbox-state-init)"
 
 heading "Linking NuGet package cache to hotbox state"
 echo_on

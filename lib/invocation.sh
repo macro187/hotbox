@@ -1,7 +1,8 @@
 test -n "${__hotbox_invocation:+x}" && return ; __hotbox_invocation=1
 
 
-. "$HOTBOX/lib/state.sh"
+hotbox-state-init
+hotbox_state="$(hotbox-state-path)"
 
 
 #
@@ -9,7 +10,7 @@ test -n "${__hotbox_invocation:+x}" && return ; __hotbox_invocation=1
 #
 # Deleted automatically when the including command exits.
 #
-HOTBOX_INVOCATION="$HOTBOX_STATE/invocations/$$"
+HOTBOX_INVOCATION="$hotbox_state/invocations/$$"
 
 
 _init_invocation() {

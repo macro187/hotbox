@@ -1,5 +1,5 @@
 . $HOTBOX/lib/sh.sh
-. $HOTBOX/lib/state.sh
+export HOTBOX_STATE="$(hotbox-state-init)"
 
 
 version="1.39.11"

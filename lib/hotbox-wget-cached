@@ -5,7 +5,7 @@ PATH="$HOTBOX:$HOTBOX/lib:$PATH"
 
 
 . $HOTBOX/lib/sh.sh
-. $HOTBOX/lib/state.sh
+export HOTBOX_STATE="$(hotbox-state-init)"
 
 
 test $# -gt 0 || die "Expected <url>"

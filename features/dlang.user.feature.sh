@@ -1,5 +1,5 @@
 . $HOTBOX/lib/sh.sh
-. $HOTBOX/lib/state.sh
+export HOTBOX_STATE="$(hotbox-state-init)"
 
 
 setup_alpine() {
@@ -61,7 +61,7 @@ install_dlang() {
         cp -R $HOTBOX_STATE/cache/dlang $HOME/
         echo_off
 
-        if [ -z "${HOTBOX_REFRESH:-}" ] ; then
+        if [ ! "${HOTBOX_REFRESH:-}" ] ; then
             return
         fi
     else
