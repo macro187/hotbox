@@ -4,6 +4,8 @@ HOTBOX=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd -P)
 PATH="$HOTBOX:$HOTBOX/lib:$PATH"
 
 
+export HOTBOX_TXN="$(hotbox-txn-begin $$)"
+. "$HOTBOX/lib/hotbox-txn-end-on-exit.sh"
 . "$HOTBOX/lib/sources.sh"
 
 

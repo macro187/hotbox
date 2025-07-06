@@ -1,0 +1,23 @@
+#!/bin/sh
+set -eu ; set -o | grep -q pipefail && set -o pipefail
+HOTBOX=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd -P)
+PATH="$HOTBOX:$HOTBOX/lib:$PATH"
+
+. "$HOTBOX/lib/sh.sh"
+export HOTBOX_STATE="$(hotbox-state-init)"
+
+pid="${1:?expected <pid>}"
+
+HOTBOX_TXN="${HOTBOX_TXN:-}"
+
+if [ ! "$HOTBOX_TXN" ] ; then
+    id="$(uname -n).${pid}"
+    HOTBOX_TXN="$HOTBOX_STATE/txns/$id"
+    heading "Beginning hotbox txn $id"
+    echo_on
+    rm -rf "$HOTBOX_TXN"
+    mkdir -p "$HOTBOX_TXN"
+    echo_off
+fi
+
+echo "$HOTBOX_TXN"

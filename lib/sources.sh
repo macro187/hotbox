@@ -2,7 +2,7 @@ test -n "${__hotbox_sources:+x}" && return ; __hotbox_sources=1
 
 
 . "$HOTBOX/lib/sh.sh"
-. "$HOTBOX/lib/invocation.sh"
+HOTBOX_TXN="${HOTBOX_TXN:?HOTBOX_TXN not set}"
 
 
 #
@@ -13,7 +13,7 @@ test -n "${__hotbox_sources:+x}" && return ; __hotbox_sources=1
 #
 # If not already set, a default sources directory will be assembled from sources
 # included with hotbox plus any additional locations specified in HOTBOX_PATH.
-# This default sources directory is located under the invocation state directory
+# This default sources directory is located under the current txn state directory
 # which is deleted automatically when the including script exits.
 #
 # If set to something different later, the new location takes effect at that
@@ -40,7 +40,7 @@ add_sources() {
 }
 
 
-_hotbox_sources_default="$HOTBOX_INVOCATION/sources"
+_hotbox_sources_default="$HOTBOX_TXN/sources"
 
 
 _init_sources() {

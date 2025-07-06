@@ -5,6 +5,8 @@ PATH="$HOTBOX:$HOTBOX/lib:$PATH"
 
 
 . "$HOTBOX/lib/sh.sh"
+export HOTBOX_TXN="$(hotbox-txn-begin $$)"
+. "$HOTBOX/lib/hotbox-txn-end-on-exit.sh"
 
 
 container=false
