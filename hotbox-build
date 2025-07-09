@@ -8,7 +8,7 @@ PATH="$HOTBOX:$HOTBOX/lib:$PATH"
 export HOTBOX_STATE="$(hotbox-state-init)"
 export HOTBOX_TXN="$(hotbox-txn-begin $$)"
 . "$HOTBOX/lib/hotbox-txn-end-on-exit.sh"
-. "$HOTBOX/lib/sources.sh"
+export HOTBOX_SOURCES="$(hotbox-sources-init)"
 
 
 refresh=

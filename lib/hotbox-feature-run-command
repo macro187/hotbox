@@ -7,7 +7,7 @@ PATH="$HOTBOX:$HOTBOX/lib:$PATH"
 . "$HOTBOX/lib/sh.sh"
 export HOTBOX_TXN="$(hotbox-txn-begin $$)"
 . "$HOTBOX/lib/hotbox-txn-end-on-exit.sh"
-. "$HOTBOX/lib/sources.sh"
+export HOTBOX_SOURCES="$(hotbox-sources-init)"
 
 
 feature="${1:?expected <feature>}"

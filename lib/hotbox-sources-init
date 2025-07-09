@@ -1,0 +1,34 @@
+#!/bin/sh
+set -eu ; set -o | grep -q pipefail && set -o pipefail
+HOTBOX=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd -P)
+PATH="$HOTBOX:$HOTBOX/lib:$PATH"
+
+
+. "$HOTBOX/lib/sh.sh"
+export HOTBOX_TXN="$(hotbox-txn-begin $$)"
+. "$HOTBOX/lib/hotbox-txn-end-on-exit.sh"
+
+
+HOTBOX_SOURCES="${HOTBOX_SOURCES:-}"
+
+if [ "$HOTBOX_SOURCES" ] && [ ! -d "$HOTBOX_SOURCES" ] ; then
+    die "Specified HOTBOX_SOURCES doesn't exist: $HOTBOX_SOURCES"
+fi
+
+if [ ! "$HOTBOX_SOURCES" ] ; then
+    HOTBOX_SOURCES="$HOTBOX_TXN/sources"
+
+    heading "Creating HOTBOX_SOURCES"
+    echo_on
+    rm -rf "$HOTBOX_SOURCES"
+    mkdir -p "$HOTBOX_SOURCES"
+    echo_off
+
+    heading "Collecting specs and features"
+    for source in "$HOTBOX/specs" "$HOTBOX/features" $(hotbox-paths) ; do
+        info "$source"
+        cp -f "$source"/*.spec.sh "$source"/*.feature.sh "$HOTBOX_SOURCES" >/dev/null 2>&1 || true
+    done
+fi
+
+echo "$HOTBOX_SOURCES"
