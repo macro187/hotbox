@@ -81,7 +81,7 @@ info "Writing .profile.d/11-stock-bash-profile.sh that runs the stock .bash_prof
 echo_on
 rm -f .profile.d/??-stock-bash-profile.sh
 cat << 'EOF' >.profile.d/11-stock-bash-profile.sh
-test -n "$BASH_VERSION" || return 0
+[ "$BASH_VERSION" ] || return 0
 if [ -e $HOME/.bash_profile.stock ] ; then
     . $HOME/.bash_profile.stock
 fi

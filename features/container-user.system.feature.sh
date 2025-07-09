@@ -1,9 +1,9 @@
 . $HOTBOX/lib/sh.sh
 
 
-test -n "${HOTBOX_USER:-}" || die "HOTBOX_USER not set"
-test -n "${HOTBOX_UID:-}" || die "HOTBOX_UID not set"
-test -n "${HOTBOX_GID:-}" || die "HOTBOX_GID not set"
+[ "${HOTBOX_USER:-}" ] || die "HOTBOX_USER not set"
+[ "${HOTBOX_UID:-}" ] || die "HOTBOX_UID not set"
+[ "${HOTBOX_GID:-}" ] || die "HOTBOX_GID not set"
 
 
 existing_user="$(id -un $HOTBOX_UID || true)"

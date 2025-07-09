@@ -2,7 +2,7 @@
 
 
 is_workspace() {
-    test ! -d .git && ls */.git >/dev/null 2>&1
+    [ ! -d .git ] && ls */.git >/dev/null 2>&1
 }
 
 
@@ -14,12 +14,12 @@ find_workspace() {
             cd $current
             workspace=""
             workspace_local=""
-            return
+            return 0
         fi
 
         if is_workspace ; then
             cd $current
-            return
+            return 0
         fi
 
         workspace_local="/${workspace##*/}$workspace_local"

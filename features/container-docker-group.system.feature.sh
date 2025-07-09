@@ -1,7 +1,7 @@
 . $HOTBOX/lib/sh.sh
 
 
-test -n "${HOTBOX_USER:-}" || die "HOTBOX_USER not set"
+[ "${HOTBOX_USER:-}" ] || die "HOTBOX_USER not set"
 HOTBOX_DOCKER_GID="${HOTBOX_DOCKER_GID:-}"
 
 

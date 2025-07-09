@@ -1,4 +1,4 @@
-test -n "${__hotbox_spec:+x}" && return ; __hotbox_spec=1
+[ ! "${__hotbox_spec:-}" ] || return 0 ; __hotbox_spec=1
 
 
 . $HOTBOX/lib/sh.sh

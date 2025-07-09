@@ -17,9 +17,9 @@ fi
 info "Writing .shrc that sources .shrc.d/"
 echo_on
 cat << 'EOF' >>.shrc
-test -z "$__shrc_sourced" || return 0 ; __shrc_sourced=1
+[ ! "$__shrc_sourced" ] || return 0 ; __shrc_sourced=1
 
-case $- in *i*) ;; *) return ;; esac
+case $- in *i*) ;; *) return 0 ;; esac
 
 if [ -d $HOME/.shrc.d ] ; then
     for f in $HOME/.shrc.d/*.sh ; do
@@ -79,7 +79,7 @@ fi
 info "Writing .shrc.d/10-stock-bashrc.sh that sources the stock .bashrc"
 echo_on
 cat << 'EOF' >.shrc.d/10-stock-bashrc.sh
-test -n "$BASH_VERSION" || return 0
+[ "$BASH_VERSION" ] || return 0
 if [ -e $HOME/.bashrc.stock ] ; then
     . $HOME/.bashrc.stock
 fi

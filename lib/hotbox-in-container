@@ -4,4 +4,4 @@ HOTBOX=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd -P)
 PATH="$HOTBOX:$HOTBOX/lib:$PATH"
 
 
-test -f /.dockerenv
+[ -f /.dockerenv ]

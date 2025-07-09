@@ -13,7 +13,7 @@ export HOTBOX_SOURCES="$(hotbox-sources-init)"
 
 refresh=
 commandline_sources=
-while test $# -gt 0 ; do
+while [ $# -gt 0 ] ; do
     case $1 in
         --source)
             shift

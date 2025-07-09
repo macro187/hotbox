@@ -1,9 +1,9 @@
-test -n "${__hotbox_sh:+x}" && return ; __hotbox_sh=1
+[ ! "${__hotbox_sh:-}" ] || return 0 ; __hotbox_sh=1
 
 
 alias echo_on="set -x"
 alias echo_off="{ set +x ; } 2>/dev/null"
-alias checkpipe="{ ec=\$? ; test \$ec -eq 141 || (exit \$ec) ; }"
+alias checkpipe="{ ec=\$? ; [ \$ec -eq 141 ] || (exit \$ec) ; }"
 
 
 info() {
@@ -30,19 +30,19 @@ heading() {
 
 
 current_user() {
-    test -n "${__current_user:+x}" || __current_user="$(id -un)"
+    [ "${__current_user:-}" ] || __current_user="$(id -un)"
     echo $__current_user
 }
 
 
 current_uid() {
-    test -n "${__current_uid:+x}" || __current_uid="$(id -u)"
+    [ "${__current_uid:-}" ] || __current_uid="$(id -u)"
     echo $__current_uid
 }
 
 
 current_gid() {
-    test -n "${__current_gid:+x}" || __current_gid="$(id -g)"
+    [ "${__current_gid:-}" ] || __current_gid="$(id -g)"
     echo $__current_gid
 }
 
@@ -64,7 +64,7 @@ current_distro() {
 
 
 function_exists() {
-    test -n "$1" || die "Expected <function_name>"
+    [ "$1" ] || die "Expected <function_name>"
     type "$1" 2>/dev/null | grep -Fq function
 }
 

@@ -8,19 +8,19 @@ PATH="$HOTBOX:$HOTBOX/lib:$PATH"
 export HOTBOX_STATE="$(hotbox-state-init)"
 
 
-test $# -gt 0 || die "Expected <url>"
+[ $# -gt 0 ] || die "Expected <url>"
 url="$1" ; shift
 
-test $# -eq 0 || die "Unexpected argument '$1'"
+[ $# -eq 0 ] || die "Unexpected argument '$1'"
 
 
 name="$url"
 name="${name##*/}"
 name="${name%.git}"
-test -n "$name" || die "Couldn't determine git repo name from URL $url"
+[ "$name" ] || die "Couldn't determine git repo name from URL $url"
 
 
-test ! -d $name || die "Git repo $name already exists"
+[ ! -d $name ] || die "Git repo $name already exists"
 
 
 #

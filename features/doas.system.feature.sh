@@ -1,7 +1,7 @@
 . $HOTBOX/lib/sh.sh
 
 
-test -n "${HOTBOX_USER:-}" || die "HOTBOX_USER not set"
+[ "${HOTBOX_USER:-}" ] || die "HOTBOX_USER not set"
 
 
 case $(current_distro) in

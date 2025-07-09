@@ -8,7 +8,7 @@ PATH="$HOTBOX:$HOTBOX/lib:$PATH"
 export HOTBOX_STATE="$(hotbox-state-init)"
 
 
-test $# -gt 0 || die "Expected <url>"
+[ $# -gt 0 ] || die "Expected <url>"
 url="$1" ; shift
 
 filename=""
@@ -16,10 +16,10 @@ if [ $# -gt 0 ] ; then
     filename="$1" ; shift
 fi
 
-test $# -eq 0 || die "Unexpected argument '$1'"
+[ $# -eq 0 ] || die "Unexpected argument '$1'"
 
-test -n "$filename" || filename="${url##*/}"
-test -n "$filename" || die "No filename in <url> and no <filename> specified"
+[ "$filename" ] || filename="${url##*/}"
+[ "$filename" ] || die "No filename in <url> and no <filename> specified"
 
 
 cache=$HOTBOX_STATE/cache

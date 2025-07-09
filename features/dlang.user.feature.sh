@@ -62,7 +62,7 @@ install_dlang() {
         echo_off
 
         if [ ! "${HOTBOX_REFRESH:-}" ] ; then
-            return
+            return 0
         fi
     else
         heading "Creating dlang directory"

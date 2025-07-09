@@ -8,11 +8,11 @@ PATH="$HOTBOX:$HOTBOX/lib:$PATH"
 
 
 path="${1:-}"
-test -n "$path" || exit 0
+[ "$path" ] || exit 0
 
 
 container_id="$(hotbox-container-id)"
-test -n "$container_id" || exit 0
+[ "$container_id" ] || exit 0
 
 
 get_binds() {
@@ -26,10 +26,10 @@ get_binds() {
 
 for bind in $(get_binds) ; do
     bindext="${bind%%:*}"
-    test -n "$bindext" || continue
+    [ "$bindext" ] || continue
 
     bindint="${bind#*:}"
-    test -n "$bindint" || continue
+    [ "$bindint" ] || continue
 
     case "$path" in
         $bindint)
